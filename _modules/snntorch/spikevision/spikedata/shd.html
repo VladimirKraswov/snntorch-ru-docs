@@ -1,0 +1,468 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="readthedocs-addons-api-version" content="1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>snntorch.spikevision.spikedata.shd &mdash; snntorch 0.9.4 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css%3Fv=03e43079.css" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css%3Fv=9edc463e.css" />
+      <link rel="stylesheet" href="../../../../_static/css/default.css" type="text/css" />
+
+  
+      <script src="../../../../_static/jquery.js%3Fv=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js%3Fv=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js%3Fv=c5ca06ca"></script>
+      <script src="../../../../_static/doctools.js%3Fv=fd6eb6e6"></script>
+      <script src="../../../../_static/sphinx_highlight.js%3Fv=6ffebe34"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <script src="../../../../_static/js/versions.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+<script async type="text/javascript" src="../../../../../../_/static/javascript/readthedocs-addons.js"></script><meta name="readthedocs-project-slug" content="snntorch" /><meta name="readthedocs-version-slug" content="latest" /><meta name="readthedocs-resolver-filename" content="/_modules/snntorch/spikevision/spikedata/shd.html" /><meta name="readthedocs-http-status" content="200" /></head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            snntorch
+              <img src="../../../../_static/snntorch_alpha_full.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="switch-menus">
+                <div class="version-switch"></div>
+                <div class="language-switch"></div>
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../readme.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../snntorch.html">snntorch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../snntorch.export_nir.html">snntorch.export_nir</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../snntorch.functional.html">snntorch.functional</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../snntorch.import_nir.html">snntorch.import_nir</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../snntorch.spikegen.html">snntorch.spikegen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../snntorch.spikeplot.html">snntorch.spikeplot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../snntorch.spikevision.html">snntorch.spikevision</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../snntorch.surrogate.html">snntorch.surrogate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../snntorch.utils.html">snntorch.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../history.html">History</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">snntorch</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">snntorch.spikevision.spikedata.shd</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for snntorch.spikevision.spikedata.shd</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Spiking Heidelberg Digits (SHD) citation:</span>
+<span class="c1"># Cramer, B., Stradmann, Y., Schemmel, J., and Zenke, F. (2020).</span>
+<span class="c1"># The Heidelberg Spiking Data Sets for the Systematic Evaluation</span>
+<span class="c1"># of Spiking Neural Networks. IEEE Transactions on Neural Networks</span>
+<span class="c1"># and Learning Systems 1–14.</span>
+<span class="c1"># Dataloader adapted</span>
+<span class="c1"># from https://github.com/nmi-lab/torchneuromorphic by Emre Neftci</span>
+
+
+<span class="c1"># import struct</span>
+<span class="c1"># import time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">h5py</span>
+
+<span class="c1"># import torch.utils.data</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..neuromorphic_dataset</span><span class="w"> </span><span class="kn">import</span> <span class="n">NeuromorphicDataset</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..events_timeslices</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_tmad_slice</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.._transforms</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">toOneHot</span><span class="p">,</span>
+    <span class="n">Repeat</span><span class="p">,</span>
+    <span class="n">Compose</span><span class="p">,</span>
+    <span class="n">hflip</span><span class="p">,</span>
+    <span class="n">ToTensor</span><span class="p">,</span>
+    <span class="n">ToCountFrame</span><span class="p">,</span>
+    <span class="n">ToChannelHeightWidth</span><span class="p">,</span>
+    <span class="n">Downsample</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># import os</span>
+
+<span class="n">mapping</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="mi">0</span><span class="p">:</span> <span class="s2">&quot;E0&quot;</span><span class="p">,</span>
+    <span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;E1&quot;</span><span class="p">,</span>
+    <span class="mi">2</span><span class="p">:</span> <span class="s2">&quot;E2&quot;</span><span class="p">,</span>
+    <span class="mi">3</span><span class="p">:</span> <span class="s2">&quot;E3&quot;</span><span class="p">,</span>
+    <span class="mi">4</span><span class="p">:</span> <span class="s2">&quot;E4&quot;</span><span class="p">,</span>
+    <span class="mi">5</span><span class="p">:</span> <span class="s2">&quot;E5&quot;</span><span class="p">,</span>
+    <span class="mi">6</span><span class="p">:</span> <span class="s2">&quot;E6&quot;</span><span class="p">,</span>
+    <span class="mi">7</span><span class="p">:</span> <span class="s2">&quot;E7&quot;</span><span class="p">,</span>
+    <span class="mi">8</span><span class="p">:</span> <span class="s2">&quot;E8&quot;</span><span class="p">,</span>
+    <span class="mi">9</span><span class="p">:</span> <span class="s2">&quot;E9&quot;</span><span class="p">,</span>
+    <span class="mi">10</span><span class="p">:</span> <span class="s2">&quot;G0&quot;</span><span class="p">,</span>
+    <span class="mi">11</span><span class="p">:</span> <span class="s2">&quot;G1&quot;</span><span class="p">,</span>
+    <span class="mi">12</span><span class="p">:</span> <span class="s2">&quot;G2&quot;</span><span class="p">,</span>
+    <span class="mi">13</span><span class="p">:</span> <span class="s2">&quot;G3&quot;</span><span class="p">,</span>
+    <span class="mi">14</span><span class="p">:</span> <span class="s2">&quot;G4&quot;</span><span class="p">,</span>
+    <span class="mi">15</span><span class="p">:</span> <span class="s2">&quot;G5&quot;</span><span class="p">,</span>
+    <span class="mi">16</span><span class="p">:</span> <span class="s2">&quot;G6&quot;</span><span class="p">,</span>
+    <span class="mi">17</span><span class="p">:</span> <span class="s2">&quot;G7&quot;</span><span class="p">,</span>
+    <span class="mi">18</span><span class="p">:</span> <span class="s2">&quot;G8&quot;</span><span class="p">,</span>
+    <span class="mi">19</span><span class="p">:</span> <span class="s2">&quot;G9&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">one_hot1d</span><span class="p">(</span><span class="n">mbt</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">):</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">num_classes</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span>
+    <span class="n">out</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">mbt</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">out</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">create_events_hdf5</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">hdf5_filename</span><span class="p">):</span>
+    <span class="n">train_evs</span><span class="p">,</span> <span class="n">train_labels_isolated</span> <span class="o">=</span> <span class="n">load_shd_hdf5</span><span class="p">(</span>
+        <span class="n">directory</span> <span class="o">+</span> <span class="s2">&quot;/shd_train.h5&quot;</span>
+    <span class="p">)</span>
+    <span class="n">test_evs</span><span class="p">,</span> <span class="n">test_labels_isolated</span> <span class="o">=</span> <span class="n">load_shd_hdf5</span><span class="p">(</span><span class="n">directory</span> <span class="o">+</span> <span class="s2">&quot;/shd_test.h5&quot;</span><span class="p">)</span>
+    <span class="n">border</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">train_labels_isolated</span><span class="p">)</span>
+
+    <span class="n">tmad</span> <span class="o">=</span> <span class="n">train_evs</span> <span class="o">+</span> <span class="n">test_evs</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="n">train_labels_isolated</span> <span class="o">+</span> <span class="n">test_labels_isolated</span>
+    <span class="n">test_keys</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">train_keys</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">hdf5_filename</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">metas</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">data_grp</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">create_group</span><span class="p">(</span><span class="s2">&quot;data&quot;</span><span class="p">)</span>
+        <span class="n">extra_grp</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">create_group</span><span class="p">(</span><span class="s2">&quot;extra&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Creating shd.hdf5...&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">tmad</span><span class="p">):</span>
+            <span class="c1"># times = data[:, 0]</span>
+            <span class="c1"># addrs = data[:, 1:]</span>
+            <span class="n">label</span> <span class="o">=</span> <span class="n">labels</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="c1"># out = []</span>
+            <span class="n">istrain</span> <span class="o">=</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">border</span>
+            <span class="k">if</span> <span class="n">istrain</span><span class="p">:</span>
+                <span class="n">train_keys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">test_keys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+            <span class="n">metas</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;key&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">key</span><span class="p">),</span> <span class="s2">&quot;training sample&quot;</span><span class="p">:</span> <span class="n">istrain</span><span class="p">})</span>
+            <span class="n">subgrp</span> <span class="o">=</span> <span class="n">data_grp</span><span class="o">.</span><span class="n">create_group</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">key</span><span class="p">))</span>
+            <span class="c1"># tm_dset = subgrp.create_dataset(</span>
+            <span class="c1">#     &quot;times&quot;, data=times, dtype=np.uint32</span>
+            <span class="c1"># )</span>
+            <span class="c1"># ad_dset = subgrp.create_dataset(</span>
+            <span class="c1">#     &quot;addrs&quot;, data=addrs, dtype=np.uint16</span>
+            <span class="c1"># )</span>
+            <span class="c1"># lbl_dset = subgrp.create_dataset(</span>
+            <span class="c1">#     &quot;labels&quot;, data=label, dtype=np.uint8</span>
+            <span class="c1"># )</span>
+            <span class="n">subgrp</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;meta_info&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">metas</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+            <span class="k">assert</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">mapping</span>
+            <span class="n">key</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">extra_grp</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s2">&quot;train_keys&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">train_keys</span><span class="p">)</span>
+        <span class="n">extra_grp</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s2">&quot;test_keys&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">test_keys</span><span class="p">)</span>
+        <span class="n">extra_grp</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;N&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">train_keys</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">test_keys</span><span class="p">)</span>
+        <span class="n">extra_grp</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;Ntrain&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">train_keys</span><span class="p">)</span>
+        <span class="n">extra_grp</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;Ntest&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">test_keys</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;shd.hdf5 was created successfully.&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">load_shd_hdf5</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">swmr</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">libver</span><span class="o">=</span><span class="s2">&quot;latest&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">evs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">tl</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="s2">&quot;labels&quot;</span><span class="p">]):</span>
+            <span class="c1"># label_ = tl</span>
+            <span class="n">digit</span> <span class="o">=</span> <span class="n">tl</span>
+            <span class="n">digit</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">digit</span><span class="p">)</span>
+            <span class="n">labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">digit</span><span class="p">)</span>
+            <span class="n">tm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="s2">&quot;spikes&quot;</span><span class="p">][</span><span class="s2">&quot;times&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">][:]</span> <span class="o">*</span> <span class="mf">1e6</span><span class="p">)</span>
+            <span class="n">ad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="s2">&quot;spikes&quot;</span><span class="p">][</span><span class="s2">&quot;units&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">][:])</span>
+            <span class="n">evs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">tm</span><span class="p">,</span> <span class="n">ad</span><span class="p">]))</span>
+        <span class="k">return</span> <span class="n">evs</span><span class="p">,</span> <span class="n">labels</span>
+
+
+<div class="viewcode-block" id="SHD">
+<a class="viewcode-back" href="../../../../snntorch.spikevision.spikedata.html#snntorch.spikevision.spikedata.shd.SHD">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SHD</span><span class="p">(</span><span class="n">NeuromorphicDataset</span><span class="p">):</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;`Spiking Heidelberg Digits</span>
+<span class="sd">    &lt;https://zenkelab.org/resources/spiking-heidelberg-datasets-shd/&gt;`_</span>
+<span class="sd">    Dataset.</span>
+
+<span class="sd">    Spikes in 700 input channels were generated using an artificial</span>
+<span class="sd">    cochlea model listening to studio recordings of spoken digits</span>
+<span class="sd">    from 0 to 9 in both German and English languages.</span>
+
+<span class="sd">    **Number of classes:** 20</span>
+
+<span class="sd">    **Number of train samples:** 8156</span>
+
+<span class="sd">    **Number of test samples:** 2264</span>
+
+<span class="sd">    **Dimensions:** ``[num_steps x 700]``</span>
+
+<span class="sd">    * **num_steps:** time-dimension of audio channels</span>
+<span class="sd">    * **700:** number of channels in cochlea model</span>
+
+<span class="sd">    For further reading, see:</span>
+
+<span class="sd">        *Cramer, B., Stradmann, Y., Schemmel, J., and Zenke, F. (2020).</span>
+<span class="sd">        The Heidelberg Spiking Data Sets for the Systematic Evaluation</span>
+<span class="sd">        of Spiking Neural Networks. IEEE Transactions on Neural Networks</span>
+<span class="sd">        and Learning Systems 1–14.*</span>
+
+
+
+
+<span class="sd">    Example::</span>
+
+<span class="sd">        from snntorch.spikevision import spikedata</span>
+
+<span class="sd">        train_ds = spikedata.SHD(&quot;data/shd&quot;, train=True)</span>
+<span class="sd">        test_ds = spikedata.SHD(&quot;data/shd&quot;, train=False)</span>
+
+<span class="sd">        # by default, each time step is integrated over 1ms, or dt=1000</span>
+<span class="sd">        microseconds</span>
+<span class="sd">        # dt can be changed to integrate events over a varying number of</span>
+<span class="sd">        time steps</span>
+<span class="sd">        # Note that num_steps should be scaled inversely by the same factor</span>
+
+<span class="sd">        train_ds = spikedata.SHD(</span>
+<span class="sd">        &quot;data/shd&quot;, train=True, num_steps=500, dt=2000)</span>
+<span class="sd">        test_ds = spikedata.SHD(</span>
+<span class="sd">        &quot;data/shd&quot;, train=False, num_steps=500, dt=2000)</span>
+
+<span class="sd">    The dataset can also be manually downloaded, extracted and placed into</span>
+<span class="sd">    ``root`` which will allow the dataloader to bypass straight to the</span>
+<span class="sd">    generation of a hdf5 file.</span>
+
+<span class="sd">    **Direct Download Links:**</span>
+
+<span class="sd">        `CompNeuro Train Set Link</span>
+<span class="sd">        &lt;https://compneuro.net/datasets/shd_train.h5.gz&gt;`_</span>
+
+<span class="sd">        `CompNeuro Test Set Link</span>
+<span class="sd">        &lt;https://compneuro.net/datasets/shd_test.h5.gz&gt;`_</span>
+
+<span class="sd">    :param root: Root directory of dataset.</span>
+<span class="sd">    :type root: string</span>
+
+<span class="sd">    :param train: If True, creates dataset from training set of dvsgesture,</span>
+<span class="sd">        otherwise test set.</span>
+<span class="sd">    :type train: bool, optional</span>
+
+<span class="sd">    :param transform: A function/transform that takes in a PIL image and</span>
+<span class="sd">        returns a transforms version. By default, a pre-defined</span>
+<span class="sd">        set of transforms are applied to all samples to convert them into a</span>
+<span class="sd">        time-first tensor with correct orientation.</span>
+<span class="sd">    :type transform: callable, optional</span>
+
+<span class="sd">    :param target_transform: A function/transform that takes in the target</span>
+<span class="sd">        and transforms it.</span>
+<span class="sd">    :type target_transform: callable, optional</span>
+
+<span class="sd">    :param download_and_create: If True, downloads the dataset from the</span>
+<span class="sd">        internet and puts it in root directory. If dataset is already</span>
+<span class="sd">        downloaded, it is not downloaded again.</span>
+<span class="sd">    :type download_and_create: bool, optional</span>
+
+<span class="sd">    :param num_steps: Number of time steps, defaults to ``1000``</span>
+<span class="sd">    :type num_steps: int, optional</span>
+
+<span class="sd">    :param dt: The number of time stamps integrated in microseconds,</span>
+<span class="sd">        defaults to ``1000``</span>
+<span class="sd">    :type dt: int, optional</span>
+
+<span class="sd">    :param ds: Rescaling factor, defaults to ``1``.</span>
+<span class="sd">    :type ds: int, optional</span>
+
+
+<span class="sd">    Dataloader adapted from `torchneuromorphic</span>
+<span class="sd">    &lt;https://github.com/nmi-lab/torchneuromorphic&gt;`_ originally by Emre Neftci.</span>
+
+<span class="sd">    The dataset is released under a Creative Commons</span>
+<span class="sd">    Attribution 4.0 International License.</span>
+<span class="sd">    All rights remain with the original authors.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_resources_url</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">[</span>
+            <span class="s2">&quot;https://compneuro.net/datasets/shd_test.h5.gz&quot;</span><span class="p">,</span>
+            <span class="kc">None</span><span class="p">,</span>
+            <span class="s2">&quot;shd_test.h5.gz&quot;</span><span class="p">,</span>
+        <span class="p">],</span>
+        <span class="p">[</span>
+            <span class="s2">&quot;https://compneuro.net/datasets/shd_train.h5.gz&quot;</span><span class="p">,</span>
+            <span class="kc">None</span><span class="p">,</span>
+            <span class="s2">&quot;shd_train.h5.gz&quot;</span><span class="p">,</span>
+        <span class="p">],</span>
+    <span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">root</span><span class="p">,</span>
+        <span class="n">train</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">transform</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">target_transform</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">download_and_create</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">num_steps</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+        <span class="n">ds</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">dt</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+    <span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">root</span> <span class="o">=</span> <span class="n">root</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">download_and_create</span> <span class="o">=</span> <span class="n">download_and_create</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">train</span> <span class="o">=</span> <span class="n">train</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_steps</span> <span class="o">=</span> <span class="n">num_steps</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dt</span> <span class="o">=</span> <span class="n">dt</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">resources_local</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">root</span> <span class="o">+</span> <span class="s2">&quot;/shd_train.hdf5&quot;</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">root</span> <span class="o">+</span> <span class="s2">&quot;/shd_test.hdf5&quot;</span><span class="p">,</span>
+        <span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">directory</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span>
+
+        <span class="n">size</span> <span class="o">=</span> <span class="p">[</span><span class="mi">700</span> <span class="o">//</span> <span class="bp">self</span><span class="o">.</span><span class="n">ds</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">transform</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">transform</span> <span class="o">=</span> <span class="n">Compose</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="n">Downsample</span><span class="p">(</span><span class="n">factor</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">dt</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ds</span><span class="p">]),</span>
+                    <span class="n">ToChannelHeightWidth</span><span class="p">(),</span>
+                    <span class="n">ToCountFrame</span><span class="p">(</span><span class="n">T</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">num_steps</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">),</span>
+                    <span class="n">ToTensor</span><span class="p">(),</span>
+                    <span class="n">hflip</span><span class="p">(),</span>
+                <span class="p">]</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">target_transform</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">target_transform</span> <span class="o">=</span> <span class="n">Compose</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">Repeat</span><span class="p">(</span><span class="n">num_steps</span><span class="p">),</span> <span class="n">toOneHot</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mapping</span><span class="p">))]</span>
+            <span class="p">)</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">root</span><span class="o">=</span><span class="n">root</span> <span class="o">+</span> <span class="s2">&quot;/shd.hdf5&quot;</span><span class="p">,</span>
+            <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">,</span>
+            <span class="n">target_transform</span><span class="o">=</span><span class="n">target_transform</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span>
+            <span class="n">root</span> <span class="o">+</span> <span class="s2">&quot;/shd.hdf5&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">swmr</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">libver</span><span class="o">=</span><span class="s2">&quot;latest&quot;</span>
+        <span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">train</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="p">[</span><span class="s2">&quot;extra&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;Ntrain&quot;</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">keys</span> <span class="o">=</span> <span class="n">f</span><span class="p">[</span><span class="s2">&quot;extra&quot;</span><span class="p">][</span><span class="s2">&quot;train_keys&quot;</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="p">[</span><span class="s2">&quot;extra&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;Ntest&quot;</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">keys</span> <span class="o">=</span> <span class="n">f</span><span class="p">[</span><span class="s2">&quot;extra&quot;</span><span class="p">][</span><span class="s2">&quot;test_keys&quot;</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_download</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># isexisting = super(SHD, self)._download()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">_</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">SHD</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_download</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">message</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">args</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_create_hdf5</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">create_events_hdf5</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">directory</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="c1"># Important to open and close in getitem to enable num_workers&gt;0</span>
+        <span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">swmr</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">libver</span><span class="o">=</span><span class="s2">&quot;latest&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">train</span><span class="p">:</span>
+                <span class="n">key</span> <span class="o">=</span> <span class="n">key</span> <span class="o">+</span> <span class="n">f</span><span class="p">[</span><span class="s2">&quot;extra&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;Ntrain&quot;</span><span class="p">]</span>
+            <span class="n">data</span><span class="p">,</span> <span class="n">target</span> <span class="o">=</span> <span class="n">sample</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">num_steps</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">train</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">target_transform</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">target</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">target_transform</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">data</span><span class="p">,</span> <span class="n">target</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">sample</span><span class="p">(</span><span class="n">hdf5_file</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="n">dset</span> <span class="o">=</span> <span class="n">hdf5_file</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">][</span><span class="nb">str</span><span class="p">(</span><span class="n">key</span><span class="p">)]</span>
+    <span class="n">label</span> <span class="o">=</span> <span class="n">dset</span><span class="p">[</span><span class="s2">&quot;labels&quot;</span><span class="p">][()]</span>
+    <span class="c1"># tend = dset[&quot;times&quot;][-1]</span>
+    <span class="n">start_time</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="n">tmad</span> <span class="o">=</span> <span class="n">get_tmad_slice</span><span class="p">(</span>
+        <span class="n">dset</span><span class="p">[</span><span class="s2">&quot;times&quot;</span><span class="p">][()],</span> <span class="n">dset</span><span class="p">[</span><span class="s2">&quot;addrs&quot;</span><span class="p">][()],</span> <span class="n">start_time</span><span class="p">,</span> <span class="n">T</span> <span class="o">*</span> <span class="mi">1000</span>
+    <span class="p">)</span>
+    <span class="n">tmad</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">-=</span> <span class="n">tmad</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">tmad</span><span class="p">,</span> <span class="n">label</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Jason K. Eshraghian.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

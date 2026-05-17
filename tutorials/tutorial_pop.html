@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html class="writer-html5" data-content_root="../" lang="ru">
+<head>
+<meta charset="utf-8"/>
+<meta content="1" name="readthedocs-addons-api-version"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Популяционное кодирование в спайковых нейронных сетях — snntorch 0.9.4 документация</title>
+<link href="../_static/pygments.css%3Fv=03e43079.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/css/theme.css%3Fv=9edc463e.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/css/default.css" rel="stylesheet" type="text/css"/>
+<script src="../_static/jquery.js%3Fv=5d32c60e"></script>
+<script src="../_static/_sphinx_javascript_frameworks_compat.js%3Fv=2cd50e6c"></script>
+<script src="../_static/documentation_options.js%3Fv=c5ca06ca"></script>
+<script src="../_static/doctools.js%3Fv=fd6eb6e6"></script>
+<script src="../_static/sphinx_highlight.js%3Fv=6ffebe34"></script>
+<script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+<script src="../_static/js/theme.js"></script>
+<script src="../_static/js/versions.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="tutorial_regression_1.html" rel="next" title="Regression with SNNs: Part I"/>
+<link href="tutorial_ipu_1.html" rel="prev" title="Accelerating snnTorch on IPUs"/>
+<script async="" src="../../../_/static/javascript/readthedocs-addons.js" type="text/javascript"></script><meta content="snntorch" name="readthedocs-project-slug"/><meta content="latest" name="readthedocs-version-slug"/><meta content="/tutorials/tutorial_pop.html" name="readthedocs-resolver-filename"/><meta content="200" name="readthedocs-http-status"/></head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html">
+            snntorch
+              <img alt="Logo" class="logo" src="../_static/snntorch_alpha_full.png"/>
+</a>
+<div class="switch-menus">
+<div class="version-switch"></div>
+<div class="language-switch"></div>
+</div>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input aria-label="Search docs" name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../snntorch.html">snntorch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../snntorch.export_nir.html">snntorch.export_nir</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../snntorch.functional.html">snntorch.functional</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../snntorch.import_nir.html">snntorch.import_nir</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../snntorch.spikegen.html">snntorch.spikegen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../snntorch.spikeplot.html">snntorch.spikeplot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../snntorch.spikevision.html">snntorch.spikevision</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../snntorch.surrogate.html">snntorch.surrogate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../snntorch.utils.html">snntorch.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Tutorials</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="tutorial_1.html">Tutorial 1 - Spike Encoding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_2.html">Tutorial 2 - The Leaky Integrate-and-Fire Neuron</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_3.html">Tutorial 3 - A Feedforward Spiking Neural Network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_4.html">Tutorial 4 - 2nd Order Spiking Neuron Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_5.html">Tutorial 5 - Training Spiking Neural Networks with snntorch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_6.html">Tutorial 6 - Surrogate Gradient Descent in a Convolutional SNN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_7.html">Tutorial 7 - Neuromorphic Datasets with Tonic + snnTorch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_exoplanet_hunter.html">Exoplanet Hunter: Finding Planets Using Light Intensity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_forward_forward.html">The Forward-Forward Algorithm with a Spiking Neural Network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_ipu_1.html">Accelerating snnTorch on IPUs</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="tutorial_pop.html#">Population Coding in Spiking Neural Nets</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorial_pop.html#introduction">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorial_pop.html#dataloading">DataLoading</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorial_pop.html#define-network">Define Network</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_pop.html#without-population-coding">Without population coding</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_pop.html#with-population-coding">With population coding</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tutorial_pop.html#training">Training</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_pop.html#id1">Without population coding</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_pop.html#id2">With population coding</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tutorial_pop.html#conclusion">Conclusion</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_regression_1.html">Regression with SNNs: Part I</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_regression_2.html">Regression with SNNs: Part II</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_stmnist.html">Training on ST-MNIST with Tonic + snnTorch Tutorial</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">History</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">snntorch</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a aria-label="Home" class="icon icon-home" href="../index.html"></a></li>
+<li class="breadcrumb-item"><a href="index.html">Tutorials</a></li>
+<li class="breadcrumb-item active">Population Coding in Spiking Neural Nets</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/tutorials/tutorial_pop.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<div class="admonition note" data-snn-translation="ru"><p><strong>Русский перевод.</strong> Неофициальный перевод актуальной документации snnTorch latest (0.9.4). Оригинал: https://snntorch.readthedocs.io/en/latest/. Документация распространяется по лицензии CC BY-SA 3.0.</p></div><section id="population-coding-in-spiking-neural-nets">
+<h1>Популяционное кодирование в спайковых нейронных сетях<a class="headerlink" href="tutorial_pop.html#population-coding-in-spiking-neural-nets" title="Link to this heading"></a></h1>
+<p>Учебное пособие написано Джейсоном К. Эшрагианом (<a class="reference external" href="https://www.jasoneshraghian.com">www.jasoneshraghian.com</a>)</p>
+<a class="reference external image-reference" href="https://colab.research.google.com/github/jeshraghian/snntorch/blob/master/examples/tutorial_pop.ipynb"><img alt="Open In Colab" src="../_static/external_images/e79852128a5f83c92496.svg"/>
+</a>
+<p>Серия учебных пособий snnTorch основана на следующей статье. Если вы считаете эти ресурсы или код полезными в своей работе, пожалуйста, укажите следующий источник:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://ieeexplore.ieee.org/abstract/document/10242251">Jason K. Eshraghian, Max Ward, Emre Neftci, Xinxin Wang, Gregor Lenz, Girish Dwivedi, Mohammed Bennamoun, Doo Seok Jeong, and Wei D. Lu. “Training Spiking Neural Networks Using Lessons From Deep Learning”. Proceedings of the IEEE, 111(9) September 2023.</a></p>
+</div></blockquote>
+<div class="admonition note">
+<p class="admonition-title">Примечание</p>
+<dl class="simple">
+<dt>Этот учебник является статической нередактируемой версией. Интерактивные редактируемые версии доступны по следующим ссылкам:</dt><dd><ul class="simple">
+<li><p><a class="reference external" href="https://colab.research.google.com/github/jeshraghian/snntorch/blob/master/examples/tutorial_pop.ipynb">Google Colab</a></p></li>
+<li><p><a class="reference external" href="https://github.com/jeshraghian/snntorch/tree/master/examples">Локальный блокнот (скачать через GitHub)</a></p></li>
+</ul>
+</dd>
+</dl>
+</div>
+<section id="introduction">
+<h2>Введение<a class="headerlink" href="tutorial_pop.html#introduction" title="Link to this heading"></a></h2>
+<p>Считается, что одни только частотные коды не могут быть доминирующим механизмом кодирования
+в первичной коре. Одна из нескольких причин заключается в том, что
+средняя частота разряда нейронов составляет примерно <span class="math notranslate nohighlight">\(0.1-1\)</span> Hz, что намного
+медленнее времени реакции животных и человека.</p>
+<p>Но если мы объединим несколько нейронов и будем считать их спайки
+вместе, то становится возможным измерить частоту разряда для
+популяции нейронов за очень короткий промежуток времени. Популяционное кодирование
+добавляет некоторую убедительность правдоподобию механизмов частотного кодирования.</p>
+<blockquote>
+<div><a class="reference internal image-reference" href="../_static/external_images/fb2cb11fc81e4702b9c8.png"><img alt="https://github.com/jeshraghian/snntorch/blob/master/docs/_static/img/examples/tutorial_pop/pop.png?raw=true" class="align-center" src="../_static/external_images/fb2cb11fc81e4702b9c8.png" width="300"/>
+</a>
+</div></blockquote>
+<p>В этом руководстве вы:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Узнайте, как обучать сеть с популяционным кодированием. Вместо назначения одного нейрона на класс, мы расширим это до нескольких нейронов на класс и будем агрегировать их спайки вместе.</p></li>
+</ul>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>!pip install snntorch
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span><span class="o">,</span><span class="w"> </span><span class="nn">torch.nn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nn</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">snntorch</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">snn</span>
+</pre></div>
+</div>
+</section>
+<section id="dataloading">
+<h2>Загрузка данных<a class="headerlink" href="tutorial_pop.html#dataloading" title="Link to this heading"></a></h2>
+<p>Определите переменные для загрузки данных.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">batch_size</span> <span class="o">=</span> <span class="mi">128</span>
+<span class="n">data_path</span><span class="o">=</span><span class="s1">'/tmp/data/fmnist'</span>
+<span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">"cuda"</span><span class="p">)</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">"mps"</span><span class="p">)</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">mps</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">"cpu"</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Загрузите набор данных FashionMNIST.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">torch.utils.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataLoader</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torchvision</span><span class="w"> </span><span class="kn">import</span> <span class="n">datasets</span><span class="p">,</span> <span class="n">transforms</span>
+
+<span class="c1"># Define a transform</span>
+<span class="n">transform</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">Compose</span><span class="p">([</span>
+            <span class="n">transforms</span><span class="o">.</span><span class="n">Resize</span><span class="p">((</span><span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">)),</span>
+            <span class="n">transforms</span><span class="o">.</span><span class="n">Grayscale</span><span class="p">(),</span>
+            <span class="n">transforms</span><span class="o">.</span><span class="n">ToTensor</span><span class="p">(),</span>
+            <span class="n">transforms</span><span class="o">.</span><span class="n">Normalize</span><span class="p">((</span><span class="mi">0</span><span class="p">,),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,))])</span>
+
+<span class="n">fmnist_train</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">FashionMNIST</span><span class="p">(</span><span class="n">data_path</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">)</span>
+<span class="n">fmnist_test</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">FashionMNIST</span><span class="p">(</span><span class="n">data_path</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">)</span>
+
+<span class="c1"># Create DataLoaders</span>
+<span class="n">train_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">fmnist_train</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">test_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">fmnist_test</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="define-network">
+<h2>Определите сеть<a class="headerlink" href="tutorial_pop.html#define-network" title="Link to this heading"></a></h2>
+<p>Давайте сравним производительность пары сетей как с, так и
+без популяционного кодирования, и обучим их в течение <em>одного временного шага.</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">snntorch</span><span class="w"> </span><span class="kn">import</span> <span class="n">surrogate</span>
+
+<span class="c1"># network parameters</span>
+<span class="n">num_inputs</span> <span class="o">=</span> <span class="mi">28</span><span class="o">*</span><span class="mi">28</span>
+<span class="n">num_hidden</span> <span class="o">=</span> <span class="mi">128</span>
+<span class="n">num_outputs</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">num_steps</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="c1"># spiking neuron parameters</span>
+<span class="n">beta</span> <span class="o">=</span> <span class="mf">0.9</span>  <span class="c1"># neuron decay rate</span>
+<span class="n">grad</span> <span class="o">=</span> <span class="n">surrogate</span><span class="o">.</span><span class="n">fast_sigmoid</span><span class="p">()</span>
+</pre></div>
+</div>
+<section id="without-population-coding">
+<h3>Без популяционного кодирования<a class="headerlink" href="tutorial_pop.html#without-population-coding" title="Link to this heading"></a></h3>
+<p>Давайте просто используем простую двухслойную плотную спайковую сеть.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">net</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Flatten</span><span class="p">(),</span>
+                    <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">num_inputs</span><span class="p">,</span> <span class="n">num_hidden</span><span class="p">),</span>
+                    <span class="n">snn</span><span class="o">.</span><span class="n">Leaky</span><span class="p">(</span><span class="n">beta</span><span class="o">=</span><span class="n">beta</span><span class="p">,</span> <span class="n">spike_grad</span><span class="o">=</span><span class="n">grad</span><span class="p">,</span> <span class="n">init_hidden</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+                    <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">num_hidden</span><span class="p">,</span> <span class="n">num_outputs</span><span class="p">),</span>
+                    <span class="n">snn</span><span class="o">.</span><span class="n">Leaky</span><span class="p">(</span><span class="n">beta</span><span class="o">=</span><span class="n">beta</span><span class="p">,</span> <span class="n">spike_grad</span><span class="o">=</span><span class="n">grad</span><span class="p">,</span> <span class="n">init_hidden</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="with-population-coding">
+<h3>С популяционным кодированием<a class="headerlink" href="tutorial_pop.html#with-population-coding" title="Link to this heading"></a></h3>
+<p>Вместо 10 выходных нейронов, соответствующих 10 выходным классам, мы будем
+использовать 500 выходных нейронов. Это означает, что каждому выходному классу случайным образом
+назначается 50 нейронов.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pop_outputs</span> <span class="o">=</span> <span class="mi">500</span>
+
+<span class="n">net_pop</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Flatten</span><span class="p">(),</span>
+                        <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">num_inputs</span><span class="p">,</span> <span class="n">num_hidden</span><span class="p">),</span>
+                        <span class="n">snn</span><span class="o">.</span><span class="n">Leaky</span><span class="p">(</span><span class="n">beta</span><span class="o">=</span><span class="n">beta</span><span class="p">,</span> <span class="n">spike_grad</span><span class="o">=</span><span class="n">grad</span><span class="p">,</span> <span class="n">init_hidden</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+                        <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">num_hidden</span><span class="p">,</span> <span class="n">pop_outputs</span><span class="p">),</span>
+                        <span class="n">snn</span><span class="o">.</span><span class="n">Leaky</span><span class="p">(</span><span class="n">beta</span><span class="o">=</span><span class="n">beta</span><span class="p">,</span> <span class="n">spike_grad</span><span class="o">=</span><span class="n">grad</span><span class="p">,</span> <span class="n">init_hidden</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                        <span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="training">
+<h2>Обучение<a class="headerlink" href="tutorial_pop.html#training" title="Link to this heading"></a></h2>
+<section id="id1">
+<h3>Без популяционного кодирования<a class="headerlink" href="tutorial_pop.html#id1" title="Link to this heading"></a></h3>
+<p>Определите оптимизатор и функцию потерь. Здесь мы используем MSE Count Loss,
+которая подсчитывает общее количество выходных спайков в конце
+запуска симуляции.</p>
+<p>Правильный класс имеет целевую вероятность разряда 100%, а неправильные
+классы установлены в 0%.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">snntorch.functional</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">SF</span>
+
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">net</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">2e-3</span><span class="p">,</span> <span class="n">betas</span><span class="o">=</span><span class="p">(</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.999</span><span class="p">))</span>
+<span class="n">loss_fn</span> <span class="o">=</span> <span class="n">SF</span><span class="o">.</span><span class="n">mse_count_loss</span><span class="p">(</span><span class="n">correct_rate</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">incorrect_rate</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Мы также определим простую функцию точности теста, которая предсказывает
+правильный класс на основе нейрона с наибольшим количеством спайков.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">snntorch</span><span class="w"> </span><span class="kn">import</span> <span class="n">utils</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">test_accuracy</span><span class="p">(</span><span class="n">data_loader</span><span class="p">,</span> <span class="n">net</span><span class="p">,</span> <span class="n">num_steps</span><span class="p">,</span> <span class="n">population_code</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">num_classes</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+  <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">acc</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">net</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+
+    <span class="n">data_loader</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">data_loader</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">data</span><span class="p">,</span> <span class="n">targets</span> <span class="ow">in</span> <span class="n">data_loader</span><span class="p">:</span>
+      <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+      <span class="n">targets</span> <span class="o">=</span> <span class="n">targets</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+      <span class="n">utils</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">net</span><span class="p">)</span>
+      <span class="n">spk_rec</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">net</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+      <span class="k">if</span> <span class="n">population_code</span><span class="p">:</span>
+        <span class="n">acc</span> <span class="o">+=</span> <span class="n">SF</span><span class="o">.</span><span class="n">accuracy_rate</span><span class="p">(</span><span class="n">spk_rec</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">targets</span><span class="p">,</span> <span class="n">population_code</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">num_classes</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span> <span class="o">*</span> <span class="n">spk_rec</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+      <span class="k">else</span><span class="p">:</span>
+        <span class="n">acc</span> <span class="o">+=</span> <span class="n">SF</span><span class="o">.</span><span class="n">accuracy_rate</span><span class="p">(</span><span class="n">spk_rec</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">targets</span><span class="p">)</span> <span class="o">*</span> <span class="n">spk_rec</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+      <span class="n">total</span> <span class="o">+=</span> <span class="n">spk_rec</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+  <span class="k">return</span> <span class="n">acc</span><span class="o">/</span><span class="n">total</span>
+</pre></div>
+</div>
+<p>Давайте запустим цикл обучения. Обратите внимание, что мы обучаем только в течение
+<span class="math notranslate nohighlight">\(1\)</span> временного шага. Т.е., каждый нейрон имеет возможность разрядиться только
+один раз. В результате мы не можем ожидать, что сеть будет работать слишком хорошо
+здесь.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">snntorch</span><span class="w"> </span><span class="kn">import</span> <span class="n">backprop</span>
+
+<span class="n">num_epochs</span> <span class="o">=</span> <span class="mi">5</span>
+
+<span class="c1"># training loop</span>
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_epochs</span><span class="p">):</span>
+
+    <span class="n">avg_loss</span> <span class="o">=</span> <span class="n">backprop</span><span class="o">.</span><span class="n">BPTT</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">train_loader</span><span class="p">,</span> <span class="n">num_steps</span><span class="o">=</span><span class="n">num_steps</span><span class="p">,</span>
+                          <span class="n">optimizer</span><span class="o">=</span><span class="n">optimizer</span><span class="p">,</span> <span class="n">criterion</span><span class="o">=</span><span class="n">loss_fn</span><span class="p">,</span> <span class="n">time_var</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Epoch: </span><span class="si">{</span><span class="n">epoch</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Test set accuracy: </span><span class="si">{</span><span class="n">test_accuracy</span><span class="p">(</span><span class="n">test_loader</span><span class="p">,</span><span class="w"> </span><span class="n">net</span><span class="p">,</span><span class="w"> </span><span class="n">num_steps</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">%</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+
+    <span class="o">&gt;&gt;</span> <span class="n">Epoch</span><span class="p">:</span> <span class="mi">0</span>
+    <span class="o">&gt;&gt;</span> <span class="n">Test</span> <span class="nb">set</span> <span class="n">accuracy</span><span class="p">:</span> <span class="mf">59.421</span><span class="o">%</span>
+
+    <span class="o">&gt;&gt;</span> <span class="n">Epoch</span><span class="p">:</span> <span class="mi">1</span>
+    <span class="o">&gt;&gt;</span> <span class="n">Test</span> <span class="nb">set</span> <span class="n">accuracy</span><span class="p">:</span> <span class="mf">61.889</span><span class="o">%</span>
+</pre></div>
+</div>
+<p>Хотя существуют способы улучшить производительность за один временной шаг, например, путем
+применения потерь к мембранному потенциалу, один временной шаг является
+чрезвычайно сложным для конкурентного обучения сети с использованием частотных кодов.</p>
+</section>
+<section id="id2">
+<h3>С популяционным кодированием<a class="headerlink" href="tutorial_pop.html#id2" title="Link to this heading"></a></h3>
+<p>Давайте изменим функцию потерь, чтобы указать, что популяционное кодирование должно
+быть включено. Мы также должны указать количество классов. Это означает, что
+всего будет
+<span class="math notranslate nohighlight">\(50~neurons~per~class~=~500~neurons~/~10~classes\)</span>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">loss_fn</span> <span class="o">=</span> <span class="n">SF</span><span class="o">.</span><span class="n">mse_count_loss</span><span class="p">(</span><span class="n">correct_rate</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">incorrect_rate</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">population_code</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">num_classes</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">net_pop</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">2e-3</span><span class="p">,</span> <span class="n">betas</span><span class="o">=</span><span class="p">(</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.999</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">num_epochs</span> <span class="o">=</span> <span class="mi">5</span>
+
+<span class="c1"># training loop</span>
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_epochs</span><span class="p">):</span>
+
+    <span class="n">avg_loss</span> <span class="o">=</span> <span class="n">backprop</span><span class="o">.</span><span class="n">BPTT</span><span class="p">(</span><span class="n">net_pop</span><span class="p">,</span> <span class="n">train_loader</span><span class="p">,</span> <span class="n">num_steps</span><span class="o">=</span><span class="n">num_steps</span><span class="p">,</span>
+                            <span class="n">optimizer</span><span class="o">=</span><span class="n">optimizer</span><span class="p">,</span> <span class="n">criterion</span><span class="o">=</span><span class="n">loss_fn</span><span class="p">,</span> <span class="n">time_var</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Epoch: </span><span class="si">{</span><span class="n">epoch</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Test set accuracy: </span><span class="si">{</span><span class="n">test_accuracy</span><span class="p">(</span><span class="n">test_loader</span><span class="p">,</span><span class="w"> </span><span class="n">net_pop</span><span class="p">,</span><span class="w"> </span><span class="n">num_steps</span><span class="p">,</span><span class="w"> </span><span class="n">population_code</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="w"> </span><span class="n">num_classes</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">%</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+
+    <span class="o">&gt;&gt;</span> <span class="n">Epoch</span><span class="p">:</span> <span class="mi">0</span>
+    <span class="o">&gt;&gt;</span> <span class="n">Test</span> <span class="nb">set</span> <span class="n">accuracy</span><span class="p">:</span> <span class="mf">80.501</span><span class="o">%</span>
+
+    <span class="o">&gt;&gt;</span> <span class="n">Epoch</span><span class="p">:</span> <span class="mi">1</span>
+    <span class="o">&gt;&gt;</span> <span class="n">Test</span> <span class="nb">set</span> <span class="n">accuracy</span><span class="p">:</span> <span class="mf">82.690</span><span class="o">%</span>
+</pre></div>
+</div>
+<p>Несмотря на то, что мы обучаем только на одном временном шаге, введение
+дополнительных выходных нейронов сразу же позволило улучшить производительность.</p>
+</section>
+</section>
+<section id="conclusion">
+<h2>Заключение<a class="headerlink" href="tutorial_pop.html#conclusion" title="Link to this heading"></a></h2>
+<p>Прирост производительности от популяционного кодирования может начать угасать по мере увеличения
+количества временных шагов. Но это также может быть предпочтительнее
+увеличения временных шагов, так как PyTorch оптимизирован для обработки матрично-векторных
+произведений, а не последовательных операций шаг за шагом во времени.</p>
+<ul class="simple">
+<li><p>Для подробного учебного пособия по спайковым нейронам, нейронным сетям, кодированию
+и обучению с использованием нейроморфных наборов данных, посмотрите <a class="reference external" href="index.html">серию учебных пособий
+snnTorch</a>.</p></li>
+<li><p>Для получения дополнительной информации о функциях snnTorch, посмотрите
+<a class="reference external" href="../index.html">документацию по этой
+ссылке</a>.</p></li>
+<li><p>Если у вас есть идеи, предложения или вы хотите найти способы
+участия, то <a class="reference external" href="https://github.com/jeshraghian/snntorch">посмотрите проект snnTorch на GitHub
+здесь.</a></p></li>
+</ul>
+</section>
+</section>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="tutorial_ipu_1.html" rel="prev" title="Accelerating snnTorch on IPUs"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="tutorial_regression_1.html" rel="next" title="Regression with SNNs: Part I">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright 2021, Jason K. Eshraghian.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html class="writer-html5" data-content_root="../" lang="ru">
+<head>
+<meta charset="utf-8"/>
+<meta content="1" name="readthedocs-addons-api-version"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Алгоритм Forward-Forward со спайковой нейронной сетью — документация snntorch 0.9.4</title>
+<link href="../_static/pygments.css%3Fv=03e43079.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/css/theme.css%3Fv=9edc463e.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/css/default.css" rel="stylesheet" type="text/css"/>
+<script src="../_static/jquery.js%3Fv=5d32c60e"></script>
+<script src="../_static/_sphinx_javascript_frameworks_compat.js%3Fv=2cd50e6c"></script>
+<script src="../_static/documentation_options.js%3Fv=c5ca06ca"></script>
+<script src="../_static/doctools.js%3Fv=fd6eb6e6"></script>
+<script src="../_static/sphinx_highlight.js%3Fv=6ffebe34"></script>
+<script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+<script src="../_static/js/theme.js"></script>
+<script src="../_static/js/versions.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="tutorial_ipu_1.html" rel="next" title="Accelerating snnTorch on IPUs"/>
+<link href="tutorial_exoplanet_hunter.html" rel="prev" title="Exoplanet Hunter: Finding Planets Using Light Intensity"/>
+<script async="" src="../../../_/static/javascript/readthedocs-addons.js" type="text/javascript"></script><meta content="snntorch" name="readthedocs-project-slug"/><meta content="latest" name="readthedocs-version-slug"/><meta content="/tutorials/tutorial_forward_forward.html" name="readthedocs-resolver-filename"/><meta content="200" name="readthedocs-http-status"/></head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html">
+            snntorch
+              <img alt="Logo" class="logo" src="../_static/snntorch_alpha_full.png"/>
+</a>
+<div class="switch-menus">
+<div class="version-switch"></div>
+<div class="language-switch"></div>
+</div>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input aria-label="Search docs" name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../snntorch.html">snntorch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../snntorch.export_nir.html">snntorch.export_nir</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../snntorch.functional.html">snntorch.functional</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../snntorch.import_nir.html">snntorch.import_nir</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../snntorch.spikegen.html">snntorch.spikegen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../snntorch.spikeplot.html">snntorch.spikeplot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../snntorch.spikevision.html">snntorch.spikevision</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../snntorch.surrogate.html">snntorch.surrogate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../snntorch.utils.html">snntorch.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Tutorials</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="tutorial_1.html">Tutorial 1 - Spike Encoding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_2.html">Tutorial 2 - The Leaky Integrate-and-Fire Neuron</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_3.html">Tutorial 3 - A Feedforward Spiking Neural Network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_4.html">Tutorial 4 - 2nd Order Spiking Neuron Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_5.html">Tutorial 5 - Training Spiking Neural Networks with snntorch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_6.html">Tutorial 6 - Surrogate Gradient Descent in a Convolutional SNN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_7.html">Tutorial 7 - Neuromorphic Datasets with Tonic + snnTorch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_exoplanet_hunter.html">Exoplanet Hunter: Finding Planets Using Light Intensity</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="tutorial_forward_forward.html#">The Forward-Forward Algorithm with a Spiking Neural Network</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorial_forward_forward.html#the-mnist-dataset">1. The MNIST Dataset</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_forward_forward.html#dataloading">1.1 Dataloading</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tutorial_forward_forward.html#forward-forward-algorithm-theory">2. Forward-Forward Algorithm Theory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorial_forward_forward.html#implementation">3. Implementation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_forward_forward.html#defining-the-layer-class">3.1 Defining the Layer Class</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_forward_forward.html#defining-the-network">3.2 Defining the Network</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tutorial_forward_forward.html#training-the-network">4. Training the Network</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_forward_forward.html#generate-data-sampels">4.1 Generate data sampels</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_forward_forward.html#visualize-data-samples">4.2 Visualize Data Samples</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_forward_forward.html#id1">4.3 Training the Network</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tutorial_forward_forward.html#testing-the-network">5. Testing the Network</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorial_forward_forward.html#plotting-the-loss-of-each-layer">6. Plotting the Loss of Each Layer</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_ipu_1.html">Accelerating snnTorch on IPUs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_pop.html">Population Coding in Spiking Neural Nets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_regression_1.html">Regression with SNNs: Part I</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_regression_2.html">Regression with SNNs: Part II</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_stmnist.html">Training on ST-MNIST with Tonic + snnTorch Tutorial</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">History</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">snntorch</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a aria-label="Home" class="icon icon-home" href="../index.html"></a></li>
+<li class="breadcrumb-item"><a href="index.html">Tutorials</a></li>
+<li class="breadcrumb-item active">The Forward-Forward Algorithm with a Spiking Neural Network</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/tutorials/tutorial_forward_forward.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<div class="admonition note" data-snn-translation="ru"><p><strong>Русский перевод.</strong> Неофициальный перевод актуальной документации snnTorch latest (0.9.4). Оригинал: https://snntorch.readthedocs.io/en/latest/. Документация распространяется по лицензии CC BY-SA 3.0.</p></div><section id="the-forward-forward-algorithm-with-a-spiking-neural-network">
+<h1>Алгоритм Forward-Forward с спайковой нейронной сетью<a class="headerlink" href="tutorial_forward_forward.html#the-forward-forward-algorithm-with-a-spiking-neural-network" title="Link to this heading"></a></h1>
+<p>Учебное пособие написано Ethan Mulle и Abhinandan Singh</p>
+<a class="reference external image-reference" href="https://colab.research.google.com/github/jeshraghian/snntorch/blob/master/examples/tutorial_forward_forward.ipynb"><img alt="Open In Colab" src="../_static/external_images/e79852128a5f83c92496.svg"/>
+</a>
+<p>Следующее учебное пособие знакомит с реализацией алгоритма Forward-Forward, предложенного Джеффри Хинтоном, в спайковой нейронной сети
+(SNN). &gt; <a class="reference external" href="https://arxiv.org/abs/2212.13345">Джеффри Хинтон. The Forward-Forward Algorithm: Some
+Preliminary Investigations. 2022. arXiv: 2212.13345
+[cs.LG].</a></p>
+<p>Алгоритм Forward-Forward вдохновлен моделью обучения в
+коре головного мозга и предлагает потенциально маломощную, локальную, свободную от обратного распространения
+альтернативу обучению модели. Конечно, это сложный
+алгоритм для масштабирования на более сложные задачи. Но это хорошая
+отправная точка для изучения.</p>
+<p>Серия учебных пособий snnTorch основана на следующей статье. Если вы считаете эти ресурсы или код полезными в своей работе, пожалуйста, укажите следующий источник:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://ieeexplore.ieee.org/abstract/document/10242251">Jason K. Eshraghian, Max Ward, Emre Neftci, Xinxin Wang, Gregor Lenz, Girish Dwivedi, Mohammed Bennamoun, Doo Seok Jeong, and Wei D. Lu. “Training Spiking Neural Networks Using Lessons From Deep Learning”. Proceedings of the IEEE, 111(9) September 2023.</a></p>
+</div></blockquote>
+<p>Установите последнюю версию дистрибутива snnTorch из PyPi, нажав на следующую
+ячейку и нажав <code class="docutils literal notranslate"><span class="pre">Shift+Enter</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">snntorch</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span><span class="o">,</span><span class="w"> </span><span class="nn">torch.nn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nn</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">snntorch</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">snn</span>
+<span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">"cuda"</span><span class="p">)</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">"cpu"</span><span class="p">)</span>
+</pre></div>
+</div>
+<section id="the-mnist-dataset">
+<h2>1. Набор данных MNIST<a class="headerlink" href="tutorial_forward_forward.html#the-mnist-dataset" title="Link to this heading"></a></h2>
+<section id="dataloading">
+<h3>1.1 Загрузка данных<a class="headerlink" href="tutorial_forward_forward.html#dataloading" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Настройте загрузчики данных для обучающего и тестового наборов MNIST.</p></li>
+<li><p>Определите конвейер преобразования данных и выполните итерацию по первому
+пакету загрузчика обучения, чтобы проверить размер данных.</p></li>
+<li><p>Преобразования включают преобразование изображений в оттенки серого,
+преобразование их в тензоры, нормализацию значений пикселей и выравнивание
+тензоров.</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">torchvision.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">MNIST</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torchvision.transforms</span><span class="w"> </span><span class="kn">import</span> <span class="n">Compose</span><span class="p">,</span> <span class="n">Grayscale</span><span class="p">,</span> <span class="n">ToTensor</span><span class="p">,</span> <span class="n">Normalize</span><span class="p">,</span> <span class="n">Lambda</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch.utils.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataLoader</span>
+
+
+<span class="n">transform</span> <span class="o">=</span> <span class="n">Compose</span><span class="p">([</span>
+    <span class="n">Grayscale</span><span class="p">(),</span>
+    <span class="n">ToTensor</span><span class="p">(),</span>
+    <span class="n">Normalize</span><span class="p">((</span><span class="mi">0</span><span class="p">,),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,)),</span>
+    <span class="n">Lambda</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">x</span><span class="p">))])</span>
+
+<span class="c1"># Train set</span>
+<span class="n">mnist_train</span> <span class="o">=</span> <span class="n">MNIST</span><span class="p">(</span><span class="s1">'./data/'</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">)</span>
+<span class="n">train_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">mnist_train</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Test set</span>
+<span class="n">mnist_test</span> <span class="o">=</span> <span class="n">MNIST</span><span class="p">(</span><span class="s1">'./data/'</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">)</span>
+<span class="n">test_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">mnist_train</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="forward-forward-algorithm-theory">
+<h2>2. Теория алгоритма Forward-Forward<a class="headerlink" href="tutorial_forward_forward.html#forward-forward-algorithm-theory" title="Link to this heading"></a></h2>
+<p>Алгоритм Forward-Forward — это правило обучения, вдохновленное машинами
+Больцмана и оценкой шумового контраста. Основная идея заключается в том, что каждый
+слой учится различать <em>положительной</em> примеры (которые мы рассматриваем как
+‘<em>good</em>’) из <em>negative</em> примеры (которые мы рассматриваем как ‘<em>bad</em>’. Он работает
+путем замены прямого и обратного проходов обратного распространения двумя
+прямыми проходами: - Положительный проход - Отрицательный проход.</p>
+<p>Во время положительного прохода через сеть подается обучающий пример с его меткой.
+Каждый слой вычисляет <em>goodness</em> меру (например, сумму квадратов выходных сигналов нейронов). Веса обновляются, чтобы <em>увеличить</em> goodness
+для этого класса <em>правильных</em> примеров.</p>
+<p>Во время отрицательного прохода мы подаем <em>bad</em> примеры. Например, тот же
+вход может быть подан с <em>неправильной</em> меткой класса. Сеть снова
+измеряет goodness в каждом слое, но теперь веса обновляются, чтобы
+уменьшить goodness. Считается, что за многие итерации каждый слой
+уточняет локальные фильтры или шаблоны, которые наилучшим образом отличают каждый класс от
+шума или других классов, без необходимости в глобальном сигнале обратного распространения.</p>
+<p>Высокоуровневая иллюстрация алгоритма показана ниже.</p>
+<img alt="https://github.com/jeshraghian/snntorch/blob/master/docs/_static/img/examples/tutorial_forward-forward/forward-forward.png?raw=true'" src="../_static/external_images/0af14a8165115ccc3ffe.png"/>
+<p>Хинтон предлагает измерять goodness с помощью метрики, такой как
+сумма квадратов нейронной активности. Цель состоит в том, чтобы
+goodness превышала некоторое пороговое значение для реальных данных и падала ниже
+порога для отрицательных данных. На практике Хинтон применяет сигмоидную
+функцию <span class="math notranslate nohighlight">\(\sigma\)</span> к этому отклонению от порога
+<span class="math notranslate nohighlight">\(\theta\)</span> так что результат можно интерпретировать как
+вероятность того, что входной вектор является положительным (т.е. реальным):</p>
+<div class="math notranslate nohighlight">
+\[p(positive) = \sigma \left(\sum_j y_j^2 - \theta \right)\]</div>
+<p>где <span class="math notranslate nohighlight">\(y_j\)</span> является активностью скрытого блока <span class="math notranslate nohighlight">\(j\)</span>.</p>
+</section>
+<section id="implementation">
+<h2>3. Реализация<a class="headerlink" href="tutorial_forward_forward.html#implementation" title="Link to this heading"></a></h2>
+<p>Мы следуем и модифицируем реализацию алгоритма Forward-Forward, найденную
+здесь: &gt; <a class="reference external" href="https://github.com/mpezeshki/pytorch_forward_forward">Mohammad Pezeshki. pytorch_forward_forward. Github Repo January
+2023.</a></p>
+<p>Для этого мы должны определить как класс слоя, так и класс сети.</p>
+<section id="defining-the-layer-class">
+<h3>3.1 Определение класса слоя<a class="headerlink" href="tutorial_forward_forward.html#defining-the-layer-class" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>LeakyLayer</strong>: это пользовательский leaky integrate-and-fire слой с
+дополнительными атрибутами. Класс предназначен для использования в качестве слоя в
+нейронной сети.</p></li>
+<li><p>Модуль <strong>метод forward</strong>: определяет вычисления для прямого прохода
+через ‘LeakyLayer’. Мембранный потенциал инициализируется, входные данные нормализуются и взвешиваются, а затем пропускаются через нейрон с утечкой и интеграцией-и-срабатыванием, чтобы вернуть результирующий мембранный потенциал.</p></li>
+<li><p>Модуль <strong>метод train</strong>: выполняет цикл обучения в течение указанного количества
+эпох. Вычисляет goodness для положительных и отрицательных данных,
+рассчитывает потери на основе этих значений goodness, локально
+распространяет градиенты обратно и обновляет параметры с помощью
+оптимизатора. Метод возвращает мембранные потенциалы для положительных и
+отрицательных данных после обучения.</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">tqdm</span><span class="w"> </span><span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch.optim</span><span class="w"> </span><span class="kn">import</span> <span class="n">Adam</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn.functional</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">F</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">LeakyLayer</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">):</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_features</span><span class="p">,</span> <span class="n">out_features</span><span class="p">,</span> <span class="n">activation</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">in_features</span><span class="p">,</span> <span class="n">out_features</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="n">bias</span><span class="p">)</span>
+
+        <span class="c1"># Enable the choice between a spiking neuron and a standard artificial neuron (ReLU activation)</span>
+        <span class="k">if</span> <span class="n">activation</span> <span class="o">==</span> <span class="s2">"lif"</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">activation</span> <span class="o">=</span> <span class="n">snn</span><span class="o">.</span><span class="n">Leaky</span><span class="p">(</span><span class="n">beta</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lif</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">activation</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lif</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">opt</span> <span class="o">=</span> <span class="n">Adam</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.03</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">threshold</span> <span class="o">=</span> <span class="mf">5.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_epochs</span> <span class="o">=</span> <span class="mi">1000</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lif</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">mem</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">activation</span><span class="o">.</span><span class="n">init_leaky</span><span class="p">()</span> <span class="c1"># initialize membrane potential</span>
+
+        <span class="n">x_direction</span> <span class="o">=</span> <span class="n">x</span> <span class="o">/</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">+</span> <span class="mf">1e-4</span><span class="p">)</span> <span class="c1"># normalize the input</span>
+
+        <span class="c1"># Linear layer - not using nn.Linear(...) so we can define the update rule</span>
+        <span class="n">weighted_input</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">mm</span><span class="p">(</span><span class="n">x_direction</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">))</span> <span class="c1"># MatMul between normalized input and weight matrix</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lif</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">spk</span><span class="p">,</span> <span class="n">potential</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">activation</span><span class="p">(</span><span class="n">weighted_input</span><span class="p">,</span> <span class="n">mem</span><span class="p">)</span> <span class="c1"># note: only one step in time. Wrap in a for-loop to iterate for longer.</span>
+        <span class="k">else</span><span class="p">:</span>
+        <span class="n">potential</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">activation</span><span class="p">(</span><span class="n">weighted_input</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">potential</span>  <span class="c1"># to be used in subsequent layers or as the final output of the last layer</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">train</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_pos</span><span class="p">,</span> <span class="n">x_neg</span><span class="p">):</span>
+
+        <span class="n">tot_loss</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># store the loss values for each layer in each epoch</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_epochs</span><span class="p">),</span> <span class="n">desc</span><span class="o">=</span><span class="s2">"Training LeakyLayer"</span><span class="p">):</span>
+
+            <span class="c1"># Compute goodness</span>
+            <span class="n">g_pos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">x_pos</span><span class="p">)</span><span class="o">.</span><span class="n">pow</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># positive data</span>
+            <span class="n">g_neg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">x_neg</span><span class="p">)</span><span class="o">.</span><span class="n">pow</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># negative data</span>
+
+            <span class="c1"># take the mean of differences between goodness and threshold across pos and neg samples</span>
+            <span class="n">loss</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">softplus</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="o">-</span><span class="n">g_pos</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">threshold</span><span class="p">,</span> <span class="n">g_neg</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">threshold</span><span class="p">]))</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">opt</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+            <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span> <span class="c1"># local backward-pass</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">opt</span><span class="o">.</span><span class="n">step</span><span class="p">()</span> <span class="c1"># update weights</span>
+            <span class="n">tot_loss</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loss</span><span class="p">)</span>
+
+        <span class="c1"># returns the final membrane potentials (activations) for positive and negative examples after training.</span>
+        <span class="c1"># detach() ensures no further backward pass is possible</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">x_pos</span><span class="p">)</span><span class="o">.</span><span class="n">detach</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">x_neg</span><span class="p">)</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">tot_loss</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="defining-the-network">
+<h3>3.2 Определение сети<a class="headerlink" href="tutorial_forward_forward.html#defining-the-network" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Модуль <strong>predict</strong> метод накладывает информацию о метке на входные данные,
+пропускает их через каждый слой нейронной сети, вычисляет значения goodness
+на каждом слое, накапливает их для каждой метки и возвращает
+предсказанные метки на основе максимального goodness.</p></li>
+<li><p>Модуль <strong>train</strong> метод перебирает слои нейронной сети,
+выводит информацию о текущем обучаемом слое и обновляет
+входные тензоры (‘h_pos’ и ‘h_neg’), вызывая метод ‘train’
+каждого слоя. Это позволяет слоям учиться и адаптировать свои
+параметры в процессе обучения.</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Net</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dims</span><span class="p">,</span> <span class="n">activation</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">layers</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">ModuleList</span><span class="p">([</span>
+            <span class="n">LeakyLayer</span><span class="p">(</span><span class="n">dims</span><span class="p">[</span><span class="n">d</span><span class="p">],</span> <span class="n">dims</span><span class="p">[</span><span class="n">d</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span> <span class="n">activation</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dims</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># define a multi-layer network</span>
+        <span class="p">])</span>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">goodness_per_label</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># used to store the goodness values for each label</span>
+
+        <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span> <span class="c1"># loop over the 10 possible labels</span>
+            <span class="n">h</span> <span class="o">=</span> <span class="n">overlay_y_on_x</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span>  <span class="c1"># overlay label information on top of the input data. function defined in next code-block.</span>
+            <span class="n">goodness</span> <span class="o">=</span> <span class="p">[]</span>
+
+            <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">:</span> <span class="c1"># inner loop over the layers</span>
+                <span class="n">h</span> <span class="o">=</span> <span class="n">layer</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+                <span class="n">goodness</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">h</span><span class="o">.</span><span class="n">pow</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="c1"># compute and store goodness for every layer</span>
+
+            <span class="n">goodness_per_label</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">goodness</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="c1"># sum goodness values between all layers for one sample of data</span>
+
+        <span class="n">goodness_per_label</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">goodness_per_label</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># convert list to tensor</span>
+
+        <span class="k">return</span> <span class="n">goodness_per_label</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># returns maximum value giving the predicted label for each input</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">train</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_pos</span><span class="p">,</span> <span class="n">x_neg</span><span class="p">):</span>
+        <span class="n">h_pos</span><span class="p">,</span> <span class="n">h_neg</span> <span class="o">=</span> <span class="n">x_pos</span><span class="p">,</span> <span class="n">x_neg</span>
+        <span class="n">layer_losses</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">layer</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">'Training layer'</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="s1">'...'</span><span class="p">)</span>
+            <span class="n">outputs</span><span class="p">,</span> <span class="n">loss</span> <span class="o">=</span> <span class="n">layer</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">h_pos</span><span class="p">,</span> <span class="n">h_neg</span><span class="p">)</span>  <span class="c1"># update the weight matrix for each layer based on the local loss (defined by "goodness")</span>
+            <span class="n">h_pos</span><span class="p">,</span> <span class="n">h_neg</span> <span class="o">=</span> <span class="n">outputs</span>
+            <span class="n">layer_losses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loss</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">layer_losses</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="training-the-network">
+<h2>4. Обучение сети<a class="headerlink" href="tutorial_forward_forward.html#training-the-network" title="Link to this heading"></a></h2>
+<section id="generate-data-sampels">
+<h3>4.1 Генерация образцов данных<a class="headerlink" href="tutorial_forward_forward.html#generate-data-sampels" title="Link to this heading"></a></h3>
+<p>Перед обучением нам нужно привести наши наборы данных в формат, который
+требуется алгоритмом Forward-Forward. Напомним, что метки и
+входные данные будут каким-то образом объединены.</p>
+<ul class="simple">
+<li><p>Модуль <strong>‘overlay_y_on_x’</strong> функция:</p>
+<ul>
+<li><p><strong>Вход: ‘x’</strong>: тензор входных данных</p></li>
+<li><p><strong>Вход: ‘y’</strong>: входная метка</p></li>
+<li><p><strong>Выход: ‘x_’</strong>: Первые 10 пикселей <em>x</em> обнуляются и
+заменяются one-hot-кодированным представлением метки <em>y</em>.
+То есть метка ‘печатается’ в виде пикселей на входе. Y-метка
+также может быть рандомизирована для генерации неправильных меток, или ‘отрицательных’
+образцов.</p></li>
+</ul>
+</li>
+</ul>
+<p>Эта функция применяется к набору данных MNIST и передается вашей
+сети. Каждый слой обновляется на основе приведенной выше функции goodness.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">overlay_y_on_x</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Replace the first 10 pixels of data [x] with one-hot-encoded label [y]"""</span>
+    <span class="n">x_</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+    <span class="n">x_</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">10</span><span class="p">]</span> <span class="o">*=</span> <span class="mf">0.0</span>  <span class="c1"># zero out the first 10 pixels of input data</span>
+    <span class="n">x_</span><span class="p">[</span><span class="nb">range</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">y</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>  <span class="c1"># the y-label 'activates' the corresponding pixel</span>
+    <span class="k">return</span> <span class="n">x_</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">visualize_sample</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">''</span><span class="p">,</span> <span class="n">idx</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="n">reshaped</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">reshaped</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">"gray"</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="visualize-data-samples">
+<h3>4.2 Визуализация образцов данных<a class="headerlink" href="tutorial_forward_forward.html#visualize-data-samples" title="Link to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">torch</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="mi">123</span><span class="p">)</span>
+<span class="n">net</span> <span class="o">=</span> <span class="n">Net</span><span class="p">([</span><span class="mi">784</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">500</span><span class="p">],</span> <span class="s2">"lif"</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span> <span class="c1"># construct neural net with 784 input neurons, 500 neurons in each of the two hidden layers</span>
+<span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">train_loader</span><span class="p">))</span>
+<span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">),</span> <span class="n">y</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+<span class="n">x_pos</span> <span class="o">=</span> <span class="n">overlay_y_on_x</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>  <span class="c1"># generate positive samples (i.e., correct labels overlayed on input data)</span>
+
+<span class="c1"># generate negative samples (i.e., incorrect labels overlayed on input data)</span>
+<span class="n">rnd</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randperm</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+<span class="n">x_neg</span> <span class="o">=</span> <span class="n">overlay_y_on_x</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">[</span><span class="n">rnd</span><span class="p">])</span>  <span class="c1">#</span>
+
+<span class="c1"># visualize samples</span>
+<span class="k">for</span> <span class="n">data</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">x_pos</span><span class="p">,</span> <span class="n">x_neg</span><span class="p">],</span> <span class="p">[</span><span class="s1">'orig'</span><span class="p">,</span> <span class="s1">'pos'</span><span class="p">,</span> <span class="s1">'neg'</span><span class="p">]):</span>
+    <span class="n">visualize_sample</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="https://github.com/jeshraghian/snntorch/blob/master/docs/_static/img/examples/tutorial_forward-forward/data-1.png?raw=true" src="../_static/external_images/7c46840d04edb12af8bd.png"/>
+<img alt="https://github.com/jeshraghian/snntorch/blob/master/docs/_static/img/examples/tutorial_forward-forward/data-2.png?raw=true" src="../_static/external_images/50eaa86b8774bc02a365.png"/>
+<img alt="https://github.com/jeshraghian/snntorch/blob/master/docs/_static/img/examples/tutorial_forward-forward/data-3.png?raw=true" src="../_static/external_images/4363e6b90b9eeb383d15.png"/>
+</section>
+<section id="id1">
+<h3>4.3 Обучение сети<a class="headerlink" href="tutorial_forward_forward.html#id1" title="Link to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">net</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">x_pos</span><span class="p">,</span> <span class="n">x_neg</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Train error:'</span><span class="p">,</span> <span class="mi">100</span><span class="o">*</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">net</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">eq</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">()</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()),</span><span class="s1">'%'</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Training layer 0 ...
+Training LeakyLayer: 100%|██████████| 1000/1000 [00:02&lt;00:00, 414.33it/s]
+Training layer 1 ...
+Training LeakyLayer: 100%|██████████| 1000/1000 [00:02&lt;00:00, 434.15it/s]
+Train error: 42.1875 %
+</pre></div>
+</div>
+</section>
+</section>
+<section id="testing-the-network">
+<h2>5. Тестирование сети<a class="headerlink" href="tutorial_forward_forward.html#testing-the-network" title="Link to this heading"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">x_te</span><span class="p">,</span> <span class="n">y_te</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">test_loader</span><span class="p">))</span>
+<span class="n">x_te</span><span class="p">,</span> <span class="n">y_te</span> <span class="o">=</span> <span class="n">x_te</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">),</span> <span class="n">y_te</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Test error:'</span><span class="p">,</span> <span class="mi">100</span><span class="o">*</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">net</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_te</span><span class="p">)</span><span class="o">.</span><span class="n">eq</span><span class="p">(</span><span class="n">y_te</span><span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">()</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()),</span> <span class="s1">'%'</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Test</span> <span class="n">error</span><span class="p">:</span> <span class="mf">70.3125</span> <span class="o">%</span>
+</pre></div>
+</div>
+<p>Это не отлично, но запуск большего количества временных шагов симуляций на большем
+количестве эпох должен помочь. Попробуйте.</p>
+</section>
+<section id="plotting-the-loss-of-each-layer">
+<h2>6. Построение графика потерь каждого слоя<a class="headerlink" href="tutorial_forward_forward.html#plotting-the-loss-of-each-layer" title="Link to this heading"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">layer_losses</span><span class="p">[</span><span class="mi">0</span><span class="p">,:],</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Layer 1 Loss"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">layer_losses</span><span class="p">[</span><span class="mi">1</span><span class="p">,:],</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Layer 2 Loss"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"Epoch"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">"Loss"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="https://github.com/jeshraghian/snntorch/blob/master/docs/_static/img/examples/tutorial_forward-forward/loss.png?raw=true" src="../_static/external_images/c008e1fe73359b4dd8fa.png"/>
+<p>Для сравнения мы также можем обучить и протестировать ту же архитектуру сети
+на тех же данных, но теперь используя ReLU в качестве функции активации
+вместо LIF.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">net</span> <span class="o">=</span> <span class="n">Net</span><span class="p">([</span><span class="mi">784</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">500</span><span class="p">],</span> <span class="s2">"relu"</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+<span class="c1"># load training data</span>
+<span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">train_loader</span><span class="p">))</span>
+<span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">),</span> <span class="n">y</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+<span class="c1"># overlay labels on data</span>
+<span class="n">x_pos</span> <span class="o">=</span> <span class="n">overlay_y_on_x</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">rnd</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randperm</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+<span class="n">x_neg</span> <span class="o">=</span> <span class="n">overlay_y_on_x</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">[</span><span class="n">rnd</span><span class="p">])</span>
+
+<span class="c1"># visaualize samples</span>
+<span class="k">for</span> <span class="n">data</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">x_pos</span><span class="p">,</span> <span class="n">x_neg</span><span class="p">],</span> <span class="p">[</span><span class="s1">'orig'</span><span class="p">,</span> <span class="s1">'pos'</span><span class="p">,</span> <span class="s1">'neg'</span><span class="p">]):</span>
+    <span class="n">visualize_sample</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+
+<span class="n">net</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">x_pos</span><span class="p">,</span> <span class="n">x_neg</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'train error:'</span><span class="p">,</span> <span class="mi">100</span><span class="o">*</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">net</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">eq</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">()</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()),</span><span class="s1">'%'</span><span class="p">)</span>
+
+<span class="c1"># load test data</span>
+<span class="n">x_te</span><span class="p">,</span> <span class="n">y_te</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">test_loader</span><span class="p">))</span>
+<span class="n">x_te</span><span class="p">,</span> <span class="n">y_te</span> <span class="o">=</span> <span class="n">x_te</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">),</span> <span class="n">y_te</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'test error:'</span><span class="p">,</span> <span class="mi">100</span><span class="o">*</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">net</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_te</span><span class="p">)</span><span class="o">.</span><span class="n">eq</span><span class="p">(</span><span class="n">y_te</span><span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">()</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()),</span><span class="s1">'%'</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="https://github.com/jeshraghian/snntorch/blob/master/docs/_static/img/examples/tutorial_forward-forward/data-4.png?raw=true" src="../_static/external_images/6aaa18b70c6ccdf26147.png"/>
+<img alt="https://github.com/jeshraghian/snntorch/blob/master/docs/_static/img/examples/tutorial_forward-forward/data-5.png?raw=true" src="../_static/external_images/39eff16788910229f601.png"/>
+<img alt="https://github.com/jeshraghian/snntorch/blob/master/docs/_static/img/examples/tutorial_forward-forward/data-6.png?raw=true" src="../_static/external_images/ea4fac85ec3aec30be73.png"/>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Training layer 0 ...
+Training LeakyLayer: 100%|██████████| 1000/1000 [00:01&lt;00:00, 694.31it/s]
+Training layer 1 ...
+Training LeakyLayer: 100%|██████████| 1000/1000 [00:01&lt;00:00, 701.83it/s]
+train error: 39.0625 %
+test error: 56.25 %
+</pre></div>
+</div>
+<p>Как показано в <a class="reference external" href="https://www.tensorflow.org/datasets/keras_example">этом примере Keras
+</a>,
+стандартная искусственная нейронная сеть, использующая обратное распространение с аналогичной
+архитектурой и гиперпараметрами, может достичь ошибки на тестовом наборе около
+2.50%.</p>
+<p>Как показано в <a class="reference external" href="tutorial_5.html">документация snnTorch Tutorial 5
+</a>,
+спайковая нейронная сеть, использующая обратное распространение с той же
+архитектурой и аналогичным набором гиперпараметров, достигает ошибки на тестовом наборе
+около 6.13%.</p>
+<p>Попробуйте изменить код, чтобы сократить этот разрыв.</p>
+<blockquote>
+<div><p><a class="reference external" href="https://arxiv.org/abs/2212.13345">Geoffrey Hinton. The Forward-Forward Algorithm: Some Preliminary
+Investigations. 2022. arXiv: 2212.13345
+[cs.LG].</a></p>
+</div></blockquote>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/mpezeshki/pytorch_forward_forward">Mohammad Pezeshki. pytorch_forward_forward. Github Repo January
+2023.</a></p>
+</div></blockquote>
+<p>Этот проект был частично поддержан Национальным научным фондом (National Science Foundation) RCN-SC 2332166.</p>
+</section>
+</section>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="tutorial_exoplanet_hunter.html" rel="prev" title="Exoplanet Hunter: Finding Planets Using Light Intensity"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="tutorial_ipu_1.html" rel="next" title="Accelerating snnTorch on IPUs">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright 2021, Jason K. Eshraghian.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

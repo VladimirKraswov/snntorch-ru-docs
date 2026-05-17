@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html class="writer-html5" data-content_root="./" lang="ru">
+<head>
+<meta charset="utf-8"/>
+<meta content="1" name="readthedocs-addons-api-version"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>snntorch — документация snntorch 0.9.4</title>
+<link href="_static/pygments.css%3Fv=03e43079.css" rel="stylesheet" type="text/css"/>
+<link href="_static/css/theme.css%3Fv=9edc463e.css" rel="stylesheet" type="text/css"/>
+<link href="_static/css/default.css" rel="stylesheet" type="text/css"/>
+<script src="_static/jquery.js%3Fv=5d32c60e"></script>
+<script src="_static/_sphinx_javascript_frameworks_compat.js%3Fv=2cd50e6c"></script>
+<script src="_static/documentation_options.js%3Fv=c5ca06ca"></script>
+<script src="_static/doctools.js%3Fv=fd6eb6e6"></script>
+<script src="_static/sphinx_highlight.js%3Fv=6ffebe34"></script>
+<script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+<script src="_static/js/theme.js"></script>
+<script src="_static/js/versions.js"></script>
+<link href="genindex.html" rel="index" title="Index"/>
+<link href="search.html" rel="search" title="Search"/>
+<link href="snn.neurons_alpha.html" rel="next" title="snn.Alpha"/>
+<link href="installation.html" rel="prev" title="Installation"/>
+<script async="" src="../../_/static/javascript/readthedocs-addons.js" type="text/javascript"></script><meta content="snntorch" name="readthedocs-project-slug"/><meta content="latest" name="readthedocs-version-slug"/><meta content="/snntorch.html" name="readthedocs-resolver-filename"/><meta content="200" name="readthedocs-http-status"/></head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="index.html">
+            snntorch
+              <img alt="Logo" class="logo" src="_static/snntorch_alpha_full.png"/>
+</a>
+<div class="switch-menus">
+<div class="version-switch"></div>
+<div class="language-switch"></div>
+</div>
+<div role="search">
+<form action="search.html" class="wy-form" id="rtd-search-form" method="get">
+<input aria-label="Search docs" name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="snntorch.html#">snntorch</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="snntorch.html#snntorch-neurons">snnTorch Neurons</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="snntorch.html#how-to-use-snntorch-s-neuron-models">How to use snnTorch’s neuron models</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="snntorch.html#neuron-list">Neuron List</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="snn.neurons_alpha.html">snn.Alpha</a></li>
+<li class="toctree-l3"><a class="reference internal" href="snn.neurons_lapicque.html">snn.Lapicque</a></li>
+<li class="toctree-l3"><a class="reference internal" href="snn.neurons_leaky.html">snn.Leaky</a></li>
+<li class="toctree-l3"><a class="reference internal" href="snn.neurons_leakyparallel.html">snn.LeakyParallel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="snn.neurons_rleaky.html">snn.RLeaky</a></li>
+<li class="toctree-l3"><a class="reference internal" href="snn.neurons_rsynaptic.html">snn.RSynaptic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="snn.neurons_sconvlstm.html">snn.SConv2dLSTM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="snn.neurons_slstm.html">snn.SLSTM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="snn.neurons_synaptic.html">snn.Synaptic</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="snntorch.html#module-snntorch._layers.bntt">snnTorch Layers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="snntorch.html#snntorch._layers.bntt.BatchNormTT1d"><code class="docutils literal notranslate"><span class="pre">BatchNormTT1d()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="snntorch.html#snntorch._layers.bntt.BatchNormTT2d"><code class="docutils literal notranslate"><span class="pre">BatchNormTT2d()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="snntorch.html#module-snntorch._neurons.neurons">Neuron Parent Classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="snntorch.html#snntorch._neurons.neurons.LIF"><code class="docutils literal notranslate"><span class="pre">LIF</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="snntorch.html#snntorch._neurons.neurons.SpikingNeuron"><code class="docutils literal notranslate"><span class="pre">SpikingNeuron</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="snntorch.html#snntorch._neurons.neurons.SpikingNeuron.detach"><code class="docutils literal notranslate"><span class="pre">SpikingNeuron.detach()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="snntorch.html#snntorch._neurons.neurons.SpikingNeuron.fire"><code class="docutils literal notranslate"><span class="pre">SpikingNeuron.fire()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="snntorch.html#snntorch._neurons.neurons.SpikingNeuron.fire_inhibition"><code class="docutils literal notranslate"><span class="pre">SpikingNeuron.fire_inhibition()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="snntorch.html#snntorch._neurons.neurons.SpikingNeuron.init"><code class="docutils literal notranslate"><span class="pre">SpikingNeuron.init()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="snntorch.html#snntorch._neurons.neurons.SpikingNeuron.instances"><code class="docutils literal notranslate"><span class="pre">SpikingNeuron.instances</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="snntorch.html#snntorch._neurons.neurons.SpikingNeuron.mem_reset"><code class="docutils literal notranslate"><span class="pre">SpikingNeuron.mem_reset()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="snntorch.html#snntorch._neurons.neurons.SpikingNeuron.reset_dict"><code class="docutils literal notranslate"><span class="pre">SpikingNeuron.reset_dict</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="snntorch.html#snntorch._neurons.neurons.SpikingNeuron.reset_mechanism"><code class="docutils literal notranslate"><span class="pre">SpikingNeuron.reset_mechanism</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="snntorch.html#snntorch._neurons.neurons.SpikingNeuron.zeros"><code class="docutils literal notranslate"><span class="pre">SpikingNeuron.zeros()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="snntorch.export_nir.html">snntorch.export_nir</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snntorch.functional.html">snntorch.functional</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snntorch.import_nir.html">snntorch.import_nir</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snntorch.spikegen.html">snntorch.spikegen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snntorch.spikeplot.html">snntorch.spikeplot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snntorch.spikevision.html">snntorch.spikevision</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snntorch.surrogate.html">snntorch.surrogate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snntorch.utils.html">snntorch.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">History</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="index.html">snntorch</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a aria-label="Home" class="icon icon-home" href="index.html"></a></li>
+<li class="breadcrumb-item active">snntorch</li>
+<li class="wy-breadcrumbs-aside">
+<a href="_sources/snntorch.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<div class="admonition note" data-snn-translation="ru"><p><strong>Русский перевод.</strong> Неофициальный перевод актуальной документации snnTorch latest (0.9.4). Оригинал: https://snntorch.readthedocs.io/en/latest/. Документация распространяется по лицензии CC BY-SA 3.0.</p></div><section id="snntorch">
+<h1>snntorch<a class="headerlink" href="snntorch.html#snntorch" title="Link to this heading"></a></h1>
+<section id="snntorch-neurons">
+<h2>Нейроны snnTorch<a class="headerlink" href="snntorch.html#snntorch-neurons" title="Link to this heading"></a></h2>
+<p><code class="xref py py-mod docutils literal notranslate"><span class="pre">snntorch</span></code> разработаны для интуитивного использования с PyTorch, как будто каждый спайковый нейрон является просто ещё одной функцией активации в последовательности слоёв.</p>
+<p>Доступны различные классы спайковых нейронов, которые можно просто рассматривать как блоки активации с PyTorch.
+Каждый слой спайковых нейронов, таким образом, не зависит от полносвязных слоёв, свёрточных слоёв, остаточных соединений и т.д.</p>
+<p>Модели нейронов представлены рекурсивными функциями, что устраняет необходимость хранить следы мембранного потенциала для вычисления градиента.
+Небольшие требования <code class="xref py py-mod docutils literal notranslate"><span class="pre">snntorch</span></code> позволяют эффективно обучать как маленькие, так и большие сети на CPU, где это необходимо.
+Будучи глубоко интегрированным с <code class="docutils literal notranslate"><span class="pre">torch.autograd</span></code>, <code class="xref py py-mod docutils literal notranslate"><span class="pre">snntorch</span></code> может использовать возможности ускорения GPU так же, как и PyTorch.</p>
+<p>По умолчанию механизм автоматического дифференцирования PyTorch в <code class="docutils literal notranslate"><span class="pre">torch.autograd</span></code> обнуляет градиентный сигнал графа спайкового нейрона из-за недифференцируемых пороговых функций спайка.
+<code class="xref py py-mod docutils literal notranslate"><span class="pre">snntorch</span></code> переопределяет градиент по умолчанию, используя <code class="xref py py-mod docutils literal notranslate"><span class="pre">snntorch.neurons.Heaviside</span></code>. Альтернативные варианты существуют в <a class="reference internal" href="snntorch.surrogate.html#module-snntorch.surrogate" title="snntorch.surrogate"><code class="xref py py-mod docutils literal notranslate"><span class="pre">snntorch.surrogate</span></code></a>.</p>
+<p>В настоящее время нейроны, доступные в <code class="xref py py-mod docutils literal notranslate"><span class="pre">snntorch</span></code> являются вариантами модели нейрона Leaky Integrate-and-Fire:</p>
+<ul class="simple">
+<li><p><strong>Leaky</strong> - Нейрон Leaky Integrate-and-Fire 1-го порядка</p></li>
+<li><p><strong>RLeaky</strong> - Как выше, с рекуррентными связями для выходных спайков</p></li>
+<li><p><strong>Synaptic</strong> - Нейрон Integrate-and-Fire 2-го порядка (включая синаптическую проводимость)</p></li>
+<li><p><strong>RSynaptic</strong> - Как выше, с рекуррентными связями для выходных спайков</p></li>
+<li><p><strong>Lapicque</strong> - Модель RC-нейрона Лапика</p></li>
+<li><p><strong>Alpha</strong> - Модель мембраны Alpha</p></li>
+</ul>
+<p>Модели нейронов, ускоряющие обучение, требуют передачи данных параллельно. Доступные нейроны включают:
+* <strong>LeakyParallel</strong> - Нейрон Leaky Integrate-and-Fire 1-го порядка</p>
+<p>Дополнительные модели включают спайковые LSTM и спайковые ConvLSTM:</p>
+<ul class="simple">
+<li><p><strong>SLSTM</strong> - Спайковая долгая краткосрочная память с пороговой обработкой состояния</p></li>
+<li><p><strong>SConv2dLSTM</strong> - Спайковая 2D свёрточная ячейка краткосрочной памяти с пороговой обработкой состояния</p></li>
+</ul>
+<section id="how-to-use-snntorch-s-neuron-models">
+<h3>Как использовать модели нейронов snnTorch<a class="headerlink" href="snntorch.html#how-to-use-snntorch-s-neuron-models" title="Link to this heading"></a></h3>
+<p>Следующие аргументы являются общими для большинства моделей нейронов:</p>
+<ul class="simple">
+<li><p><strong>порог</strong> - порог срабатывания нейрона</p></li>
+<li><p><strong>spike_grad</strong> - функция суррогатного градиента (см. <a class="reference internal" href="snntorch.surrogate.html#module-snntorch.surrogate" title="snntorch.surrogate"><code class="xref py py-mod docutils literal notranslate"><span class="pre">snntorch.surrogate</span></code></a>)</p></li>
+<li><p><strong>init_hidden</strong> - установка в <code class="docutils literal notranslate"><span class="pre">True</span></code> скрывает все состояния нейрона как переменные экземпляра для уменьшения сложности кода</p></li>
+<li><p><strong>inhibition</strong> - установка в <code class="docutils literal notranslate"><span class="pre">True</span></code> разрешает срабатывание только нейрона с наибольшим мембранным потенциалом в плотном слое (не для использования в свёртках и т.д.)</p></li>
+<li><p><strong>learn_beta</strong> - установка в <code class="docutils literal notranslate"><span class="pre">True</span></code> делает скорость затухания обучаемым параметром</p></li>
+<li><p><strong>learn_threshold</strong> - установка в <code class="docutils literal notranslate"><span class="pre">True</span></code> делает порог обучаемым параметром</p></li>
+<li><p><strong>reset_mechanism</strong> - варианты включают <code class="docutils literal notranslate"><span class="pre">subtract</span></code> (сброс вычитанием), <code class="docutils literal notranslate"><span class="pre">zero</span></code> (сброс до нуля), и <code class="docutils literal notranslate"><span class="pre">none</span></code> (без механизма сброса: т.е., нейрон с утечкой-интегратором)</p></li>
+<li><p><strong>выход</strong> - если <code class="docutils literal notranslate"><span class="pre">init_hidden=True</span></code>, спайковый нейрон будет возвращать только выходные спайки. Установка <code class="docutils literal notranslate"><span class="pre">output=True</span></code> позволяет также возвращать скрытое состояние(я). Полезно при использовании <code class="docutils literal notranslate"><span class="pre">torch.nn.sequential</span></code>.</p></li>
+</ul>
+<p>Модели нейронов Leaky integrate-and-fire также включают:</p>
+<ul class="simple">
+<li><p><strong>beta</strong> - скорость затухания мембранного потенциала, ограниченная между 0 и 1 во время прямого прохода. Может быть одноэлементным тензором (одинаковое затухание для всех нейронов слоя) или многозначным (индивидуальные веса на нейрон в слое). Более сложные нейроны включают дополнительные параметры, такие как <strong>alpha</strong>.</p></li>
+</ul>
+<p>Рекуррентные модели спайковых нейронов, такие как <code class="xref py py-mod docutils literal notranslate"><span class="pre">snntorch.RLeaky</span></code> и <code class="xref py py-mod docutils literal notranslate"><span class="pre">snntorch.RSynaptic</span></code> явно передают выходной спайк обратно на вход.
+Такие нейроны включают дополнительные аргументы:</p>
+<ul class="simple">
+<li><p><strong>V</strong> - Рекуррентный вес. Может быть одноэлементным тензором (одинаковый вес для всех нейронов слоя) или многозначным тензором (индивидуальные веса на нейрон в слое).</p></li>
+<li><p><strong>learn_V</strong> - по умолчанию <code class="docutils literal notranslate"><span class="pre">True</span></code>, что позволяет <strong>V</strong> быть обучаемым параметром.</p></li>
+</ul>
+<p>Спайковые нейронные сети могут быть построены с использованием комбинации <code class="docutils literal notranslate"><span class="pre">snntorch</span></code> и <code class="docutils literal notranslate"><span class="pre">torch.nn</span></code> пакетов.</p>
+<p>Пример:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nn</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">snntorch</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">snn</span>
+
+<span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.9</span>
+<span class="n">beta</span> <span class="o">=</span> <span class="mf">0.85</span>
+
+<span class="n">num_steps</span> <span class="o">=</span> <span class="mi">100</span>
+
+
+<span class="c1"># Define Network</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Net</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+   <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+      <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+      <span class="c1"># initialize layers</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">fc1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">num_inputs</span><span class="p">,</span> <span class="n">num_hidden</span><span class="p">)</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">lif1</span> <span class="o">=</span> <span class="n">snn</span><span class="o">.</span><span class="n">Leaky</span><span class="p">(</span><span class="n">beta</span><span class="o">=</span><span class="n">beta</span><span class="p">)</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">num_hidden</span><span class="p">,</span> <span class="n">num_outputs</span><span class="p">)</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">lif2</span> <span class="o">=</span> <span class="n">snn</span><span class="o">.</span><span class="n">Leaky</span><span class="p">(</span><span class="n">beta</span><span class="o">=</span><span class="n">beta</span><span class="p">)</span>
+
+   <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+      <span class="n">mem1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lif1</span><span class="o">.</span><span class="n">init_leaky</span><span class="p">()</span>
+      <span class="n">mem2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lif2</span><span class="o">.</span><span class="n">init_leaky</span><span class="p">()</span>
+
+      <span class="n">spk2_rec</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># Record the output trace of spikes</span>
+      <span class="n">mem2_rec</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># Record the output trace of membrane potential</span>
+
+      <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_steps</span><span class="p">):</span>
+            <span class="n">cur1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc1</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+            <span class="n">spk1</span><span class="p">,</span> <span class="n">mem1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lif1</span><span class="p">(</span><span class="n">cur1</span><span class="p">,</span> <span class="n">mem1</span><span class="p">)</span>
+            <span class="n">cur2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span><span class="p">(</span><span class="n">spk1</span><span class="p">)</span>
+            <span class="n">spk2</span><span class="p">,</span> <span class="n">mem2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lif2</span><span class="p">(</span><span class="n">cur2</span><span class="p">,</span> <span class="n">mem2</span><span class="p">)</span>
+
+            <span class="n">spk2_rec</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">spk2</span><span class="p">)</span>
+            <span class="n">mem2_rec</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mem2</span><span class="p">)</span>
+
+      <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">spk2_rec</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">mem2_rec</span><span class="p">)</span>
+
+<span class="n">net</span> <span class="o">=</span> <span class="n">Net</span><span class="p">()</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+<span class="n">output</span><span class="p">,</span> <span class="n">mem_rec</span> <span class="o">=</span> <span class="n">net</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>В приведенном выше примере скрытое состояние <code class="docutils literal notranslate"><span class="pre">mem</span></code> должно быть инициализировано вручную для каждого слоя.
+Это можно преодолеть, автоматически создавая экземпляры скрытых состояний нейронов путем вызова <code class="docutils literal notranslate"><span class="pre">init_hidden=True</span></code>.</p>
+<p>В некоторых случаях (например, усеченное обратное распространение во времени) может потребоваться выполнить обратные проходы до того, как все временные шаги завершат обработку.
+Это требует перемещения цикла по временным шагам из сети в обучающий цикл.</p>
+<p>Пример этого показан ниже:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nn</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">snntorch</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">snn</span>
+
+<span class="n">num_steps</span> <span class="o">=</span> <span class="mi">100</span>
+
+<span class="n">lif1</span> <span class="o">=</span> <span class="n">snn</span><span class="o">.</span><span class="n">Leaky</span><span class="p">(</span><span class="n">beta</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">init_hidden</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1"># only returns spk</span>
+<span class="n">lif2</span> <span class="o">=</span> <span class="n">snn</span><span class="o">.</span><span class="n">Leaky</span><span class="p">(</span><span class="n">beta</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">init_hidden</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1"># returns mem and spk if output=True</span>
+
+
+<span class="c1">#  Initialize Network</span>
+<span class="n">net</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Flatten</span><span class="p">(),</span>
+                    <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">784</span><span class="p">,</span><span class="mi">1000</span><span class="p">),</span>
+                    <span class="n">lif1</span><span class="p">,</span>
+                    <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span>
+                    <span class="n">lif2</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_steps</span><span class="p">):</span>
+   <span class="n">spk_out</span><span class="p">,</span> <span class="n">mem_out</span> <span class="o">=</span> <span class="n">net</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Установка скрытых состояний в переменные экземпляра необходима для вызова <code class="xref py py-mod docutils literal notranslate"><span class="pre">nn.Sequential</span></code> из PyTorch.</p>
+<p>При создании экземпляра нейрона он добавляется как элемент списка в переменную класса <code class="xref py py-mod docutils literal notranslate"><span class="pre">LIF.instances</span></code>.
+Это позволяет отслеживать, какие нейроны используются в сети, и отсоединять нейроны от вычислительного графа.</p>
+<p>В приведенных выше примерах скорость затухания мембранного потенциала <code class="xref py py-mod docutils literal notranslate"><span class="pre">beta</span></code> рассматривается как гиперпараметр.
+Но его также можно настроить как обучаемый параметр, как показано ниже:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nn</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">snntorch</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">snn</span>
+
+<span class="n">num_steps</span> <span class="o">=</span> <span class="mi">100</span>
+
+<span class="n">lif1</span> <span class="o">=</span> <span class="n">snn</span><span class="o">.</span><span class="n">Leaky</span><span class="p">(</span><span class="n">beta</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">learn_beta</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">init_hidden</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1"># only returns spk</span>
+<span class="n">lif2</span> <span class="o">=</span> <span class="n">snn</span><span class="o">.</span><span class="n">Leaky</span><span class="p">(</span><span class="n">beta</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">learn_beta</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">init_hidden</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1"># returns mem and spk if output=True</span>
+
+
+<span class="c1">#  Initialize Network</span>
+<span class="n">net</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Flatten</span><span class="p">(),</span>
+                    <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">784</span><span class="p">,</span><span class="mi">1000</span><span class="p">),</span>
+                    <span class="n">lif1</span><span class="p">,</span>
+                    <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span>
+                    <span class="n">lif2</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_steps</span><span class="p">):</span>
+   <span class="n">spk_out</span><span class="p">,</span> <span class="n">mem_out</span> <span class="o">=</span> <span class="n">net</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Здесь, <code class="xref py py-mod docutils literal notranslate"><span class="pre">beta</span></code> инициализируется значением 0.9 для первого слоя и 0.5 для второго слоя.
+Затем каждый слой рассматривает его как обучаемый параметр, так же как и все остальные веса сети.
+Если вы хотите иметь обучаемую скорость затухания для каждого нейрона, а не для каждого слоя, следующий пример показывает, как это сделать:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nn</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">snntorch</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">snn</span>
+
+<span class="n">num_steps</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">num_hidden</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">num_output</span> <span class="o">=</span> <span class="mi">10</span>
+
+<span class="n">beta1</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">num_hidden</span><span class="p">)</span>  <span class="c1"># randomly initialize beta as a vector</span>
+<span class="n">beta2</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">num_output</span><span class="p">)</span>
+
+<span class="n">lif1</span> <span class="o">=</span> <span class="n">snn</span><span class="o">.</span><span class="n">Leaky</span><span class="p">(</span><span class="n">beta</span><span class="o">=</span><span class="n">beta1</span><span class="p">,</span> <span class="n">learn_beta</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">init_hidden</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1"># only returns spk</span>
+<span class="n">lif2</span> <span class="o">=</span> <span class="n">snn</span><span class="o">.</span><span class="n">Leaky</span><span class="p">(</span><span class="n">beta</span><span class="o">=</span><span class="n">beta2</span> <span class="n">learn_beta</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">init_hidden</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1"># returns mem and spk if output=True</span>
+
+<span class="c1">#  Initialize Network</span>
+<span class="n">net</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Flatten</span><span class="p">(),</span>
+                    <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">784</span><span class="p">,</span> <span class="n">num_hidden</span><span class="p">),</span>
+                    <span class="n">lif1</span><span class="p">,</span>
+                    <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="n">num_output</span><span class="p">),</span>
+                    <span class="n">lif2</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_steps</span><span class="p">):</span>
+   <span class="n">spk_out</span><span class="p">,</span> <span class="n">mem_out</span> <span class="o">=</span> <span class="n">net</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Тот же подход, что и выше, можно использовать для реализации обучаемых порогов с помощью <code class="docutils literal notranslate"><span class="pre">learn_threshold=True</span></code>.</p>
+<p>Каждый нейрон имеет возможность подавлять возбуждение других нейронов в том же полносвязном слое.
+Это можно вызвать, установив <code class="docutils literal notranslate"><span class="pre">inhibition=True</span></code> при создании экземпляра нейронного слоя. Это еще не реализовано для сетей, отличных от полносвязных слоев, поэтому используйте с осторожностью.</p>
+</section>
+</section>
+<section id="neuron-list">
+<h2>Список нейронов<a class="headerlink" href="snntorch.html#neuron-list" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="snn.neurons_alpha.html">snn.Alpha</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snn.neurons_lapicque.html">snn.Lapicque</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snn.neurons_leaky.html">snn.Leaky</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snn.neurons_leakyparallel.html">snn.LeakyParallel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snn.neurons_rleaky.html">snn.RLeaky</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snn.neurons_rsynaptic.html">snn.RSynaptic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snn.neurons_sconvlstm.html">snn.SConv2dLSTM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snn.neurons_slstm.html">snn.SLSTM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snn.neurons_synaptic.html">snn.Synaptic</a></li>
+</ul>
+</div>
+</section>
+<section id="module-snntorch._layers.bntt">
+<span id="snntorch-layers"></span><h2>Слои snnTorch<a class="headerlink" href="snntorch.html#module-snntorch._layers.bntt" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="snntorch._layers.bntt.BatchNormTT1d">
+<span class="sig-prename descclassname"><span class="pre">snntorch._layers.bntt.</span></span><span class="sig-name descname"><span class="pre">BatchNormTT1d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_features</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_steps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">momentum</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">affine</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/_layers/bntt.html#BatchNormTT1d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snntorch.html#snntorch._layers.bntt.BatchNormTT1d" title="Link to this definition"></a></dt>
+<dd><p>Создает torch.nn.ModuleList из одномерного слоя пакетной нормализации с
+длиной time_steps.
+Вход этого слоя такой же, как и у обычного слоя torch.nn.BatchNorm1d.</p>
+<p>Пакетная нормализация во времени (BNTT), представленная в:
+«Revisiting Batch Normalization for Training Low-Latency Deep Spiking Neural Networks From Scratch»
+Авторы: Youngeun Kim и Priyadarshini Panda
+Препринт arXiv: arXiv:2010.01729</p>
+<p>Оригинальный репозиторий GitHub:
+<a class="reference external" href="https://github.com/Intelligent-Computing-Lab-Yale/">https://github.com/Intelligent-Computing-Lab-Yale/</a>
+BNTT-Batch-Normalization-Through-Time</p>
+<p>Используя нейрон LIF в качестве нейрона по умолчанию для математики, показанной ниже.</p>
+<p>Обычно для одного постсинаптического нейрона i мы можем представить его
+мембранный потенциал <span class="math notranslate nohighlight">\(U_{i}^{t}\)</span> на временном шаге t как:</p>
+<div class="math notranslate nohighlight">
+\[U_{i}^{t} = λ u_{i}^{t-1} + \sum_j w_{ij}S_{j}^{t}\]</div>
+<p>где:</p>
+<ul class="simple">
+<li><p>λ - коэффициент утечки, который меньше единицы</p></li>
+<li><p>j - индекс пресинаптического нейрона</p></li>
+<li><p><span class="math notranslate nohighlight">\(S_{j}\)</span> - бинарная активация спайка</p></li>
+<li><p><span class="math notranslate nohighlight">\(w_{ij}\)</span> - вес связи между пре- и постсинаптическими нейронами.</p></li>
+</ul>
+<p>С пакетной нормализацией во времени мембранный потенциал может быть
+смоделирован как:</p>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}U_{i}^{t} = λu_{i}^{t-1} + BNTT_{γ^{t}}\\          = λu_{i}^{t-1} + γ _{i}^{t} (\frac{\sum_j
+          w_{ij}S_{j}^{t} -
+          µ_{i}^{t}}{\sqrt{(σ _{i}^{t})^{2} + ε}})\end{aligned}\end{align} \]</div>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_features</strong> (<em>int</em>) – количество признаков входных данных</p></li>
+<li><p><strong>time_steps</strong> (<em>int</em>) – количество временных шагов SNN</p></li>
+<li><p><strong>eps</strong> (<em>float</em>) – значение, добавляемое к знаменателю для численной устойчивости</p></li>
+<li><p><strong>momentum</strong> (<em>float</em>) – значение, используемое для вычисления running_mean и running_var</p></li>
+<li><p><strong>affine</strong> (<em>bool</em>) – логическое значение, которое при установке в True позволяет слою Batch Norm иметь обучаемые аффинные параметры</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Входные данные: input_features, time_steps</dt><dd><ul class="simple">
+<li><p><strong>input_features</strong>: то же количество признаков, что и у входных данных</p></li>
+<li><p><strong>time_steps</strong>: количество временных шагов для развертывания в SNN</p></li>
+</ul>
+</dd>
+<dt>Выходные данные: bntt</dt><dd><ul class="simple">
+<li><p><strong>bntt</strong> формы <cite>(time_steps)</cite>: toch.nn.ModuleList из         слоев BatchNorm1d для указанного количества временных шагов</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="snntorch._layers.bntt.BatchNormTT2d">
+<span class="sig-prename descclassname"><span class="pre">snntorch._layers.bntt.</span></span><span class="sig-name descname"><span class="pre">BatchNormTT2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_features</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_steps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">momentum</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">affine</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/_layers/bntt.html#BatchNormTT2d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snntorch.html#snntorch._layers.bntt.BatchNormTT2d" title="Link to this definition"></a></dt>
+<dd><p>Создает torch.nn.ModuleList из 2D слоев пакетной нормализации с
+длиной time_steps.
+Входные данные для этого слоя такие же, как и для обычного слоя torch.nn.BatchNorm2d.</p>
+<p>Пакетная нормализация во времени (BNTT), представленная в:
+«Revisiting Batch Normalization for Training Low-Latency Deep Spiking Neural Networks From Scratch»
+Авторы: Youngeun Kim и Priyadarshini Panda
+Препринт arXiv: arXiv:2010.01729</p>
+<p>Используя нейрон LIF в качестве нейрона по умолчанию для математики, показанной ниже.</p>
+<p>Обычно для одного постсинаптического нейрона i мы можем представить его
+мембранный потенциал <span class="math notranslate nohighlight">\(U_{i}^{t}\)</span> на временном шаге t как:</p>
+<div class="math notranslate nohighlight">
+\[U_{i}^{t} = λ u_{i}^{t-1} + \sum_j w_{ij}S_{j}^{t}\]</div>
+<p>где:</p>
+<ul class="simple">
+<li><p>λ - коэффициент утечки, который меньше единицы</p></li>
+<li><p>j - индекс пресинаптического нейрона</p></li>
+<li><p><span class="math notranslate nohighlight">\(S_{j}\)</span> - бинарная активация спайка</p></li>
+<li><p><span class="math notranslate nohighlight">\(w_{ij}\)</span> - вес связи между пре &amp; пост     нейронами.</p></li>
+</ul>
+<p>При Batch Normalization Throught Time мембранный потенциал можно     моделировать как:</p>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}U_{i}^{t} = λ u_{i}^{t-1} + BNTT_{γ^{t}}\\          = λ u_{i}^{t-1}
+          + γ_{i}^{t} (\frac{\sum_j
+          w_{ij}S_{j}^{t}
+          - µ_{i}^{t}}{\sqrt{(σ _{i}^{t})^{2} + ε}})\end{aligned}\end{align} \]</div>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_features</strong> (<em>int</em>) – количество каналов входного сигнала</p></li>
+<li><p><strong>time_steps</strong> (<em>int</em>) – количество временных шагов SNN</p></li>
+<li><p><strong>eps</strong> (<em>float</em>) – значение, добавляемое к знаменателю для численной устойчивости</p></li>
+<li><p><strong>momentum</strong> (<em>float</em>) – значение, используемое для вычисления running_mean и running_var        </p></li>
+<li><p><strong>affine</strong> (<em>bool</em>) – логическое значение, при установке True, слой Batch Norm         будет иметь обучаемые аффинные параметры</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Входные данные: input_features, time_steps</dt><dd><ul class="simple">
+<li><p><strong>input_features</strong>: такое же количество каналов, как у входного сигнала</p></li>
+<li><p><strong>time_steps</strong>: количество временных шагов для развертывания в SNN</p></li>
+</ul>
+</dd>
+<dt>Выходные данные: bntt</dt><dd><ul class="simple">
+<li><p><strong>bntt</strong> формы <cite>(time_steps)</cite>: toch.nn.ModuleList из         слоев BatchNorm1d для указанного количества временных шагов</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+</section>
+<section id="module-snntorch._neurons.neurons">
+<span id="neuron-parent-classes"></span><h2>Родительские классы нейронов<a class="headerlink" href="snntorch.html#module-snntorch._neurons.neurons" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="snntorch._neurons.neurons.LIF">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">snntorch._neurons.neurons.</span></span><span class="sig-name descname"><span class="pre">LIF</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">beta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spike_grad</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">surrogate_disable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_hidden</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inhibition</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">learn_beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">learn_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reset_mechanism</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'subtract'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state_quant</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">graded_spikes_factor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">learn_graded_spikes_factor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/_neurons/neurons.html#LIF"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snntorch.html#snntorch._neurons.neurons.LIF" title="Link to this definition"></a></dt>
+<dd><p>Базовые классы: <a class="reference internal" href="snntorch.html#snntorch._neurons.neurons.SpikingNeuron" title="snntorch._neurons.neurons.SpikingNeuron"><code class="xref py py-class docutils literal notranslate"><span class="pre">SpikingNeuron</span></code></a></p>
+<p>Родительский класс для моделей нейронов с утечкой, интеграцией и срабатыванием.</p>
+</dd></dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="snntorch._neurons.neurons.SpikingNeuron">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">snntorch._neurons.neurons.</span></span><span class="sig-name descname"><span class="pre">SpikingNeuron</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spike_grad</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">surrogate_disable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_hidden</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inhibition</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">learn_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reset_mechanism</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'subtract'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state_quant</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">graded_spikes_factor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">learn_graded_spikes_factor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/_neurons/neurons.html#SpikingNeuron"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snntorch.html#snntorch._neurons.neurons.SpikingNeuron" title="Link to this definition"></a></dt>
+<dd><p>Базовые классы: <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code></p>
+<p>Родительский класс для моделей спайковых нейронов.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="snntorch._neurons.neurons.SpikingNeuron.detach">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">detach</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/_neurons/neurons.html#SpikingNeuron.detach"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snntorch.html#snntorch._neurons.neurons.SpikingNeuron.detach" title="Link to this definition"></a></dt>
+<dd><p>Используется для отсоединения входных аргументов от текущего графа.
+Предназначен для использования в усеченном обратном распространении через время, где
+скрытые переменные состояния являются глобальными переменными.</p>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="snntorch._neurons.neurons.SpikingNeuron.fire">
+<span class="sig-name descname"><span class="pre">fire</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mem</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/_neurons/neurons.html#SpikingNeuron.fire"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snntorch.html#snntorch._neurons.neurons.SpikingNeuron.fire" title="Link to this definition"></a></dt>
+<dd><p>Генерирует спайк если mem &gt; threshold.
+Возвращает spk.</p>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="snntorch._neurons.neurons.SpikingNeuron.fire_inhibition">
+<span class="sig-name descname"><span class="pre">fire_inhibition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mem</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/_neurons/neurons.html#SpikingNeuron.fire_inhibition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snntorch.html#snntorch._neurons.neurons.SpikingNeuron.fire_inhibition" title="Link to this definition"></a></dt>
+<dd><p>Генерирует спайк если mem &gt; threshold, только для наибольшего мембранного потенциала.
+Все остальные нейроны будут заторможены на этом временном шаге.
+Возвращает spk.</p>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="snntorch._neurons.neurons.SpikingNeuron.init">
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">init</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/_neurons/neurons.html#SpikingNeuron.init"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snntorch.html#snntorch._neurons.neurons.SpikingNeuron.init" title="Link to this definition"></a></dt>
+<dd><p>Удаляет все элементы из <code class="xref py py-mod docutils literal notranslate"><span class="pre">snntorch.SpikingNeuron.instances</span></code>
+при вызове.</p>
+</dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="snntorch._neurons.neurons.SpikingNeuron.instances">
+<span class="sig-name descname"><span class="pre">instances</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></span><a class="headerlink" href="snntorch.html#snntorch._neurons.neurons.SpikingNeuron.instances" title="Link to this definition"></a></dt>
+<dd><p>Каждый <code class="xref py py-mod docutils literal notranslate"><span class="pre">snntorch.SpikingNeuron</span></code> нейрон
+(например,
+     <code class="xref py py-mod docutils literal notranslate"><span class="pre">snntorch.Synaptic</span></code>) будет заполнять
+<code class="xref py py-mod docutils literal notranslate"><span class="pre">snntorch.SpikingNeuron.instances</span></code> список новой записью.
+Список используется для инициализации и очистки состояний нейронов, когда
+аргумент <cite>init_hidden=True</cite>.</p>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="snntorch._neurons.neurons.SpikingNeuron.mem_reset">
+<span class="sig-name descname"><span class="pre">mem_reset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mem</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/_neurons/neurons.html#SpikingNeuron.mem_reset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snntorch.html#snntorch._neurons.neurons.SpikingNeuron.mem_reset" title="Link to this definition"></a></dt>
+<dd><p>Генерирует отсоединенный сигнал сброса если mem &gt; threshold.
+Возвращает reset.</p>
+</dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="snntorch._neurons.neurons.SpikingNeuron.reset_dict">
+<span class="sig-name descname"><span class="pre">reset_dict</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'none':</span> <span class="pre">2,</span> <span class="pre">'subtract':</span> <span class="pre">0,</span> <span class="pre">'zero':</span> <span class="pre">1}</span></span><a class="headerlink" href="snntorch.html#snntorch._neurons.neurons.SpikingNeuron.reset_dict" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="snntorch._neurons.neurons.SpikingNeuron.reset_mechanism">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">reset_mechanism</span></span><a class="headerlink" href="snntorch.html#snntorch._neurons.neurons.SpikingNeuron.reset_mechanism" title="Link to this definition"></a></dt>
+<dd><p>Если reset_mechanism изменен, reset_mechanism_val вызывается
+для обновления.
+0: subtract, 1: zero, 2: none.</p>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="snntorch._neurons.neurons.SpikingNeuron.zeros">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">zeros</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/_neurons/neurons.html#SpikingNeuron.zeros"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snntorch.html#snntorch._neurons.neurons.SpikingNeuron.zeros" title="Link to this definition"></a></dt>
+<dd><p>Используется для обнуления скрытых переменных состояния.
+Предназначен для использования, когда скрытые переменные состояния являются глобальными переменными.</p>
+</dd></dl>
+</dd></dl>
+</section>
+</section>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="installation.html" rel="prev" title="Installation"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="snn.neurons_alpha.html" rel="next" title="snn.Alpha">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright 2021, Jason K. Eshraghian.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

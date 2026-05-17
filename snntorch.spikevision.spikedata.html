@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html class="writer-html5" data-content_root="./" lang="ru">
+<head>
+<meta charset="utf-8"/>
+<meta content="1" name="readthedocs-addons-api-version"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>snntorch.spikevision.spikedata — snntorch 0.9.4 документация</title>
+<link href="_static/pygments.css%3Fv=03e43079.css" rel="stylesheet" type="text/css"/>
+<link href="_static/css/theme.css%3Fv=9edc463e.css" rel="stylesheet" type="text/css"/>
+<link href="_static/css/default.css" rel="stylesheet" type="text/css"/>
+<script src="_static/jquery.js%3Fv=5d32c60e"></script>
+<script src="_static/_sphinx_javascript_frameworks_compat.js%3Fv=2cd50e6c"></script>
+<script src="_static/documentation_options.js%3Fv=c5ca06ca"></script>
+<script src="_static/doctools.js%3Fv=fd6eb6e6"></script>
+<script src="_static/sphinx_highlight.js%3Fv=6ffebe34"></script>
+<script src="_static/js/theme.js"></script>
+<script src="_static/js/versions.js"></script>
+<link href="genindex.html" rel="index" title="Index"/>
+<link href="search.html" rel="search" title="Search"/>
+<link href="snntorch.surrogate.html" rel="next" title="snntorch.surrogate"/>
+<link href="snntorch.spikevision.html" rel="prev" title="snntorch.spikevision"/>
+<script async="" src="../../_/static/javascript/readthedocs-addons.js" type="text/javascript"></script><meta content="snntorch" name="readthedocs-project-slug"/><meta content="latest" name="readthedocs-version-slug"/><meta content="/snntorch.spikevision.spikedata.html" name="readthedocs-resolver-filename"/><meta content="200" name="readthedocs-http-status"/></head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="index.html">
+            snntorch
+              <img alt="Logo" class="logo" src="_static/snntorch_alpha_full.png"/>
+</a>
+<div class="switch-menus">
+<div class="version-switch"></div>
+<div class="language-switch"></div>
+</div>
+<div role="search">
+<form action="search.html" class="wy-form" id="rtd-search-form" method="get">
+<input aria-label="Search docs" name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snntorch.html">snntorch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snntorch.export_nir.html">snntorch.export_nir</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snntorch.functional.html">snntorch.functional</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snntorch.import_nir.html">snntorch.import_nir</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snntorch.spikegen.html">snntorch.spikegen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snntorch.spikeplot.html">snntorch.spikeplot</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="snntorch.spikevision.html">snntorch.spikevision</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="snntorch.spikevision.spikedata.html#">snntorch.spikevision.spikedata</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="snntorch.spikevision.spikedata.html#nmnist">NMNIST</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="snntorch.spikevision.spikedata.html#snntorch.spikevision.spikedata.nmnist.NMNIST"><code class="docutils literal notranslate"><span class="pre">NMNIST</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="snntorch.spikevision.spikedata.html#dvsgesture">DVSGesture</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="snntorch.spikevision.spikedata.html#snntorch.spikevision.spikedata.dvs_gesture.DVSGesture"><code class="docutils literal notranslate"><span class="pre">DVSGesture</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="snntorch.spikevision.spikedata.html#shd">SHD</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="snntorch.spikevision.spikedata.html#snntorch.spikevision.spikedata.shd.SHD"><code class="docutils literal notranslate"><span class="pre">SHD</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="snntorch.surrogate.html">snntorch.surrogate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snntorch.utils.html">snntorch.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">History</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="index.html">snntorch</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a aria-label="Home" class="icon icon-home" href="index.html"></a></li>
+<li class="breadcrumb-item"><a href="snntorch.spikevision.html">snntorch.spikevision</a></li>
+<li class="breadcrumb-item active">snntorch.spikevision.spikedata</li>
+<li class="wy-breadcrumbs-aside">
+<a href="_sources/snntorch.spikevision.spikedata.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<div class="admonition note" data-snn-translation="ru"><p><strong>Русский перевод.</strong> Неофициальный перевод актуальной документации snnTorch latest (0.9.4). Оригинал: https://snntorch.readthedocs.io/en/latest/. Документация распространяется по лицензии CC BY-SA 3.0.</p></div><section id="snntorch-spikevision-spikedata">
+<h1>snntorch.spikevision.spikedata<a class="headerlink" href="snntorch.spikevision.spikedata.html#snntorch-spikevision-spikedata" title="Link to this heading"></a></h1>
+<p>Все наборы данных являются подклассами <code class="code docutils literal notranslate"><span class="pre">torch.utils.data.Dataset</span></code> т.е., они имеют <code class="code docutils literal notranslate"><span class="pre">__getitem__</span></code> и <code class="code docutils literal notranslate"><span class="pre">__len__</span></code> реализованные методы.
+Следовательно, все они могут быть переданы в <code class="code docutils literal notranslate"><span class="pre">torch.utils.data.DataLoader</span></code> который может загружать несколько образцов параллельно, используя <code class="code docutils literal notranslate"><span class="pre">torch.multiprocessing</span></code> воркеров.
+Например:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nmnist_data</span> <span class="o">=</span> <span class="n">spikevision</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">NMNIST</span><span class="p">(</span><span class="s1">'path/to/nmnist_root/'</span><span class="p">)</span>
+<span class="n">data_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">nmnist_data</span><span class="p">,</span>
+                         <span class="n">batch_size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+                         <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                         <span class="n">num_workers</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">nThreads</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>За дополнительными примерами по каждому набору данных и его использованию обращайтесь к <a class="reference external" href="examples/examples_svision.html">примерам</a>.</p>
+<section id="nmnist">
+<h2>NMNIST<a class="headerlink" href="snntorch.spikevision.spikedata.html#nmnist" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="snntorch.spikevision.spikedata.nmnist.NMNIST">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">snntorch.spikevision.spikedata.nmnist.</span></span><span class="sig-name descname"><span class="pre">NMNIST</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transform</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_transform</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">download_and_create</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_steps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">300</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/spikevision/spikedata/nmnist.html#NMNIST"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snntorch.spikevision.spikedata.html#snntorch.spikevision.spikedata.nmnist.NMNIST" title="Link to this definition"></a></dt>
+<dd><p><a class="reference external" href="https://www.garrickorchard.com/datasets/n-mnist">NMNIST</a> Dataset.</p>
+<p>Набор данных Neuromorphic-MNIST (NMNIST) — это спайковая версия исходного покадрового <a class="reference external" href="http://yann.lecun.com/exdb/mnist/">MNIST</a> набора данных.</p>
+<p>Загруженный и извлеченный набор данных содержит те же 60000 обучающих и 10000 тестовых образцов, что и набор данных MNIST, и зафиксирован в том же визуальном масштабе, что и исходный набор данных MNIST (28x28 пикселей).
+Для совместимости с процессом конвертации .hdf5 это количество уменьшается таким образом, чтобы количество образцов для каждого класса было сбалансировано по метке с минимальным количеством образцов (обучение: 5421, тест: 892).</p>
+<p><strong>Количество классов:</strong> 10</p>
+<p><strong>Количество обучающих образцов:</strong> 54210</p>
+<p><strong>Количество тестовых образцов:</strong> 8920</p>
+<p><strong>Размерности:</strong> <code class="docutils literal notranslate"><span class="pre">[num_steps</span> <span class="pre">x</span> <span class="pre">2</span> <span class="pre">x</span> <span class="pre">32</span> <span class="pre">x</span> <span class="pre">32]</span></code></p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>num_steps:</strong> временная размерность событийной видеозаписи</p></li>
+<li><p><strong>2:</strong> количество каналов (on-спайки для увеличения яркости;</p></li>
+</ul>
+<p>off-спайки для уменьшения яркости)
+* <strong>32x32:</strong> пространственные размеры W x H событийной видеозаписи</p>
+</div></blockquote>
+<p>Для дальнейшего чтения см.:</p>
+<blockquote>
+<div><p><em>Orchard, G.; Cohen, G.; Jayawant, A.; and Thakor, N.
+«Converting Static Image Datasets to Spiking Neuromorphic Datasets Using Saccades», Frontiers in Neuroscience, vol.9, no.437, Oct. 2015.</em></p>
+</div></blockquote>
+<p>Пример:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">snntorch.spikevision</span><span class="w"> </span><span class="kn">import</span> <span class="n">spikedata</span>
+
+<span class="n">train_ds</span> <span class="o">=</span> <span class="n">spikedata</span><span class="o">.</span><span class="n">NMNIST</span><span class="p">(</span><span class="s2">"data/nmnist"</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="n">num_steps</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">test_ds</span> <span class="o">=</span> <span class="n">spikedata</span><span class="o">.</span><span class="n">NMNIST</span><span class="p">(</span><span class="s2">"data/nmnist"</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="n">num_steps</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+
+<span class="c1"># by default, each time step is integrated over 1ms, or</span>
+<span class="n">dt</span><span class="o">=</span><span class="mi">1000</span> <span class="n">microseconds</span>
+<span class="c1"># dt can be changed to integrate events over a varying number</span>
+<span class="n">of</span> <span class="n">time</span> <span class="n">steps</span>
+<span class="c1"># Note that num_steps should be scaled inversely by the same factor</span>
+
+<span class="n">train_ds</span> <span class="o">=</span> <span class="n">spikedata</span><span class="o">.</span><span class="n">NMNIST</span><span class="p">(</span><span class="s2">"data/nmnist"</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="n">num_steps</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span>
+<span class="n">test_ds</span> <span class="o">=</span> <span class="n">spikedata</span><span class="o">.</span><span class="n">NMNIST</span><span class="p">(</span><span class="s2">"data/nmnist"</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="n">num_steps</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Набор данных также можно вручную загрузить, извлечь и поместить в <code class="docutils literal notranslate"><span class="pre">root</span></code> что позволит загрузчику данных обойтись без промежуточных этапов и сразу перейти к созданию hdf5-файла.</p>
+<p><strong>Прямые ссылки для загрузки:</strong></p>
+<blockquote>
+<div><p><a class="reference external" href="https://www.dropbox.com/sh/tg2ljlbmtzygrag/AABlMOuR15ugeOxMCX0Pvoxga/Train.zip?dl=0">Ссылка на обучающий набор (Dropbox)</a></p>
+<p><a class="reference external" href="https://www.dropbox.com/sh/tg2ljlbmtzygrag/AADSKgJ2CjaBWh75HnTNZyhca/Test.zip?dl=0">Ссылка на тестовый набор (Dropbox)</a></p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>root</strong> (<em>string</em>) – Корневой каталог набора данных, где <code class="docutils literal notranslate"><span class="pre">Train.zip</span></code> и
+<code class="docutils literal notranslate"><span class="pre">Test.zip</span></code> существуют.</p></li>
+<li><p><strong>train</strong> (<em>bool</em><em>, </em><em>необязательный</em>) – Если True, создает набор данных из <code class="docutils literal notranslate"><span class="pre">Train.zip</span></code>,
+иначе из <code class="docutils literal notranslate"><span class="pre">Test.zip</span></code></p></li>
+<li><p><strong>transform</strong> (<em>callable</em><em>, </em><em>необязательный</em>) – Функция/преобразование, которая принимает PIL-изображение и возвращает версию с преобразованиями. По умолчанию ко всем образцам применяется предопределенный набор преобразований для преобразования их в тензор с приоритетом времени (time-first) и правильной ориентацией.</p></li>
+<li><p><strong>target_transform</strong> (<em>callable</em><em>, </em><em>необязательный</em>) – Функция/преобразование, которая принимает цель и преобразует её.</p></li>
+<li><p><strong>download_and_create</strong> (<em>bool</em><em>, </em><em>необязательный</em>) – Если True, загружает набор данных из интернета и помещает его в корневой каталог. Если набор данных уже загружен, повторная загрузка не производится.</p></li>
+<li><p><strong>num_steps</strong> (<em>int</em><em>, </em><em>необязательный</em>) – Количество временных шагов, по умолчанию <code class="docutils literal notranslate"><span class="pre">300</span></code></p></li>
+<li><p><strong>dt</strong> (<em>int</em><em>, </em><em>необязательный</em>) – Количество временных меток, интегрированных в микросекундах, по умолчанию равно <code class="docutils literal notranslate"><span class="pre">1000</span></code></p></li>
+</ul>
+</dd>
+</dl>
+<p>Загрузчик данных адаптирован из <a class="reference external" href="https://github.com/nmi-lab/torchneuromorphic">torchneuromorphic</a>
+изначально авторов Emre Neftci и Clemens Schaefer.</p>
+<p>Набор данных распространяется под лицензией Creative Commons Attribution-ShareAlike 4.0. Все права принадлежат исходным авторам.</p>
+</dd></dl>
+</section>
+<section id="dvsgesture">
+<h2>DVSGesture<a class="headerlink" href="snntorch.spikevision.spikedata.html#dvsgesture" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="snntorch.spikevision.spikedata.dvs_gesture.DVSGesture">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">snntorch.spikevision.spikedata.dvs_gesture.</span></span><span class="sig-name descname"><span class="pre">DVSGesture</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transform</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_transform</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">download_and_create</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_steps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_meta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_shuffle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/spikevision/spikedata/dvs_gesture.html#DVSGesture"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snntorch.spikevision.spikedata.html#snntorch.spikevision.spikedata.dvs_gesture.DVSGesture" title="Link to this definition"></a></dt>
+<dd><p><a class="reference external" href="https://www.research.ibm.com/dvsgesture/">DVS Gesture</a> Dataset.</p>
+<p>Данные были записаны с помощью DVS128. Набор данных содержит 11 жестов рук от 29 субъектов в 3 условиях освещения.</p>
+<p><strong>Количество классов:</strong> 11</p>
+<p><strong>Количество обучающих образцов:</strong>  1176</p>
+<p><strong>Количество тестовых образцов:</strong>  288</p>
+<p><strong>Размерности:</strong> <code class="docutils literal notranslate"><span class="pre">[num_steps</span> <span class="pre">x</span> <span class="pre">2</span> <span class="pre">x</span> <span class="pre">128</span> <span class="pre">x</span> <span class="pre">128]</span></code></p>
+<ul class="simple">
+<li><p><strong>num_steps:</strong> временная размерность событийной видеозаписи</p></li>
+<li><p><strong>2:</strong> количество каналов (on-спайки для увеличения яркости;</p></li>
+</ul>
+<p>off-спайки для уменьшения яркости)
+* <strong>128x128:</strong> пространственные размеры W x H событийной видеозаписи</p>
+<p>Для дальнейшего чтения см.:</p>
+<blockquote>
+<div><p><em>A. Amir, B. Taba, D. Berg, T. Melano, J. McKinstry, C. Di Nolfo,
+T. Nayak, A. Andreopoulos, G. Garreau, M. Mendoza, J. Kusnitz,
+M. Debole, S. Esser, T. Delbruck, M. Flickner, and D. Modha,
+«A Low Power, Fully Event-Based Gesture Recognition System,»
+2017 IEEE Conference on Computer Vision and Pattern Recognition (CVPR),
+Honolulu, HI, 2017.</em></p>
+</div></blockquote>
+<p>Пример:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">snntorch.spikevision</span><span class="w"> </span><span class="kn">import</span> <span class="n">spikedata</span>
+
+<span class="n">train_ds</span> <span class="o">=</span> <span class="n">spikedata</span><span class="o">.</span><span class="n">DVSGesture</span><span class="p">(</span><span class="s2">"data/dvsgesture"</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="n">num_steps</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">test_ds</span> <span class="o">=</span> <span class="n">spikedata</span><span class="o">.</span><span class="n">DVSGesture</span><span class="p">(</span><span class="s2">"data/dvsgesture"</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="n">num_steps</span><span class="o">=</span><span class="mi">1800</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+
+<span class="c1"># by default, each time step is integrated over 1ms, or</span>
+<span class="n">dt</span><span class="o">=</span><span class="mi">1000</span> <span class="n">microseconds</span>
+<span class="c1"># dt can be changed to integrate events over a varying number</span>
+<span class="n">of</span> <span class="n">time</span> <span class="n">steps</span>
+<span class="c1"># Note that num_steps should be scaled inversely by the same factor</span>
+
+<span class="n">train_ds</span> <span class="o">=</span> <span class="n">spikedata</span><span class="o">.</span><span class="n">DVSGesture</span><span class="p">(</span><span class="s2">"data/dvsgesture"</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="n">num_steps</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span>
+<span class="n">test_ds</span> <span class="o">=</span> <span class="n">spikedata</span><span class="o">.</span><span class="n">DVSGesture</span><span class="p">(</span><span class="s2">"data/dvsgesture"</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="n">num_steps</span><span class="o">=</span><span class="mi">900</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Набор данных также можно вручную загрузить, извлечь и поместить в
+<code class="docutils literal notranslate"><span class="pre">root</span></code> что позволит загрузчику данных обойтись без промежуточных этапов и сразу перейти к созданию hdf5-файла.</p>
+<p><strong>Прямые ссылки для загрузки:</strong></p>
+<blockquote>
+<div><p><a class="reference external" href="https://ibm.ent.box.com/s/3hiq58ww1pbbjrinh367ykfdf60xsfm8/folder/50167556794">Ссылка IBM Box</a></p>
+<p><a class="reference external" href="https://www.dropbox.com/s/cct5kyilhtsliup/DvsGesture.tar.gz?dl=0">Ссылка Dropbox</a></p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>root</strong> (<em>string</em>) – Корневой каталог набора данных.</p></li>
+<li><p><strong>train</strong> (<em>bool</em><em>, </em><em>необязательный</em>) – Если True, создает набор данных из тренировочного набора dvsgesture,
+иначе тестового набора.</p></li>
+<li><p><strong>transform</strong> (<em>callable</em><em>, </em><em>необязательный</em>) – Функция/преобразование, которая принимает PIL-изображение и
+возвращает преобразованную версию. По умолчанию к каждому образцу применяется
+предопределенный набор преобразований для преобразования в тензор с временной осью первой
+и правильной ориентацией.</p></li>
+<li><p><strong>target_transform</strong> (<em>callable</em><em>, </em><em>необязательный</em>) – Функция/преобразование, которая принимает цель (target)
+и преобразует ее.</p></li>
+<li><p><strong>download_and_create</strong> (<em>bool</em><em>, </em><em>необязательный</em>) – Если True, загружает набор данных из
+интернета и помещает его в корневую директорию. Если набор данных уже
+загружен, повторная загрузка не производится.</p></li>
+<li><p><strong>num_steps</strong> (<em>int</em><em>, </em><em>необязательный</em>) – Количество временных шагов, по умолчанию <code class="docutils literal notranslate"><span class="pre">500</span></code>
+для тренировочного набора, или <code class="docutils literal notranslate"><span class="pre">1800</span></code> для тестового набора</p></li>
+<li><p><strong>dt</strong> (<em>int</em><em>, </em><em>необязательный</em>) – Количество временных меток, интегрированных в микросекундах,
+по умолчанию <code class="docutils literal notranslate"><span class="pre">1000</span></code></p></li>
+<li><p><strong>ds</strong> (<em>int</em><em>, </em><em>необязательный</em>) – Коэффициент пересчета, по умолчанию <code class="docutils literal notranslate"><span class="pre">1</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return_meta<span class="colon">:</span></dt>
+<dd class="field-even"><p>Опция возврата метаданных, по умолчанию <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
+</dd>
+<dt class="field-odd">Time_shuffle<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Опция рандомизации времени начала набора данных, по умолчанию
+<code class="docutils literal notranslate"><span class="pre">False</span></code></p>
+</dd>
+</dl>
+<p>Загрузчик данных адаптирован из <a class="reference external" href="https://github.com/nmi-lab/torchneuromorphic">torchneuromorphic</a>
+изначально авторов Emre Neftci и Clemens Schaefer.</p>
+<p>Набор данных распространяется под лицензией Creative Commons
+Attribution 4.0. Все права принадлежат исходным авторам.</p>
+</dd></dl>
+</section>
+<section id="shd">
+<h2>SHD<a class="headerlink" href="snntorch.spikevision.spikedata.html#shd" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="snntorch.spikevision.spikedata.shd.SHD">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">snntorch.spikevision.spikedata.shd.</span></span><span class="sig-name descname"><span class="pre">SHD</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transform</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_transform</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">download_and_create</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_steps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/spikevision/spikedata/shd.html#SHD"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snntorch.spikevision.spikedata.html#snntorch.spikevision.spikedata.shd.SHD" title="Link to this definition"></a></dt>
+<dd><p><a class="reference external" href="https://zenkelab.org/resources/spiking-heidelberg-datasets-shd/">Spiking Heidelberg Digits</a>
+Dataset.</p>
+<p>Спайки в 700 входных каналах были сгенерированы с помощью искусственной
+модели улитки, прослушивающей студийные записи произносимых цифр
+от 0 до 9 на немецком и английском языках.</p>
+<p><strong>Количество классов:</strong> 20</p>
+<p><strong>Количество обучающих образцов:</strong> 8156</p>
+<p><strong>Количество тестовых образцов:</strong> 2264</p>
+<p><strong>Размерности:</strong> <code class="docutils literal notranslate"><span class="pre">[num_steps</span> <span class="pre">x</span> <span class="pre">700]</span></code></p>
+<ul class="simple">
+<li><p><strong>num_steps:</strong> временное измерение аудиоканалов</p></li>
+<li><p><strong>700:</strong> количество каналов в модели улитки</p></li>
+</ul>
+<p>Для дальнейшего чтения см.:</p>
+<blockquote>
+<div><p><em>Cramer, B., Stradmann, Y., Schemmel, J., and Zenke, F. (2020).
+The Heidelberg Spiking Data Sets for the Systematic Evaluation
+of Spiking Neural Networks. IEEE Transactions on Neural Networks
+and Learning Systems 1–14.</em></p>
+</div></blockquote>
+<p>Пример:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">snntorch.spikevision</span><span class="w"> </span><span class="kn">import</span> <span class="n">spikedata</span>
+
+<span class="n">train_ds</span> <span class="o">=</span> <span class="n">spikedata</span><span class="o">.</span><span class="n">SHD</span><span class="p">(</span><span class="s2">"data/shd"</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">test_ds</span> <span class="o">=</span> <span class="n">spikedata</span><span class="o">.</span><span class="n">SHD</span><span class="p">(</span><span class="s2">"data/shd"</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># by default, each time step is integrated over 1ms, or dt=1000</span>
+<span class="n">microseconds</span>
+<span class="c1"># dt can be changed to integrate events over a varying number of</span>
+<span class="n">time</span> <span class="n">steps</span>
+<span class="c1"># Note that num_steps should be scaled inversely by the same factor</span>
+
+<span class="n">train_ds</span> <span class="o">=</span> <span class="n">spikedata</span><span class="o">.</span><span class="n">SHD</span><span class="p">(</span>
+<span class="s2">"data/shd"</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">num_steps</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span>
+<span class="n">test_ds</span> <span class="o">=</span> <span class="n">spikedata</span><span class="o">.</span><span class="n">SHD</span><span class="p">(</span>
+<span class="s2">"data/shd"</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">num_steps</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Набор данных также можно вручную загрузить, извлечь и поместить в
+<code class="docutils literal notranslate"><span class="pre">root</span></code> что позволит загрузчику данных обойтись без промежуточных этапов и сразу перейти к созданию hdf5-файла.</p>
+<p><strong>Прямые ссылки для загрузки:</strong></p>
+<blockquote>
+<div><p><a class="reference external" href="https://compneuro.net/datasets/shd_train.h5.gz">CompNeuro Train Set Link</a></p>
+<p><a class="reference external" href="https://compneuro.net/datasets/shd_test.h5.gz">CompNeuro Test Set Link</a></p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>root</strong> (<em>string</em>) – Корневой каталог набора данных.</p></li>
+<li><p><strong>train</strong> (<em>bool</em><em>, </em><em>необязательный</em>) – Если True, создает набор данных из тренировочного набора dvsgesture,
+иначе тестового набора.</p></li>
+<li><p><strong>transform</strong> (<em>callable</em><em>, </em><em>необязательный</em>) – Функция/преобразование, которая принимает PIL-изображение и
+возвращает преобразованную версию. По умолчанию к каждому образцу применяется
+предопределенный набор преобразований для преобразования в тензор с временной осью первой
+и правильной ориентацией.</p></li>
+<li><p><strong>target_transform</strong> (<em>callable</em><em>, </em><em>необязательный</em>) – Функция/преобразование, которая принимает цель (target)
+и преобразует ее.</p></li>
+<li><p><strong>download_and_create</strong> (<em>bool</em><em>, </em><em>необязательный</em>) – Если True, загружает набор данных из
+интернета и помещает его в корневую директорию. Если набор данных уже
+загружен, повторная загрузка не производится.</p></li>
+<li><p><strong>num_steps</strong> (<em>int</em><em>, </em><em>необязательный</em>) – Количество временных шагов, по умолчанию <code class="docutils literal notranslate"><span class="pre">1000</span></code></p></li>
+<li><p><strong>dt</strong> (<em>int</em><em>, </em><em>необязательный</em>) – Количество временных меток, интегрированных в микросекундах,
+по умолчанию <code class="docutils literal notranslate"><span class="pre">1000</span></code></p></li>
+<li><p><strong>ds</strong> (<em>int</em><em>, </em><em>необязательный</em>) – Коэффициент пересчета, по умолчанию <code class="docutils literal notranslate"><span class="pre">1</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Загрузчик данных адаптирован из <a class="reference external" href="https://github.com/nmi-lab/torchneuromorphic">torchneuromorphic</a> изначально разработан Emre Neftci.</p>
+<p>Набор данных распространяется под лицензией Creative Commons
+Attribution 4.0 International.
+Все права принадлежат исходным авторам.</p>
+</dd></dl>
+</section>
+</section>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="snntorch.spikevision.html" rel="prev" title="snntorch.spikevision"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="snntorch.surrogate.html" rel="next" title="snntorch.surrogate">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright 2021, Jason K. Eshraghian.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html class="writer-html5" data-content_root="../" lang="ru">
+<head>
+<meta charset="utf-8"/>
+<meta content="1" name="readthedocs-addons-api-version"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Учебник 1 - Кодирование спайков — snntorch 0.9.4 документация</title>
+<link href="../_static/pygments.css%3Fv=03e43079.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/css/theme.css%3Fv=9edc463e.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/css/default.css" rel="stylesheet" type="text/css"/>
+<script src="../_static/jquery.js%3Fv=5d32c60e"></script>
+<script src="../_static/_sphinx_javascript_frameworks_compat.js%3Fv=2cd50e6c"></script>
+<script src="../_static/documentation_options.js%3Fv=c5ca06ca"></script>
+<script src="../_static/doctools.js%3Fv=fd6eb6e6"></script>
+<script src="../_static/sphinx_highlight.js%3Fv=6ffebe34"></script>
+<script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+<script src="../_static/js/theme.js"></script>
+<script src="../_static/js/versions.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="tutorial_2.html" rel="next" title="Tutorial 2 - The Leaky Integrate-and-Fire Neuron"/>
+<link href="index.html" rel="prev" title="Tutorials"/>
+<script async="" src="../../../_/static/javascript/readthedocs-addons.js" type="text/javascript"></script><meta content="snntorch" name="readthedocs-project-slug"/><meta content="latest" name="readthedocs-version-slug"/><meta content="/tutorials/tutorial_1.html" name="readthedocs-resolver-filename"/><meta content="200" name="readthedocs-http-status"/></head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html">
+            snntorch
+              <img alt="Logo" class="logo" src="../_static/snntorch_alpha_full.png"/>
+</a>
+<div class="switch-menus">
+<div class="version-switch"></div>
+<div class="language-switch"></div>
+</div>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input aria-label="Search docs" name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../snntorch.html">snntorch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../snntorch.export_nir.html">snntorch.export_nir</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../snntorch.functional.html">snntorch.functional</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../snntorch.import_nir.html">snntorch.import_nir</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../snntorch.spikegen.html">snntorch.spikegen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../snntorch.spikeplot.html">snntorch.spikeplot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../snntorch.spikevision.html">snntorch.spikevision</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../snntorch.surrogate.html">snntorch.surrogate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../snntorch.utils.html">snntorch.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Tutorials</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="tutorial_1.html#">Tutorial 1 - Spike Encoding</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorial_1.html#introduction">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorial_1.html#setting-up-the-mnist-dataset">1. Setting up the MNIST Dataset</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_1.html#import-packages-and-setup-environment">1.1. Import packages and setup environment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_1.html#download-dataset">1.2 Download Dataset</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_1.html#create-dataloaders">1.3 Create DataLoaders</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tutorial_1.html#spike-encoding">2. Spike Encoding</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_1.html#rate-coding-of-mnist">2.1 Rate coding of MNIST</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_1.html#visualization">2.2 Visualization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_1.html#latency-coding-of-mnist">2.3 Latency Coding of MNIST</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_1.html#delta-modulation">2.4 Delta Modulation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tutorial_1.html#spike-generation-optional">3. Spike Generation (Optional)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_1.html#id2">3.1 Animation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_1.html#raster">3.2 Raster</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tutorial_1.html#conclusion">Conclusion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorial_1.html#additional-resources">Additional Resources</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_2.html">Tutorial 2 - The Leaky Integrate-and-Fire Neuron</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_3.html">Tutorial 3 - A Feedforward Spiking Neural Network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_4.html">Tutorial 4 - 2nd Order Spiking Neuron Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_5.html">Tutorial 5 - Training Spiking Neural Networks with snntorch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_6.html">Tutorial 6 - Surrogate Gradient Descent in a Convolutional SNN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_7.html">Tutorial 7 - Neuromorphic Datasets with Tonic + snnTorch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_exoplanet_hunter.html">Exoplanet Hunter: Finding Planets Using Light Intensity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_forward_forward.html">The Forward-Forward Algorithm with a Spiking Neural Network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_ipu_1.html">Accelerating snnTorch on IPUs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_pop.html">Population Coding in Spiking Neural Nets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_regression_1.html">Regression with SNNs: Part I</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_regression_2.html">Regression with SNNs: Part II</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_stmnist.html">Training on ST-MNIST with Tonic + snnTorch Tutorial</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">History</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">snntorch</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a aria-label="Home" class="icon icon-home" href="../index.html"></a></li>
+<li class="breadcrumb-item"><a href="index.html">Tutorials</a></li>
+<li class="breadcrumb-item active">Tutorial 1 - Spike Encoding</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/tutorials/tutorial_1.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<div class="admonition note" data-snn-translation="ru"><p><strong>Русский перевод.</strong> Неофициальный перевод актуальной документации snnTorch latest (0.9.4). Оригинал: https://snntorch.readthedocs.io/en/latest/. Документация распространяется по лицензии CC BY-SA 3.0.</p></div><section id="tutorial-1-spike-encoding">
+<h1>Учебник 1 - Кодирование спайков<a class="headerlink" href="tutorial_1.html#tutorial-1-spike-encoding" title="Link to this heading"></a></h1>
+<p>Учебное пособие написано Джейсоном К. Эшрагианом (<a class="reference external" href="https://www.ncg.ucsc.edu">www.ncg.ucsc.edu</a>)</p>
+<a class="reference external image-reference" href="https://colab.research.google.com/github/jeshraghian/snntorch/blob/master/examples/tutorial_1_spikegen.ipynb"><img alt="Open In Colab" src="../_static/external_images/e79852128a5f83c92496.svg"/>
+</a>
+<p>Серия учебных пособий snnTorch основана на следующей статье. Если вы считаете эти ресурсы или код полезными в своей работе, пожалуйста, укажите следующий источник:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://ieeexplore.ieee.org/abstract/document/10242251">Jason K. Eshraghian, Max Ward, Emre Neftci, Xinxin Wang, Gregor Lenz, Girish Dwivedi, Mohammed Bennamoun, Doo Seok Jeong, and Wei D. Lu. “Training Spiking Neural Networks Using Lessons From Deep Learning”. Proceedings of the IEEE, 111(9) September 2023.</a></p>
+</div></blockquote>
+<div class="admonition note">
+<p class="admonition-title">Примечание</p>
+<dl class="simple">
+<dt>Этот учебник является статической нередактируемой версией. Интерактивные редактируемые версии доступны по следующим ссылкам:</dt><dd><ul class="simple">
+<li><p><a class="reference external" href="https://colab.research.google.com/github/jeshraghian/snntorch/blob/master/examples/tutorial_1_spikegen.ipynb">Google Colab</a></p></li>
+<li><p><a class="reference external" href="https://github.com/jeshraghian/snntorch/tree/master/examples">Локальный блокнот (скачать через GitHub)</a></p></li>
+</ul>
+</dd>
+</dl>
+</div>
+<p>В этом учебном пособии вы узнаете, как использовать snnTorch для:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>преобразования наборов данных в спайковые наборы данных,</p></li>
+<li><p>как их визуализировать,</p></li>
+<li><p>и как генерировать случайные спайковые последовательности.</p></li>
+</ul>
+</div></blockquote>
+<section id="introduction">
+<h2>Введение<a class="headerlink" href="tutorial_1.html#introduction" title="Link to this heading"></a></h2>
+<p>Свет — это то, что мы видим, когда сетчатка преобразует фотоны в спайки. Запахи — это то, что мы чувствуем, когда летучие молекулы преобразуются в спайки. Прикосновение — это то, что мы ощущаем, когда нервные окончания превращают тактильное давление в спайки. Мозг использует универсальную валюту <em>спайк</em>.</p>
+<p>Если наша конечная цель — построить спайковую нейронную сеть (SNN), то имеет смысл использовать спайки и на входе. Хотя довольно часто используются неспайковые входы (как будет показано в Учебном пособии 3), часть привлекательности кодирования данных исходит из <em>трёх S</em>: спайки, разреженность и подавление статики.</p>
+<ol class="arabic">
+<li><p><strong>Спайки</strong>: (a-b) Биологические нейроны обрабатывают и общаются посредством спайков, которые представляют собой электрические импульсы амплитудой примерно 100 мВ. (c) Многие вычислительные модели нейронов упрощают этот всплеск напряжения до дискретного однобитового события: «1» или «0». Это гораздо проще представить в аппаратном обеспечении, чем значение с высокой точностью.</p></li>
+<li><p><strong>Разреженность</strong>: (c) Нейроны большую часть времени находятся в состоянии покоя, обнуляя большинство активаций до <em>нуля</em> в любой момент времени. Разреженные векторы/тензоры (с множеством нулей) не только дёшевы в хранении, но и, скажем, если нам нужно умножить разреженные активации на синаптические веса. Если большинство значений умножается на «0», то нам не нужно считывать многие параметры сети из памяти. Это означает, что нейроморфное оборудование может быть чрезвычайно эффективным.</p></li>
+<li><p><strong>Подавление статики (также известное как обработка, управляемая событиями)</strong>: (d-e) Сенсорная периферия обрабатывает информацию только тогда, когда есть новая информация для обработки. Каждый пиксель в (e) реагирует на <em>изменения</em> освещённости, поэтому большая часть изображения отсекается. Обычная обработка сигналов требует, чтобы все каналы/пиксели придерживались глобальной частоты дискретизации/затвора, что замедляет частоту считывания. Обработка, управляемая событиями, теперь не только способствует разреженности и энергоэффективности за счёт блокировки неизменяющегося входа, но и часто позволяет достичь гораздо более высокой скорости обработки.</p>
+<a class="reference internal image-reference" href="../_static/external_images/8b65c83c50cc5ffdfe0e.png"><img alt="https://github.com/jeshraghian/snntorch/blob/master/docs/_static/img/examples/tutorial1/3s.png?raw=true" class="align-center" src="../_static/external_images/8b65c83c50cc5ffdfe0e.png" width="800"/>
+</a>
+</li>
+</ol>
+<p>В этом учебном пособии мы будем считать, что у нас есть некоторые неспайковые входные данные (например, набор данных MNIST), и мы хотим закодировать их в спайки с помощью нескольких различных методов. Итак, давайте начнём!</p>
+<p>Установите последнюю версию дистрибутива snnTorch из PyPi:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ pip install snntorch
+</pre></div>
+</div>
+</section>
+<section id="setting-up-the-mnist-dataset">
+<h2>1. Настройка набора данных MNIST<a class="headerlink" href="tutorial_1.html#setting-up-the-mnist-dataset" title="Link to this heading"></a></h2>
+<section id="import-packages-and-setup-environment">
+<h3>1.1. Импорт пакетов и настройка окружения<a class="headerlink" href="tutorial_1.html#import-packages-and-setup-environment" title="Link to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">snntorch</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">snn</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Training Parameters</span>
+<span class="n">batch_size</span><span class="o">=</span><span class="mi">128</span>
+<span class="n">data_path</span><span class="o">=</span><span class="s1">'/tmp/data/mnist'</span>
+<span class="n">num_classes</span> <span class="o">=</span> <span class="mi">10</span>  <span class="c1"># MNIST has 10 output classes</span>
+
+<span class="c1"># Torch Variables</span>
+<span class="n">dtype</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">float</span>
+</pre></div>
+</div>
+</section>
+<section id="download-dataset">
+<h3>1.2 Загрузка набора данных<a class="headerlink" href="tutorial_1.html#download-dataset" title="Link to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">torchvision</span><span class="w"> </span><span class="kn">import</span> <span class="n">datasets</span><span class="p">,</span> <span class="n">transforms</span>
+
+<span class="c1"># Define a transform</span>
+<span class="n">transform</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">Compose</span><span class="p">([</span>
+            <span class="n">transforms</span><span class="o">.</span><span class="n">Resize</span><span class="p">((</span><span class="mi">28</span><span class="p">,</span><span class="mi">28</span><span class="p">)),</span>
+            <span class="n">transforms</span><span class="o">.</span><span class="n">Grayscale</span><span class="p">(),</span>
+            <span class="n">transforms</span><span class="o">.</span><span class="n">ToTensor</span><span class="p">(),</span>
+            <span class="n">transforms</span><span class="o">.</span><span class="n">Normalize</span><span class="p">((</span><span class="mi">0</span><span class="p">,),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,))])</span>
+
+<span class="n">mnist_train</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">MNIST</span><span class="p">(</span><span class="n">data_path</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Если приведённый выше блок кода вызывает ошибку, например, серверы MNIST недоступны, то раскомментируйте следующий код вместо этого.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># # temporary dataloader if MNIST service is unavailable</span>
+<span class="c1"># !wget www.di.ens.fr/~lelarge/MNIST.tar.gz</span>
+<span class="c1"># !tar -zxvf MNIST.tar.gz</span>
+
+<span class="c1"># mnist_train = datasets.MNIST(root = './', train=True, download=True, transform=transform)</span>
+</pre></div>
+</div>
+<p>Пока мы не начнём фактически обучать сеть, нам не понадобятся большие наборы данных. <code class="docutils literal notranslate"><span class="pre">snntorch.utils</span></code> содержит несколько полезных функций для изменения наборов данных. Примените <code class="docutils literal notranslate"><span class="pre">data_subset</span></code> чтобы уменьшить набор данных на коэффициент, определённый в <code class="docutils literal notranslate"><span class="pre">subset</span></code>. Например, для <code class="docutils literal notranslate"><span class="pre">subset=10</span></code>, обучающий набор из 60 000 будет уменьшен до 6 000.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">snntorch</span><span class="w"> </span><span class="kn">import</span> <span class="n">utils</span>
+
+<span class="n">subset</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">mnist_train</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">data_subset</span><span class="p">(</span><span class="n">mnist_train</span><span class="p">,</span> <span class="n">subset</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"The size of mnist_train is </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">mnist_train</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="go">The size of mnist_train is 6000</span>
+</pre></div>
+</div>
+</section>
+<section id="create-dataloaders">
+<h3>1.3 Создание загрузчиков данных<a class="headerlink" href="tutorial_1.html#create-dataloaders" title="Link to this heading"></a></h3>
+<p>Объекты Dataset, созданные выше, загружают данные в память, а
+DataLoader будет подавать их пакетами. DataLoaders в PyTorch — это
+удобный интерфейс для передачи данных в сеть. Они возвращают итератор,
+разделённый на мини-пакеты размером <code class="docutils literal notranslate"><span class="pre">batch_size</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">torch.utils.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataLoader</span>
+
+<span class="n">train_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">mnist_train</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="spike-encoding">
+<h2>2. Кодирование спайков<a class="headerlink" href="tutorial_1.html#spike-encoding" title="Link to this heading"></a></h2>
+<p>Спайковые нейронные сети (SNN) созданы для обработки изменяющихся во времени данных.
+Однако MNIST не является набором данных, изменяющимся во времени. Есть два варианта использования MNIST с SNN:</p>
+<ol class="arabic">
+<li><p>Повторно передавать один и тот же обучающий пример
+<span class="math notranslate nohighlight">\(\mathbf{X}\in\mathbb{R}^{m\times n}\)</span> в сеть на каждом
+временном шаге. Это похоже на преобразование MNIST в статическое, неизменное видео.
+Каждый элемент <span class="math notranslate nohighlight">\(\mathbf{X}\)</span> может принимать
+значение высокой точности, нормализованное от 0 до 1: <span class="math notranslate nohighlight">\(X_{ij}\in [0, 1]\)</span>.</p>
+<a class="reference internal image-reference" href="../_static/external_images/c6afa845dca1464e8783.png"><img alt="https://github.com/jeshraghian/snntorch/blob/master/docs/_static/img/examples/tutorial1/1_2_1_static.png?raw=true" class="align-center" src="../_static/external_images/c6afa845dca1464e8783.png" width="800"/>
+</a>
+</li>
+<li><p>Преобразовать входные данные в последовательность спайков длины
+<code class="docutils literal notranslate"><span class="pre">num_steps</span></code>, где каждый признак/пиксель принимает дискретное значение
+<span class="math notranslate nohighlight">\(X_{i,j} \in \{0, 1\}\)</span>. В этом случае MNIST преобразуется в изменяющуюся во времени последовательность спайков, которая отражает связь с исходным изображением.</p>
+<blockquote>
+<div><a class="reference internal image-reference" href="../_static/external_images/f357fc443dd332a5ebce.png"><img alt="https://github.com/jeshraghian/snntorch/blob/master/docs/_static/img/examples/tutorial1/1_2_2_spikeinput.png?raw=true" class="align-center" src="../_static/external_images/f357fc443dd332a5ebce.png" width="800"/>
+</a>
+</div></blockquote>
+</li>
+</ol>
+<p>Первый метод довольно прост и не полностью использует
+временную динамику SNN. Поэтому давайте подробнее рассмотрим преобразование данных в спайки (кодирование) из пункта (2).</p>
+<p>Модуль <code class="docutils literal notranslate"><span class="pre">snntorch.spikegen</span></code> (т.е. генерация спайков) содержит
+ряд функций, упрощающих преобразование данных в спайки.
+В настоящее время доступно три варианта спайкового кодирования в
+<code class="docutils literal notranslate"><span class="pre">snntorch</span></code>:</p>
+<ol class="arabic simple">
+<li><p>Частотное кодирование:
+<a class="reference external" href="../snntorch.spikegen.html#snntorch.spikegen.rate">spikegen.rate</a></p></li>
+<li><p>Кодирование задержкой:
+<a class="reference external" href="../snntorch.spikegen.html#snntorch.spikegen.latency">spikegen.latency</a></p></li>
+<li><p>Дельта-модуляция:
+<a class="reference external" href="../snntorch.spikegen.html#snntorch.spikegen.delta">spikegen.delta</a></p></li>
+</ol>
+<p>В чем разница?</p>
+<ol class="arabic simple">
+<li><p><em>Частотное кодирование</em> использует входные признаки для определения <strong>частоты спайков</strong></p></li>
+<li><p><em>Кодирование задержкой</em> использует входные признаки для определения <strong>времени спайка</strong></p></li>
+<li><p><em>Дельта-модуляция</em> использует временное <strong>изменение</strong> входных признаков для
+генерации спайков</p></li>
+</ol>
+<section id="rate-coding-of-mnist">
+<h3>2.1 Частотное кодирование MNIST<a class="headerlink" href="tutorial_1.html#rate-coding-of-mnist" title="Link to this heading"></a></h3>
+<p>Один из примеров преобразования входных данных в частотный код выглядит следующим образом.
+Каждый нормализованный входной признак <span class="math notranslate nohighlight">\(X_{ij}\)</span> используется как вероятность
+того, что событие (спайк) произойдет в любой заданный момент времени, возвращая значение, закодированное частотой <span class="math notranslate nohighlight">\(R_{ij}\)</span>. Это можно рассматривать как испытание Бернулли:
+<span class="math notranslate nohighlight">\(R_{ij}\sim B(n,p)\)</span>, где количество испытаний равно <span class="math notranslate nohighlight">\(n=1\)</span>,
+а вероятность успеха (спайка) равна <span class="math notranslate nohighlight">\(p=X_{ij}\)</span>.
+Явно вероятность возникновения спайка равна:</p>
+<div class="math notranslate nohighlight">
+\[{\rm P}(R_{ij}=1) = X_{ij} = 1 - {\rm P}(R_{ij} = 0)\]</div>
+<p>Создайте вектор, заполненный значением ‘0.5’ и закодируйте его с помощью
+вышеупомянутой техники:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Temporal Dynamics</span>
+<span class="n">num_steps</span> <span class="o">=</span> <span class="mi">10</span>
+
+<span class="c1"># create vector filled with 0.5</span>
+<span class="n">raw_vector</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">num_steps</span><span class="p">)</span><span class="o">*</span><span class="mf">0.5</span>
+
+<span class="c1"># pass each sample through a Bernoulli trial</span>
+<span class="n">rate_coded_vector</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">bernoulli</span><span class="p">(</span><span class="n">raw_vector</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Converted vector: </span><span class="si">{</span><span class="n">rate_coded_vector</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="go">Converted vector: tensor([1., 1., 1., 0., 0., 1., 1., 0., 1., 0.])</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"The output is spiking </span><span class="si">{</span><span class="n">rate_coded_vector</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">*</span><span class="mi">100</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">rate_coded_vector</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">% of the time."</span><span class="p">)</span>
+<span class="go">The output is spiking 60.00% of the time.</span>
+</pre></div>
+</div>
+<p>Теперь попробуйте снова, увеличив длину <code class="docutils literal notranslate"><span class="pre">raw_vector</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">num_steps</span> <span class="o">=</span> <span class="mi">100</span>
+
+<span class="c1"># create vector filled with 0.5</span>
+<span class="n">raw_vector</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">num_steps</span><span class="p">)</span><span class="o">*</span><span class="mf">0.5</span>
+
+<span class="c1"># pass each sample through a Bernoulli trial</span>
+<span class="n">rate_coded_vector</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">bernoulli</span><span class="p">(</span><span class="n">raw_vector</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"The output is spiking </span><span class="si">{</span><span class="n">rate_coded_vector</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">*</span><span class="mi">100</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">rate_coded_vector</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">% of the time."</span><span class="p">)</span>
+<span class="n">The</span> <span class="n">output</span> <span class="ow">is</span> <span class="n">spiking</span> <span class="mf">48.00</span><span class="o">%</span> <span class="n">of</span> <span class="n">the</span> <span class="n">time</span><span class="o">.</span>
+</pre></div>
+</div>
+<p>По мере того как <code class="docutils literal notranslate"><span class="pre">num_steps</span></code><span class="math notranslate nohighlight">\(\rightarrow\infty\)</span>, доля спайков
+приближается к исходному значению.</p>
+<p>Для изображения MNIST эта вероятность спайка соответствует значению пикселя.
+Белый пиксель соответствует 100% вероятности спайка, а черный пиксель никогда не генерирует спайк. Взгляните на столбец «Частотное кодирование» ниже для лучшего понимания.</p>
+<a class="reference internal image-reference" href="../_static/external_images/ec34f5f51d54ac1f2227.png"><img alt="https://github.com/jeshraghian/snntorch/blob/master/docs/_static/img/examples/tutorial1/1_2_3_spikeconv.png?raw=true" class="align-center" src="../_static/external_images/ec34f5f51d54ac1f2227.png" width="1000"/>
+</a>
+<p>Аналогичным образом, <code class="docutils literal notranslate"><span class="pre">spikegen.rate</span></code> можно использовать для генерации частотно-закодированного
+образца данных. Поскольку каждый образец MNIST — это просто изображение, мы можем использовать
+<code class="docutils literal notranslate"><span class="pre">num_steps</span></code> для повторения его во времени.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">snntorch</span><span class="w"> </span><span class="kn">import</span> <span class="n">spikegen</span>
+
+<span class="c1"># Iterate through minibatches</span>
+<span class="n">data</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">train_loader</span><span class="p">)</span>
+<span class="n">data_it</span><span class="p">,</span> <span class="n">targets_it</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+<span class="c1"># Spiking Data</span>
+<span class="n">spike_data</span> <span class="o">=</span> <span class="n">spikegen</span><span class="o">.</span><span class="n">rate</span><span class="p">(</span><span class="n">data_it</span><span class="p">,</span> <span class="n">num_steps</span><span class="o">=</span><span class="n">num_steps</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Если входное значение выходит за пределы <span class="math notranslate nohighlight">\([0,1]\)</span>, это больше не представляет
+вероятность. Такие случаи автоматически обрезаются, чтобы признак
+представлял вероятность.</p>
+<p>Структура входных данных
+<code class="docutils literal notranslate"><span class="pre">[num_steps</span> <span class="pre">x</span> <span class="pre">batch_size</span> <span class="pre">x</span> <span class="pre">input</span> <span class="pre">dimensions]</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">spike_data</span><span class="o">.</span><span class="n">size</span><span class="p">())</span>
+<span class="go">torch.Size([100, 128, 1, 28, 28])</span>
+</pre></div>
+</div>
+</section>
+<section id="visualization">
+<h3>2.2 Визуализация<a class="headerlink" href="tutorial_1.html#visualization" title="Link to this heading"></a></h3>
+<section id="animation">
+<h4>2.2.1 Анимация<a class="headerlink" href="tutorial_1.html#animation" title="Link to this heading"></a></h4>
+<p>snnTorch содержит модуль
+<a class="reference external" href="../snntorch.spikeplot.html">snntorch.spikeplot</a>
+который упрощает процесс визуализации, построения графиков и анимации
+спайковых нейронов.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">snntorch.spikeplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">splt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">HTML</span>
+</pre></div>
+</div>
+<p>Чтобы отобразить один образец данных, обратитесь к отдельному образцу из размерности пакета (B)
+ <code class="docutils literal notranslate"><span class="pre">spike_data</span></code>, <code class="docutils literal notranslate"><span class="pre">[T</span> <span class="pre">x</span> <span class="pre">B</span> <span class="pre">x</span> <span class="pre">1</span> <span class="pre">x</span> <span class="pre">28</span> <span class="pre">x</span> <span class="pre">28]</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">spike_data_sample</span> <span class="o">=</span> <span class="n">spike_data</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">spike_data_sample</span><span class="o">.</span><span class="n">size</span><span class="p">())</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">Size</span><span class="p">([</span><span class="mi">100</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">])</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">spikeplot.animator</span></code> делает анимацию 2-D данных очень простой. Примечание:
+если вы запускаете блокнот локально на своем компьютере, пожалуйста,
+раскомментируйте строку ниже и измените путь к вашему ffmpeg.exe</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">anim</span> <span class="o">=</span> <span class="n">splt</span><span class="o">.</span><span class="n">animator</span><span class="p">(</span><span class="n">spike_data_sample</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="p">)</span>
+<span class="c1"># plt.rcParams['animation.ffmpeg_path'] = 'C:\\path\\to\\your\\ffmpeg.exe'</span>
+
+<span class="n">HTML</span><span class="p">(</span><span class="n">anim</span><span class="o">.</span><span class="n">to_html5_video</span><span class="p">())</span>
+</pre></div>
+</div>
+<center>
+<video controls="" src="https://github.com/jeshraghian/snntorch/blob/master/docs/_static/img/examples/tutorial1/_static/splt.animator.mp4?raw=true"></video>
+</center><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># If you're feeling sentimental, you can save the animation: .gif, .mp4 etc.</span>
+<span class="n">anim</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">"spike_mnist_test.mp4"</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Соответствующую целевую метку можно индексировать следующим образом:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"The corresponding target is: </span><span class="si">{</span><span class="n">targets_it</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="go">The corresponding target is: 7</span>
+</pre></div>
+</div>
+<p>MNIST содержит изображение в оттенках серого, и белый текст гарантирует 100%
+спайков на каждом временном шаге. Давайте повторим это, но уменьшим
+частоту спайков. Этого можно добиться, задав аргумент
+<code class="docutils literal notranslate"><span class="pre">gain</span></code>. Здесь мы уменьшим частоту спайков до 25%.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">spike_data</span> <span class="o">=</span> <span class="n">spikegen</span><span class="o">.</span><span class="n">rate</span><span class="p">(</span><span class="n">data_it</span><span class="p">,</span> <span class="n">num_steps</span><span class="o">=</span><span class="n">num_steps</span><span class="p">,</span> <span class="n">gain</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
+
+<span class="n">spike_data_sample2</span> <span class="o">=</span> <span class="n">spike_data</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">anim</span> <span class="o">=</span> <span class="n">splt</span><span class="o">.</span><span class="n">animator</span><span class="p">(</span><span class="n">spike_data_sample2</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="p">)</span>
+<span class="n">HTML</span><span class="p">(</span><span class="n">anim</span><span class="o">.</span><span class="n">to_html5_video</span><span class="p">())</span>
+</pre></div>
+</div>
+<center>
+<video controls="" src="https://github.com/jeshraghian/snntorch/blob/master/docs/_static/img/examples/tutorial1/_static/splt.animator-25.mp4?raw=true"></video>
+</center><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Uncomment for optional save</span>
+<span class="c1"># anim.save("spike_mnist_test2.mp4")</span>
+</pre></div>
+</div>
+<p>Теперь усредним спайки по времени и восстановим входные
+изображения.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s2">"w"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">spike_data_sample</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">28</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">cpu</span><span class="p">(),</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">'binary'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">'off'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">'Gain = 1'</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">spike_data_sample2</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">28</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">cpu</span><span class="p">(),</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">'binary'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">'off'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">'Gain = 0.25'</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_static/external_images/33ed25f571efbed2e598.png"><img alt="https://github.com/jeshraghian/snntorch/blob/master/docs/_static/img/examples/tutorial1/_static/gain.png?raw=true" class="align-center" src="../_static/external_images/33ed25f571efbed2e598.png" width="300"/>
+</a>
+<p>Случай, когда <code class="docutils literal notranslate"><span class="pre">gain=0.25</span></code> светлее, чем когда <code class="docutils literal notranslate"><span class="pre">gain=1</span></code>, так как вероятность спайков была уменьшена в <span class="math notranslate nohighlight">\(\times 4\)</span>.</p>
+</section>
+<section id="raster-plots">
+<h4>2.2.2 Растровые диаграммы<a class="headerlink" href="tutorial_1.html#raster-plots" title="Link to this heading"></a></h4>
+<p>В качестве альтернативы мы можем сгенерировать растровую диаграмму входного образца. Для этого
+необходимо изменить форму образца на 2-D тензор, где 'time' является
+первым измерением. Передайте этот образец в функцию
+<code class="docutils literal notranslate"><span class="pre">spikeplot.raster</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Reshape</span>
+<span class="n">spike_data_sample2</span> <span class="o">=</span> <span class="n">spike_data_sample2</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">num_steps</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+
+<span class="c1"># raster plot</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s2">"w"</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="n">splt</span><span class="o">.</span><span class="n">raster</span><span class="p">(</span><span class="n">spike_data_sample2</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"black"</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Input Layer"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"Time step"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">"Neuron Number"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_static/external_images/ccee11bc865f7a844c4a.png"><img alt="https://github.com/jeshraghian/snntorch/blob/master/docs/_static/img/examples/tutorial1/_static/raster.png?raw=true" class="align-center" src="../_static/external_images/ccee11bc865f7a844c4a.png" width="600"/>
+</a>
+<p>Следующий фрагмент кода показывает, как индексировать один нейрон.
+В зависимости от входных данных вам может потребоваться попробовать
+несколько разных нейронов от 0 до 784, прежде чем найти тот, который
+генерирует спайки.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">idx</span> <span class="o">=</span> <span class="mi">210</span>  <span class="c1"># index into 210th neuron</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s2">"w"</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+
+<span class="n">splt</span><span class="o">.</span><span class="n">raster</span><span class="p">(</span><span class="n">spike_data_sample</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">num_steps</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)[:,</span> <span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">ax</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"black"</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">"|"</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Input Neuron"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"Time step"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_static/external_images/c3c8fdaa5fb5bd9dfc58.png"><img alt="https://github.com/jeshraghian/snntorch/blob/master/docs/_static/img/examples/tutorial1/_static/raster1.png?raw=true" class="align-center" src="../_static/external_images/c3c8fdaa5fb5bd9dfc58.png" width="400"/>
+</a>
+</section>
+<section id="summary-of-rate-coding">
+<h4>2.2.3 Резюме частотного кодирования<a class="headerlink" href="tutorial_1.html#summary-of-rate-coding" title="Link to this heading"></a></h4>
+<p>Идея частотного кодирования на самом деле довольно спорна. Хотя мы
+достаточно уверены, что частотное кодирование происходит на нашей сенсорной периферии, мы
+не убеждены, что кора головного мозга глобально кодирует информацию в виде частоты
+спайков. Несколько убедительных причин включают:</p>
+<ul class="simple">
+<li><p><strong>Энергопотребление:</strong> Природа оптимизирована для эффективности. Для выполнения любой задачи требуется несколько
+спайков, и каждый спайк
+потребляет энергию. На самом деле, <a class="reference external" href="http://www.rctn.org/bruno/papers/V1-chapter.pdf">Работа Ольсхаузена и Филда «Чем занимаются остальные 85% V1?»</a>
+демонстрирует, что частотное кодирование может объяснить, в лучшем случае, активность
+15% нейронов в первичной зрительной коре (V1). Маловероятно,
+что это единственный механизм в мозге, который одновременно
+ограничен в ресурсах и высокоэффективен.</p></li>
+<li><p><strong>Время реакции:</strong> Мы знаем, что время реакции человека
+составляет примерно 250 мс. Если средняя частота разряда нейрона
+в человеческом мозге составляет порядка 10 Гц, то мы можем обработать
+только около 2 спайков за время реакции.</p></li>
+</ul>
+<p>Итак, зачем же использовать частотные коды, если они не оптимальны для энергоэффективности
+или задержки? Даже если наш мозг не обрабатывает данные как частоту,
+мы достаточно уверены, что наши биологические сенсоры это делают. Недостатки по энергопотреблению/задержке
+частично компенсируются огромной устойчивостью к шуму:
+ничего страшного, если некоторые спайки не генерируются, потому что будет
+еще много других.</p>
+<p>Кроме того, вы, возможно, слышали о <a class="reference external" href="https://doi.org/10.2307/1418888">геббовском принципе «нейроны, которые
+возбуждаются вместе, соединяются вместе»</a>. Если
+спайков много, это может указывать на интенсивное
+обучение. В некоторых случаях, когда обучение SNN оказывается сложным,
+стимулирование более частого возбуждения с помощью частотного кода является одним из возможных решений.</p>
+<p>Частотное кодирование почти наверняка работает в сочетании с другими
+схемами кодирования в мозге. Мы рассмотрим эти другие механизмы
+кодирования в следующих разделах. Это охватывает <code class="docutils literal notranslate"><span class="pre">spikegen.rate</span></code> функцию.
+Дополнительная информация <a class="reference external" href="../snntorch.spikegen.html">может быть
+найдена в документации
+здесь</a>.</p>
+</section>
+</section>
+<section id="latency-coding-of-mnist">
+<h3>2.3 Кодирование задержки MNIST<a class="headerlink" href="tutorial_1.html#latency-coding-of-mnist" title="Link to this heading"></a></h3>
+<p>Временные коды захватывают информацию о точном времени возбуждения нейронов; одиночный спайк несет гораздо больше смысла, чем в частотных кодах, которые полагаются на частоту возбуждения. Хотя это повышает восприимчивость к шуму, это также может на порядки уменьшить энергопотребление аппаратного обеспечения, выполняющего SNN-алгоритмы.</p>
+<p><code class="docutils literal notranslate"><span class="pre">spikegen.latency</span></code> это функция, которая позволяет каждому входу возбуждаться не более <strong>один раз</strong> за весь временной интервал. Признаки, ближе к <code class="docutils literal notranslate"><span class="pre">1</span></code> будут возбуждаться раньше, а признаки, ближе к <code class="docutils literal notranslate"><span class="pre">0</span></code> будут возбуждаться позже. То есть в нашем случае с MNIST яркие пиксели будут возбуждаться раньше, а темные - позже.</p>
+<p>Следующий блок показывает, как это работает. Если вы забыли теорию цепей и/или математика вам ничего не говорит, не волнуйтесь! Важно только то: <strong>большой</strong> вход означает <strong>быстрый</strong> спайк; <strong>маленький</strong> вход означает
+<strong>поздний</strong> спайк.</p>
+<hr class="docutils"/>
+<section id="optional-derivation-of-latency-code-mechanism">
+<h4><em>Опционально: Вывод механизма латентного кода</em><a class="headerlink" href="tutorial_1.html#optional-derivation-of-latency-code-mechanism" title="Link to this heading"></a></h4>
+<p>По умолчанию время спайка вычисляется путем рассмотрения входного признака как инжекции тока <span class="math notranslate nohighlight">\(I_{in}\)</span> в RC-цепь. Этот ток перемещает заряд на конденсатор, что увеличивает <span class="math notranslate nohighlight">\(V(t)\)</span>Предполагается, что существует пороговое напряжение, <span class="math notranslate nohighlight">\(V_{thr}\)</span>по достижении которого генерируется спайк. Тогда возникает вопрос: <em>для заданного входного тока (и, соответственно, входного признака), сколько времени требуется для генерации спайка?</em></p>
+<p>Начиная с закона токов Кирхгофа, <span class="math notranslate nohighlight">\(I_{in} = I_R + I_C\)</span>остальной вывод приводит нас к логарифмической зависимости между временем и входом.</p>
+<a class="reference internal image-reference" href="../_static/external_images/b5213a9b0c00fc0ede8a.png"><img alt="https://github.com/jeshraghian/snntorch/blob/master/docs/_static/img/examples/tutorial1/1_2_4_latencyrc.png?raw=true" class="align-center" src="../_static/external_images/b5213a9b0c00fc0ede8a.png" width="500"/>
+</a>
+<hr class="docutils"/>
+<p>Следующая функция использует приведенный выше результат для преобразования признака интенсивности
+<span class="math notranslate nohighlight">\(X_{ij}\in [0,1]\)</span> в ответ, закодированный латентностью <span class="math notranslate nohighlight">\(L_{ij}\)</span>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">convert_to_time</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.01</span><span class="p">):</span>
+  <span class="n">spike_time</span> <span class="o">=</span> <span class="n">tau</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">data</span> <span class="o">/</span> <span class="p">(</span><span class="n">data</span> <span class="o">-</span> <span class="n">threshold</span><span class="p">))</span>
+  <span class="k">return</span> <span class="n">spike_time</span>
+</pre></div>
+</div>
+<p>Теперь используйте приведенную выше функцию для визуализации взаимосвязи между интенсивностью входного признака и соответствующим временем спайка.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">raw_input</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">)</span> <span class="c1"># tensor from 0 to 5</span>
+<span class="n">spike_times</span> <span class="o">=</span> <span class="n">convert_to_time</span><span class="p">(</span><span class="n">raw_input</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">raw_input</span><span class="p">,</span> <span class="n">spike_times</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'Input Value'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'Spike Time (s)'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_static/external_images/5ae8c51a84960e4ed6ae.png"><img alt="https://github.com/jeshraghian/snntorch/blob/master/docs/_static/img/examples/tutorial1/_static/spike_time.png?raw=true" class="align-center" src="../_static/external_images/5ae8c51a84960e4ed6ae.png" width="400"/>
+</a>
+<p>Чем меньше значение, тем позже происходит спайк, с экспоненциальной зависимостью.</p>
+<p>Вектор <code class="docutils literal notranslate"><span class="pre">spike_times</span></code> содержит время, в которое срабатывают спайки, а не разреженный тензор, содержащий сами спайки (единицы и нули).\nПри выполнении симуляции SNN нам нужно представление 1/0, чтобы получить все преимущества использования спайков.\nВесь этот процесс можно автоматизировать с помощью <code class="docutils literal notranslate"><span class="pre">spikegen.latency</span></code>где мы передаем мини-пакет из набора данных MNIST в <cite>data_it</cite>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">spike_data</span> <span class="o">=</span> <span class="n">spikegen</span><span class="o">.</span><span class="n">latency</span><span class="p">(</span><span class="n">data_it</span><span class="p">,</span> <span class="n">num_steps</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Некоторые из аргументов включают:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">tau</span></code>: постоянная времени RC-цепи. По умолчанию входные признаки рассматриваются как постоянный ток, инжектируемый в RC-цепь. Более высокая <code class="docutils literal notranslate"><span class="pre">tau</span></code> будет вызывать более медленное возбуждение.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">threshold</span></code>: порог возбуждения мембранного потенциала. Входные значения ниже этого порога не имеют решения в замкнутой форме, так как входной ток недостаточен для подъема мембраны до порога. Все значения ниже порога обрезаются и присваиваются последнему временному шагу.</p></li>
+</ul>
+</section>
+<section id="raster-plot">
+<h4>2.3.1 Растровый график<a class="headerlink" href="tutorial_1.html#raster-plot" title="Link to this heading"></a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s2">"w"</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="n">splt</span><span class="o">.</span><span class="n">raster</span><span class="p">(</span><span class="n">spike_data</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">num_steps</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">ax</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"black"</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Input Layer"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"Time step"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">"Neuron Number"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># optional save</span>
+<span class="c1"># fig.savefig('destination_path.png', format='png', dpi=300)</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_static/external_images/85b5fa61090b2c52f318.png"><img alt="https://github.com/jeshraghian/snntorch/blob/master/docs/_static/img/examples/tutorial1/_static/raster2.png?raw=true" class="align-center" src="../_static/external_images/85b5fa61090b2c52f318.png" width="600"/>
+</a>
+<p>Чтобы понять растровый график, обратите внимание, что признаки высокой интенсивности возбуждаются первыми, тогда как признаки низкой интенсивности возбуждаются последними:</p>
+<a class="reference internal image-reference" href="../_static/external_images/212f9d2d3d0cd6b6f1cd.png"><img alt="https://github.com/jeshraghian/snntorch/blob/master/docs/_static/img/examples/tutorial1/1_2_5_latencyraster.png?raw=true" class="align-center" src="../_static/external_images/212f9d2d3d0cd6b6f1cd.png" width="800"/>
+</a>
+<p>Логарифмический код в сочетании с отсутствием разнообразных входных значений (т.е. отсутствием средних тонов/полутоновых признаков) вызывает значительную кластеризацию в двух областях графика. Яркие пиксели вызывают возбуждение в начале прогона, а темные - в конце. Мы можем увеличить <code class="docutils literal notranslate"><span class="pre">tau</span></code> чтобы замедлить время спайков, или линеаризовать время спайков, задав необязательный аргумент <code class="docutils literal notranslate"><span class="pre">linear=True</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">spike_data</span> <span class="o">=</span> <span class="n">spikegen</span><span class="o">.</span><span class="n">latency</span><span class="p">(</span><span class="n">data_it</span><span class="p">,</span> <span class="n">num_steps</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">linear</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s2">"w"</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="n">splt</span><span class="o">.</span><span class="n">raster</span><span class="p">(</span><span class="n">spike_data</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">num_steps</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">ax</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"black"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Input Layer"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"Time step"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">"Neuron Number"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_static/external_images/0e910c8c82b8733dd1f6.png"><img alt="https://github.com/jeshraghian/snntorch/blob/master/docs/_static/img/examples/tutorial1/_static/raster3.png?raw=true" class="align-center" src="../_static/external_images/0e910c8c82b8733dd1f6.png" width="600"/>
+</a>
+<p>Разброс времени возбуждения теперь распределён гораздо более равномерно. Это достигается за счёт линеаризации логарифмического уравнения по правилам, показанным ниже. В отличие от RC-модели, у этой модели нет физической основы. Она просто проще.</p>
+<a class="reference internal image-reference" href="../_static/external_images/39f171aaff973f0948d7.png"><img alt="https://github.com/jeshraghian/snntorch/blob/master/docs/_static/img/examples/tutorial1/1_2_6_latencylinear.png?raw=true" class="align-center" src="../_static/external_images/39f171aaff973f0948d7.png" width="600"/>
+</a>
+<p>Но обратите внимание, что все возбуждения происходят в пределах первых ~5 временных шагов, тогда как диапазон моделирования составляет 100 шагов. Это указывает на множество избыточных временных шагов, которые ничего не делают. Эту проблему можно решить, либо увеличив <code class="docutils literal notranslate"><span class="pre">tau</span></code> для замедления постоянной времени, либо задав необязательный аргумент <code class="docutils literal notranslate"><span class="pre">normalize=True</span></code> для охвата всего диапазона
+<code class="docutils literal notranslate"><span class="pre">num_steps</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">spike_data</span> <span class="o">=</span> <span class="n">spikegen</span><span class="o">.</span><span class="n">latency</span><span class="p">(</span><span class="n">data_it</span><span class="p">,</span> <span class="n">num_steps</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+                              <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">linear</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s2">"w"</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="n">splt</span><span class="o">.</span><span class="n">raster</span><span class="p">(</span><span class="n">spike_data</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">num_steps</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">ax</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"black"</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Input Layer"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"Time step"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">"Neuron Number"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_static/external_images/cf5677217a7e9398f27b.png"><img alt="https://github.com/jeshraghian/snntorch/blob/master/docs/_static/img/examples/tutorial1/_static/raster4.png?raw=true" class="align-center" src="../_static/external_images/cf5677217a7e9398f27b.png" width="600"/>
+</a>
+<p>Одно из главных преимуществ кодирования задержками перед частотным кодированием — разреженность. Если нейроны ограничены одним максимальным возбуждением за интересующий временной интервал, это способствует низкому энергопотреблению.</p>
+<p>В показанном выше сценарии большинство импульсов происходит на последнем временном шаге, когда входные признаки падают ниже порога. В некотором смысле тёмный фон образца MNIST не несёт полезной информации.</p>
+<p>Мы можем удалить эти избыточные признаки, установив <code class="docutils literal notranslate"><span class="pre">clip=True</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">spike_data</span> <span class="o">=</span> <span class="n">spikegen</span><span class="o">.</span><span class="n">latency</span><span class="p">(</span><span class="n">data_it</span><span class="p">,</span> <span class="n">num_steps</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+                              <span class="n">clip</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">linear</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s2">"w"</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="n">splt</span><span class="o">.</span><span class="n">raster</span><span class="p">(</span><span class="n">spike_data</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">num_steps</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">ax</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"black"</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Input Layer"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"Time step"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">"Neuron Number"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_static/external_images/76aac19bd835299bf97c.png"><img alt="https://github.com/jeshraghian/snntorch/blob/master/docs/_static/img/examples/tutorial1/_static/raster5.png?raw=true" class="align-center" src="../_static/external_images/76aac19bd835299bf97c.png" width="600"/>
+</a>
+<p>Выглядит гораздо лучше!</p>
+</section>
+<section id="id1">
+<h4>2.3.2 Анимация<a class="headerlink" href="tutorial_1.html#id1" title="Link to this heading"></a></h4>
+<p>Мы выполним тот же самый блок кода, что и раньше, для создания анимации.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">spike_data_sample</span> <span class="o">=</span> <span class="n">spike_data</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">spike_data_sample</span><span class="o">.</span><span class="n">size</span><span class="p">())</span>
+<span class="go">torch.Size([100, 28, 28])</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">anim</span> <span class="o">=</span> <span class="n">splt</span><span class="o">.</span><span class="n">animator</span><span class="p">(</span><span class="n">spike_data_sample</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="p">)</span>
+
+<span class="n">HTML</span><span class="p">(</span><span class="n">anim</span><span class="o">.</span><span class="n">to_html5_video</span><span class="p">())</span>
+</pre></div>
+</div>
+<center>
+<video controls="" src="https://github.com/jeshraghian/snntorch/blob/master/docs/_static/img/examples/tutorial1/_static/splt.animator2.mp4?raw=true"></video>
+</center><p>Эту анимацию, очевидно, гораздо сложнее разглядеть в видеоформате, но внимательный глаз сможет уловить начальный кадр, где происходит большинство импульсов. Обратитесь к соответствующему целевому значению, чтобы проверить его.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Save output: .gif, .mp4 etc.</span>
+<span class="c1"># anim.save("mnist_latency.gif")</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">targets_it</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="go">tensor(4, device='cuda:0')</span>
+</pre></div>
+</div>
+<p>На этом всё для <code class="docutils literal notranslate"><span class="pre">spikegen.latency</span></code> функции. Дополнительную информацию
+<a class="reference external" href="../snntorch.spikegen.html">можно найти в документации
+здесь</a>.</p>
+</section>
+</section>
+<section id="delta-modulation">
+<h3>2.4 Дельта-модуляция<a class="headerlink" href="tutorial_1.html#delta-modulation" title="Link to this heading"></a></h3>
+<p>Существуют теории, что сетчатка адаптивна: она обрабатывает информацию только тогда, когда появляется что-то новое. Если в поле зрения нет изменений, ваши фоторецепторные клетки менее склонны к возбуждению.</p>
+<p>Иными словами: <strong>биология основана на событиях</strong>. Нейроны процветают на
+изменениях.</p>
+<p>В качестве наглядного примера: несколько исследователей посвятили свою жизнь разработке сенсоров изображения, вдохновлённых сетчаткой, например, <a class="reference external" href="https://ieeexplore.ieee.org/abstract/document/7128412/">Dynamic
+Vision
+Sensor</a>.
+Хотя <a class="reference external" href="https://www.youtube.com/watch?v=6eOM15U_t1M&amp;ab_channel=TobiDelbruck">прикреплённая ссылка ведёт к материалу десятилетней давности, работа в этом
+видео</a>
+опережала своё время.</p>
+<p>Дельта-модуляция основана на событийно-управляемой импульсной активности. Функция
+<code class="docutils literal notranslate"><span class="pre">snntorch.delta</span></code> принимает на вход временной тензор. Она вычисляет разность между каждым последующим признаком по всем временным шагам. По умолчанию, если разность одновременно является и <em>положительной</em> и <em>больше
+порога</em> <span class="math notranslate nohighlight">\(V_{thr}\)</span>, генерируется импульс:</p>
+<a class="reference internal image-reference" href="../_static/external_images/dc0dc77ecfc1ae737f04.png"><img alt="https://github.com/jeshraghian/snntorch/blob/master/docs/_static/img/examples/tutorial1/1_2_7_delta.png?raw=true" class="align-center" src="../_static/external_images/dc0dc77ecfc1ae737f04.png" width="600"/>
+</a>
+<p>Для иллюстрации давайте сначала придумаем искусственный пример, где мы
+создадим собственный входной тензор.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a tensor with some fake time-series data</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="o">-</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+
+<span class="c1"># Plot the tensor</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Some fake time-series data"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"Time step"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">"Voltage (mV)"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_static/external_images/8e75078c442db635492a.png"><img alt="https://github.com/jeshraghian/snntorch/blob/master/docs/_static/img/examples/tutorial1/_static/fake_data.png?raw=true" class="align-center" src="../_static/external_images/8e75078c442db635492a.png" width="300"/>
+</a>
+<p>Передайте указанный выше тензор в <code class="docutils literal notranslate"><span class="pre">spikegen.delta</span></code> функцию, с
+произвольно выбранным <code class="docutils literal notranslate"><span class="pre">threshold=4</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Convert data</span>
+<span class="n">spike_data</span> <span class="o">=</span> <span class="n">spikegen</span><span class="o">.</span><span class="n">delta</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+
+<span class="c1"># Create fig, ax</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s2">"w"</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+
+<span class="c1"># Raster plot of delta converted data</span>
+<span class="n">splt</span><span class="o">.</span><span class="n">raster</span><span class="p">(</span><span class="n">spike_data</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"black"</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Input Neuron"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"Time step"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_static/external_images/24bfba660486422af970.png"><img alt="https://github.com/jeshraghian/snntorch/blob/master/docs/_static/img/examples/tutorial1/_static/delta.png?raw=true" class="align-center" src="../_static/external_images/24bfba660486422af970.png" width="400"/>
+</a>
+<p>Есть три временных шага, где разность между <span class="math notranslate nohighlight">\(data[T]\)</span>
+и <span class="math notranslate nohighlight">\(data[T+1]\)</span> больше или равна <span class="math notranslate nohighlight">\(V_{thr}=4\)</span>.
+Это означает, что есть три <em>on-импульса</em>.</p>
+<p>Большое падение до <span class="math notranslate nohighlight">\(-20\)</span> не было зафиксировано в наших импульсах. Возможно, нас интересуют и отрицательные колебания, и в этом случае мы можем включить необязательный аргумент <code class="docutils literal notranslate"><span class="pre">off_spike=True</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Convert data</span>
+<span class="n">spike_data</span> <span class="o">=</span> <span class="n">spikegen</span><span class="o">.</span><span class="n">delta</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">off_spike</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Create fig, ax</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s2">"w"</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+
+<span class="c1"># Raster plot of delta converted data</span>
+<span class="n">splt</span><span class="o">.</span><span class="n">raster</span><span class="p">(</span><span class="n">spike_data</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"black"</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Input Neuron"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"Time step"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_static/external_images/3bfad104cea1b1923cdd.png"><img alt="https://github.com/jeshraghian/snntorch/blob/master/docs/_static/img/examples/tutorial1/_static/delta2.png?raw=true" class="align-center" src="../_static/external_images/3bfad104cea1b1923cdd.png" width="400"/>
+</a>
+<p>Мы сгенерировали дополнительные импульсы, но это ещё не полная
+картина!</p>
+<p>Вывод тензора покажет наличие «off-импульсов», которые принимают значение <code class="docutils literal notranslate"><span class="pre">-1</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">spike_data</span><span class="p">)</span>
+<span class="go">tensor([ 0.,  0.,  0.,  0.,  1., -1.,  1., -1.,  1.,  0.,  0.])</span>
+</pre></div>
+</div>
+<p>Хотя <code class="docutils literal notranslate"><span class="pre">spikegen.delta</span></code> была продемонстрирована только на искусственном образце данных,
+её истинное применение — сжатие временных рядов путём генерации импульсов только при достаточно больших изменениях/событиях.</p>
+<p>На этом завершается описание трех основных функций преобразования спайков! В каждой из трех техник преобразования есть еще
+дополнительные возможности, которые не были
+подробно описаны в этом учебном пособии. В частности, мы рассмотрели
+только кодирование входных данных; мы не рассматривали, как можно кодировать
+целевые значения и когда это необходимо. Мы рекомендуем <a class="reference external" href="../snntorch.spikegen.html">обратиться к
+документации для более глубокого
+изучения</a>.</p>
+</section>
+</section>
+<section id="spike-generation-optional">
+<h2>3. Генерация спайков (опционально)<a class="headerlink" href="tutorial_1.html#spike-generation-optional" title="Link to this heading"></a></h2>
+<p>А что если у нас вообще нет данных для начала? Скажем, мы просто
+хотим сгенерировать случайный спайковый поезд с нуля. Внутри
+<code class="docutils literal notranslate"><span class="pre">spikegen.rate</span></code> является вложенной функцией, <code class="docutils literal notranslate"><span class="pre">rate_conv</span></code>, которая на самом деле
+выполняет этап преобразования спайков.</p>
+<p>Все, что нам нужно сделать, это инициализировать случайно сгенерированный <code class="docutils literal notranslate"><span class="pre">torchTensor</span></code> для
+передачи.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a random spike train</span>
+<span class="n">spike_prob</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">((</span><span class="n">num_steps</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span>
+<span class="n">spike_rand</span> <span class="o">=</span> <span class="n">spikegen</span><span class="o">.</span><span class="n">rate_conv</span><span class="p">(</span><span class="n">spike_prob</span><span class="p">)</span>
+</pre></div>
+</div>
+<section id="id2">
+<h3>3.1 Анимация<a class="headerlink" href="tutorial_1.html#id2" title="Link to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">anim</span> <span class="o">=</span> <span class="n">splt</span><span class="o">.</span><span class="n">animator</span><span class="p">(</span><span class="n">spike_rand</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="p">)</span>
+
+<span class="n">HTML</span><span class="p">(</span><span class="n">anim</span><span class="o">.</span><span class="n">to_html5_video</span><span class="p">())</span>
+</pre></div>
+</div>
+<center>
+<video controls="" src="https://github.com/jeshraghian/snntorch/blob/master/docs/_static/img/examples/tutorial1/_static/rand_spikes.mp4?raw=true"></video>
+</center><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Save output: .gif, .mp4 etc.</span>
+<span class="c1"># anim.save("random_spikes.gif")</span>
+</pre></div>
+</div>
+</section>
+<section id="raster">
+<h3>3.2 Растр<a class="headerlink" href="tutorial_1.html#raster" title="Link to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s2">"w"</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="n">splt</span><span class="o">.</span><span class="n">raster</span><span class="p">(</span><span class="n">spike_rand</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">num_steps</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">ax</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"black"</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Input Layer"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"Time step"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">"Neuron Number"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_static/external_images/f9ae73887556505f6526.png"><img alt="https://github.com/jeshraghian/snntorch/blob/master/docs/_static/img/examples/tutorial1/_static/rand_raster.png?raw=true" class="align-center" src="../_static/external_images/f9ae73887556505f6526.png" width="600"/>
+</a>
+</section>
+</section>
+<section id="conclusion">
+<h2>Заключение<a class="headerlink" href="tutorial_1.html#conclusion" title="Link to this heading"></a></h2>
+<p>На этом все о преобразовании и генерации спайков. Этот подход обобщается
+за пределы изображений, на одномерные и многомерные тензоры.</p>
+<p>Если вам нравится этот проект, пожалуйста, рассмотрите возможность поставить звезду ⭐ репозиторию на GitHub, так как это самый простой и лучший способ поддержать его.</p>
+<p>Для справки, документация по <a class="reference external" href="../snntorch.spikegen.html">spikegen может быть найдена
+здесь</a>
+и для <a class="reference external" href="../snntorch.spikeplot.html">spikeplot,
+здесь</a>.</p>
+<p><a class="reference external" href="index.html">В следующем
+учебном пособии</a>,
+вы узнаете основы спайковых нейронов и как их использовать.</p>
+</section>
+<section id="additional-resources">
+<h2>Дополнительные ресурсы<a class="headerlink" href="tutorial_1.html#additional-resources" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/jeshraghian/snntorch">Ознакомьтесь с проектом snnTorch на GitHub здесь.</a></p></li>
+</ul>
+</section>
+</section>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="index.html" rel="prev" title="Tutorials"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="tutorial_2.html" rel="next" title="Tutorial 2 - The Leaky Integrate-and-Fire Neuron">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright 2021, Jason K. Eshraghian.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

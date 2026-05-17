@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html class="writer-html5" data-content_root="./" lang="ru">
+<head>
+<meta charset="utf-8"/>
+<meta content="1" name="readthedocs-addons-api-version"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>snn.LeakyParallel — документация snntorch 0.9.4</title>
+<link href="_static/pygments.css%3Fv=03e43079.css" rel="stylesheet" type="text/css"/>
+<link href="_static/css/theme.css%3Fv=9edc463e.css" rel="stylesheet" type="text/css"/>
+<link href="_static/css/default.css" rel="stylesheet" type="text/css"/>
+<script src="_static/jquery.js%3Fv=5d32c60e"></script>
+<script src="_static/_sphinx_javascript_frameworks_compat.js%3Fv=2cd50e6c"></script>
+<script src="_static/documentation_options.js%3Fv=c5ca06ca"></script>
+<script src="_static/doctools.js%3Fv=fd6eb6e6"></script>
+<script src="_static/sphinx_highlight.js%3Fv=6ffebe34"></script>
+<script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+<script src="_static/js/theme.js"></script>
+<script src="_static/js/versions.js"></script>
+<link href="genindex.html" rel="index" title="Index"/>
+<link href="search.html" rel="search" title="Search"/>
+<link href="snn.neurons_rleaky.html" rel="next" title="snn.RLeaky"/>
+<link href="snn.neurons_leaky.html" rel="prev" title="snn.Leaky"/>
+<script async="" src="../../_/static/javascript/readthedocs-addons.js" type="text/javascript"></script><meta content="snntorch" name="readthedocs-project-slug"/><meta content="latest" name="readthedocs-version-slug"/><meta content="/snn.neurons_leakyparallel.html" name="readthedocs-resolver-filename"/><meta content="200" name="readthedocs-http-status"/></head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="index.html">
+            snntorch
+              <img alt="Logo" class="logo" src="_static/snntorch_alpha_full.png"/>
+</a>
+<div class="switch-menus">
+<div class="version-switch"></div>
+<div class="language-switch"></div>
+</div>
+<div role="search">
+<form action="search.html" class="wy-form" id="rtd-search-form" method="get">
+<input aria-label="Search docs" name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="snntorch.html">snntorch</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="snntorch.html#snntorch-neurons">snnTorch Neurons</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="snntorch.html#neuron-list">Neuron List</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="snn.neurons_alpha.html">snn.Alpha</a></li>
+<li class="toctree-l3"><a class="reference internal" href="snn.neurons_lapicque.html">snn.Lapicque</a></li>
+<li class="toctree-l3"><a class="reference internal" href="snn.neurons_leaky.html">snn.Leaky</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="snn.neurons_leakyparallel.html#">snn.LeakyParallel</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="snn.neurons_leakyparallel.html#snntorch._neurons.leakyparallel.LeakyParallel"><code class="docutils literal notranslate"><span class="pre">LeakyParallel</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="snn.neurons_rleaky.html">snn.RLeaky</a></li>
+<li class="toctree-l3"><a class="reference internal" href="snn.neurons_rsynaptic.html">snn.RSynaptic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="snn.neurons_sconvlstm.html">snn.SConv2dLSTM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="snn.neurons_slstm.html">snn.SLSTM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="snn.neurons_synaptic.html">snn.Synaptic</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="snntorch.html#module-snntorch._layers.bntt">snnTorch Layers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="snntorch.html#module-snntorch._neurons.neurons">Neuron Parent Classes</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="snntorch.export_nir.html">snntorch.export_nir</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snntorch.functional.html">snntorch.functional</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snntorch.import_nir.html">snntorch.import_nir</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snntorch.spikegen.html">snntorch.spikegen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snntorch.spikeplot.html">snntorch.spikeplot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snntorch.spikevision.html">snntorch.spikevision</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snntorch.surrogate.html">snntorch.surrogate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snntorch.utils.html">snntorch.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">History</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="index.html">snntorch</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a aria-label="Home" class="icon icon-home" href="index.html"></a></li>
+<li class="breadcrumb-item"><a href="snntorch.html">snntorch</a></li>
+<li class="breadcrumb-item active">snn.LeakyParallel</li>
+<li class="wy-breadcrumbs-aside">
+<a href="_sources/snn.neurons_leakyparallel.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<div class="admonition note" data-snn-translation="ru"><p><strong>Русский перевод.</strong> Неофициальный перевод актуальной документации snnTorch latest (0.9.4). Оригинал: https://snntorch.readthedocs.io/en/latest/. Документация распространяется по лицензии CC BY-SA 3.0.</p></div><section id="module-snntorch._neurons.leakyparallel">
+<span id="snn-leakyparallel"></span><h1>snn.LeakyParallel<a class="headerlink" href="snn.neurons_leakyparallel.html#module-snntorch._neurons.leakyparallel" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="snntorch._neurons.leakyparallel.LeakyParallel">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">snntorch._neurons.leakyparallel.</span></span><span class="sig-name descname"><span class="pre">LeakyParallel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hidden_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bias</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spike_grad</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">surrogate_disable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">learn_beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">learn_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">graded_spikes_factor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">learn_graded_spikes_factor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weight_hh_enable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/_neurons/leakyparallel.html#LeakyParallel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snn.neurons_leakyparallel.html#snntorch._neurons.leakyparallel.LeakyParallel" title="Link to this definition"></a></dt>
+<dd><p>Базовые классы: <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code></p>
+<blockquote>
+<div><p>Параллельная реализация нейрона Leaky со встроенным линейным слоем входа.
+Все временные шаги передаются на вход одновременно.
+Эта реализация использует <cite>torch.nn.RNN</cite> для ускорения реализации.</p>
+<p>Модель нейрона первого порядка с утечкой, интеграцией и срабатыванием.
+Предполагается, что входные данные представляют собой инъекцию тока.
+Мембранный потенциал экспоненциально затухает с коэффициентом beta.
+Для <span class="math notranslate nohighlight">\(U[T] &gt; U_{\rm thr} ⇒ S[T+1] = 1\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[U[t+1] = βU[t] + I_{\rm in}[t+1]\]</div>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(I_{\rm in}\)</span> - Входной ток</p></li>
+<li><p><span class="math notranslate nohighlight">\(U\)</span> - Мембранный потенциал</p></li>
+<li><p><span class="math notranslate nohighlight">\(U_{\rm thr}\)</span> - Мембранный порог</p></li>
+<li><p><span class="math notranslate nohighlight">\(β\)</span> - Скорость затухания мембранного потенциала</p></li>
+</ul>
+<p>Несколько различий между <cite>LeakyParallel</cite> и <cite>Leaky</cite> включают:</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt>Отрицательные скрытые состояния обрезаются из-за </dt><dd><p>принудительной операции ReLU в RNN.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Линейные веса включены в дополнение к </dt><dd><p>рекуррентным весам.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><cite>beta</cite> обрезается между [0,1] и клонируется в </dt><dd><p><cite>weight_hh_l</cite> только при инициализации слоя. В остальных случаях не используется.</p>
+</dd>
+</dl>
+</li>
+<li><p>Нет явного механизма сброса.</p></li>
+<li><dl class="simple">
+<dt>Некоторые функции, такие как <cite>init_hidden</cite>, <cite>выход</cite>, </dt><dd><p><cite>inhibition</cite>, и <cite>state_quant</cite> недоступны в <cite>LeakyParallel</cite>.</p>
+</dd>
+</dl>
+</li>
+<li><p>Возвращается только выходной спайк. Потенциал мембраны по умолчанию недоступен.</p></li>
+<li><p>RNN использует скрытую матрицу размера (num_hidden, num_hidden)</p></li>
+</ul>
+<p>для преобразования вектора скрытого состояния. Это приводило бы к «утечке» мембранного потенциала между LIF-нейронами, поэтому скрытая матрица по умолчанию принудительно делается диагональной. Это можно отключить, установив <cite>weight_hh_enable=True</cite>.</p>
+<p>Пример:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nn</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">snntorch</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">snn</span>
+
+<span class="n">beta</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="n">num_inputs</span> <span class="o">=</span> <span class="mi">784</span>
+<span class="n">num_hidden</span> <span class="o">=</span> <span class="mi">128</span>
+<span class="n">num_outputs</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">batch_size</span> <span class="o">=</span> <span class="mi">128</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">((</span><span class="n">num_steps</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">num_inputs</span><span class="p">))</span>
+
+<span class="c1"># Define Network</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Net</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+        <span class="c1"># initialize layers</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lif1</span> <span class="o">=</span> <span class="n">snn</span><span class="o">.</span><span class="n">LeakyParallel</span><span class="p">(</span><span class="n">input_size</span><span class="o">=</span><span class="n">num_inputs</span><span class="p">,</span> <span class="n">hidden_size</span><span class="o">=</span><span class="n">num_hidden</span><span class="p">)</span> <span class="c1"># randomly initialize recurrent weights</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lif2</span> <span class="o">=</span> <span class="n">snn</span><span class="o">.</span><span class="n">LeakyParallel</span><span class="p">(</span><span class="n">input_size</span><span class="o">=</span><span class="n">num_hidden</span><span class="p">,</span> <span class="n">hidden_size</span><span class="o">=</span><span class="n">num_outputs</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="n">beta</span><span class="p">,</span> <span class="n">learn_beta</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1"># learnable recurrent weights initialized at beta</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">spk1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lif1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">spk2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lif2</span><span class="p">(</span><span class="n">spk1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">spk2</span>     
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">param input_size<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Количество ожидаемых признаков во входных данных <cite>x</cite></p>
+</dd>
+<dt class="field-even">type input_size<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+<dt class="field-odd">param hidden_size<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Количество признаков в скрытом состоянии <cite>h</cite></p>
+</dd>
+<dt class="field-even">type hidden_size<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+<dt class="field-odd">param beta<span class="colon">:</span></dt>
+<dd class="field-odd"><p>скорость затухания мембранного потенциала. Обрезается между 0 и 1</p>
+</dd>
+</dl>
+<p>во время прямого прохода. Может быть одноэлементным тензором (т.е. одинаковая скорость затухания для всех нейронов в слое) или многозначным (один вес на нейрон). Если не указано, скорости затухания будут случайно инициализированы на основе инициализации PyTorch для RNN. По умолчанию None
+:type beta: float or torch.tensor, optional</p>
+<dl class="field-list simple">
+<dt class="field-odd">param bias<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Если <cite>False</cite>, тогда слой не использует веса смещения <cite>b_ih</cite> и <cite>b_hh</cite>. По умолчанию True</p>
+</dd>
+<dt class="field-even">type bias<span class="colon">:</span></dt>
+<dd class="field-even"><p>Bool, optional</p>
+</dd>
+<dt class="field-odd">param threshold<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Порог для <span class="math notranslate nohighlight">\(mem\)</span> достижения для
+генерации спайка <cite>S=1</cite>. По умолчанию 1</p>
+</dd>
+<dt class="field-even">type threshold<span class="colon">:</span></dt>
+<dd class="field-even"><p>float, optional</p>
+</dd>
+<dt class="field-odd">param dropout<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Если не равно нулю, добавляет слой Dropout на выходе RNN с вероятностью dropout, равной значению dropout. По умолчанию 0</p>
+</dd>
+<dt class="field-even">type dropout<span class="colon">:</span></dt>
+<dd class="field-even"><p>float, optional</p>
+</dd>
+<dt class="field-odd">param spike_grad<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Суррогатный градиент для члена dS/dU. По умолчанию
+None (соответствует суррогатному градиенту ATan. См.
+<cite>snntorch.surrogate</cite> для дополнительных вариантов)</p>
+</dd>
+<dt class="field-even">type spike_grad<span class="colon">:</span></dt>
+<dd class="field-even"><p>функция суррогатного градиента из snntorch.surrogate,
+необязательно</p>
+</dd>
+<dt class="field-odd">param surrogate_disable<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Отключает суррогатные градиенты независимо от
+<cite>spike_grad</cite> аргумента. Полезно для совместимости с ONNX. По умолчанию
+False</p>
+</dd>
+<dt class="field-even">type surrogate_disable<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool, Optional</p>
+</dd>
+<dt class="field-odd">param learn_beta<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Опция для включения обучаемого beta. По умолчанию False</p>
+</dd>
+<dt class="field-even">type learn_beta<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool, optional</p>
+</dd>
+<dt class="field-odd">param learn_threshold<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Опция для включения обучаемого порога. По умолчанию
+False</p>
+</dd>
+<dt class="field-even">type learn_threshold<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool, optional</p>
+</dd>
+<dt class="field-odd">param weight_hh_enable<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Опция, задающая скрытую матрицу как плотную или</p>
+</dd>
+</dl>
+<p>диагональную. Диагональная (т.е. False) соответствует работе LIF-нейрона. Плотная (True) позволит мембранному потенциалу одного LIF-нейрона влиять на все остальные и следовать стандартной реализации RNN. По умолчанию False
+:type weight_hh_enable: bool, optional</p>
+<dl class="simple">
+<dt>Входы: input_</dt><dd><ul class="simple">
+<li><dl class="simple">
+<dt><strong>input_</strong> формы <cite>(L, H_{in})</cite> для непакетного входа, </dt><dd><p>или <cite>(L, N, H_{in})</cite> содержащий признаки входной последовательности.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+<dt>Выходы: spk</dt><dd><ul class="simple">
+<li><dl class="simple">
+<dt><strong>spk</strong> формы <cite>(L, batch, input_size)</cite>: тензор, содержащий</dt><dd><p>выходные спайки.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+<p>где:</p>
+</div></blockquote>
+<ul class="simple">
+<li><p><strong>`L</strong> = длина последовательности`</p></li>
+<li><p><strong>`N</strong> = размер пакета`</p></li>
+<li><p><strong>`H_{in}</strong> = input_size`</p></li>
+<li><p><strong>`H_{out}</strong> = hidden_size`</p></li>
+</ul>
+<blockquote>
+<div><dl class="simple">
+<dt>Обучаемые параметры:</dt><dd><ul class="simple">
+<li><dl class="simple">
+<dt><strong>rnn.weight_ih_l</strong> (torch.Tensor) - обучаемый вход-скрытый </dt><dd><p>веса формы (hidden_size, input_size).</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>rnn.weight_hh_l</strong> (torch.Tensor) - обучаемый скрытый-скрытый</dt><dd><p>веса k-го слоя, которые выбираются из <cite>beta</cite> формы 
+(hidden_size, hidden_size).</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>bias_ih_l</strong> - обучаемое смещение вход-скрытый k-го слоя, </dt><dd><p>формы (hidden_size).</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>bias_hh_l</strong> - обучаемое смещение скрытый-скрытый k-го слоя, </dt><dd><p>формы (hidden_size).</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>порог</strong> (torch.Tensor) - необязательные обучаемые пороги должны быть </dt><dd><p>вручную переданы, формы <cite>1</cite> или `` (input_size).</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>graded_spikes_factor</strong> (torch.Tensor) - необязательный обучаемый градуированный </dt><dd><p>фактор спайка.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="py class">
+<dt class="sig sig-object py" id="snntorch._neurons.leakyparallel.LeakyParallel.ATan">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">ATan</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/_neurons/leakyparallel.html#LeakyParallel.ATan"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snn.neurons_leakyparallel.html#snntorch._neurons.leakyparallel.LeakyParallel.ATan" title="Link to this definition"></a></dt>
+<dd><p>Базовые классы: <code class="xref py py-class docutils literal notranslate"><span class="pre">Function</span></code></p>
+<p>Суррогатный градиент ступенчатой функции Хевисайда.</p>
+<p><strong>Прямой проход:</strong> Сдвинутая ступенчатая функция Хевисайда.</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[\begin{split}S=\begin{cases} 1 &amp; \text{if U ≥ U$_{\rm thr}$} \\
+0 &amp; \text{if U &lt; U$_{\rm thr}$}
+\end{cases}\end{split}\]</div>
+</div></blockquote>
+<p><strong>Обратный проход:</strong> Градиент сдвинутой функции арктангенса.</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[\begin{split}S&amp;≈\frac{1}{π}\text{arctan}(πU \frac{α}{2}) \\
+\frac{∂S}{∂U}&amp;=\frac{1}{π}                    \frac{1}{(1+(πU\frac{α}{2})^2)}\end{split}\]</div>
+</div></blockquote>
+<p><span class="math notranslate nohighlight">\(alpha\)</span> по умолчанию равно 2, и может быть изменено вызовом
+<code class="docutils literal notranslate"><span class="pre">surrogate.atan(alpha=2)</span></code>.</p>
+<p>Адаптировано из:</p>
+<p><em>W. Fang, Z. Yu, Y. Chen, T. Masquelier, T. Huang, Y. Tian (2021)
+Incorporating Learnable Membrane Time Constants to Enhance Learning
+of Spiking Neural Networks. Proc. IEEE/CVF Int. Conf. Computer
+Vision (ICCV), pp. 2661-2671.</em></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="snntorch._neurons.leakyparallel.LeakyParallel.ATan.backward">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">backward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grad_output</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/_neurons/leakyparallel.html#LeakyParallel.ATan.backward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snn.neurons_leakyparallel.html#snntorch._neurons.leakyparallel.LeakyParallel.ATan.backward" title="Link to this definition"></a></dt>
+<dd><p>Определите формулу для дифференцирования операции с обратным режимом автоматического дифференцирования.</p>
+<p>Эта функция должна быть переопределена всеми подклассами.
+(Определение этой функции эквивалентно определению <code class="docutils literal notranslate"><span class="pre">vjp</span></code> функции.)</p>
+<p>Она должна принимать контекст <code class="xref py py-attr docutils literal notranslate"><span class="pre">ctx</span></code> в качестве первого аргумента, за которым следует
+столько выходных данных, сколько <a class="reference internal" href="snn.neurons_leakyparallel.html#snntorch._neurons.leakyparallel.LeakyParallel.ATan.forward" title="snntorch._neurons.leakyparallel.LeakyParallel.ATan.forward"><code class="xref py py-func docutils literal notranslate"><span class="pre">forward()</span></code></a> возвращено (None будет передано
+для не-тензорных выходов прямой функции),
+и она должна вернуть столько тензоров, сколько было входов в
+<a class="reference internal" href="snn.neurons_leakyparallel.html#snntorch._neurons.leakyparallel.LeakyParallel.ATan.forward" title="snntorch._neurons.leakyparallel.LeakyParallel.ATan.forward"><code class="xref py py-func docutils literal notranslate"><span class="pre">forward()</span></code></a>. Каждый аргумент является градиентом по данному выходу,
+и каждое возвращаемое значение должно быть градиентом по
+соответствующему входу. Если вход не является тензором или является тензором, не
+требующим градиентов, вы можете просто передать None в качестве градиента для этого входа.</p>
+<p>Контекст можно использовать для получения тензоров, сохраненных во время прямого
+прохода. Он также имеет атрибут <code class="xref py py-attr docutils literal notranslate"><span class="pre">ctx.needs_input_grad</span></code> в виде кортежа
+булевых значений, представляющих, нуждается ли каждый вход в градиенте. Например,
+<a class="reference internal" href="snn.neurons_leakyparallel.html#snntorch._neurons.leakyparallel.LeakyParallel.ATan.backward" title="snntorch._neurons.leakyparallel.LeakyParallel.ATan.backward"><code class="xref py py-func docutils literal notranslate"><span class="pre">backward()</span></code></a> будет иметь <code class="docutils literal notranslate"><span class="pre">ctx.needs_input_grad[0]</span> <span class="pre">=</span> <span class="pre">True</span></code> если
+первый вход в <a class="reference internal" href="snn.neurons_leakyparallel.html#snntorch._neurons.leakyparallel.LeakyParallel.ATan.forward" title="snntorch._neurons.leakyparallel.LeakyParallel.ATan.forward"><code class="xref py py-func docutils literal notranslate"><span class="pre">forward()</span></code></a> нуждается в градиенте, вычисленном по
+выходу.</p>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="snntorch._neurons.leakyparallel.LeakyParallel.ATan.forward">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/_neurons/leakyparallel.html#LeakyParallel.ATan.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snn.neurons_leakyparallel.html#snntorch._neurons.leakyparallel.LeakyParallel.ATan.forward" title="Link to this definition"></a></dt>
+<dd><p>Определите прямой проход пользовательской функции autograd.</p>
+<p>Эта функция должна быть переопределена всеми подклассами.
+Существует два способа определить forward:</p>
+<p>Использование 1 (Объединенный forward и ctx):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="n">ctx</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Он должен принимать контекст ctx в качестве первого аргумента, за которым следует любое
+количество аргументов (тензоров или других типов).</p></li>
+<li><p>Смотрите <span class="xref std std-ref">combining-forward-context</span> для получения дополнительных сведений</p></li>
+</ul>
+<p>Использование 2 (Раздельные forward и ctx):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+    <span class="k">pass</span>
+
+
+<span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">setup_context</span><span class="p">(</span><span class="n">ctx</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">output</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Forward больше не принимает аргумент ctx.</p></li>
+<li><p>Вместо этого вы также должны переопределить <code class="xref py py-meth docutils literal notranslate"><span class="pre">torch.autograd.Function.setup_context()</span></code>
+staticmethod для обработки настройки <code class="docutils literal notranslate"><span class="pre">ctx</span></code> объекта.
+<code class="docutils literal notranslate"><span class="pre">output</span></code> является выходом forward, <code class="docutils literal notranslate"><span class="pre">inputs</span></code> являются кортежем входов
+в forward.</p></li>
+<li><p>Смотрите <span class="xref std std-ref">extending-autograd</span> для получения дополнительных сведений</p></li>
+</ul>
+<p>Контекст может использоваться для хранения произвольных данных, которые могут быть затем
+извлечены во время обратного прохода. Тензоры не должны храниться
+непосредственно на <cite>ctx</cite> (хотя в настоящее время это не обеспечивается для
+обратной совместимости). Вместо этого тензоры должны сохраняться либо с помощью
+<code class="xref py py-func docutils literal notranslate"><span class="pre">ctx.save_for_backward()</span></code> если они предназначены для использования в
+<code class="docutils literal notranslate"><span class="pre">backward</span></code> (эквивалентно, <code class="docutils literal notranslate"><span class="pre">vjp</span></code>) или <code class="xref py py-func docutils literal notranslate"><span class="pre">ctx.save_for_forward()</span></code>
+если они предназначены для использования for in <code class="docutils literal notranslate"><span class="pre">jvp</span></code>.</p>
+</dd></dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="snntorch._neurons.leakyparallel.LeakyParallel.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/_neurons/leakyparallel.html#LeakyParallel.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snn.neurons_leakyparallel.html#snntorch._neurons.leakyparallel.LeakyParallel.forward" title="Link to this definition"></a></dt>
+<dd><p>Определяет вычисления, выполняемые при каждом вызове.</p>
+<p>Должен быть переопределен всеми подклассами.</p>
+<div class="admonition note">
+<p class="admonition-title">Примечание</p>
+<p>Хотя рецепт прямого прохода должен быть определен внутри
+этой функции, следует вызывать <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> экземпляр после этого
+вместо этой, так как первая заботится о запуске
+зарегистрированных хуков, в то время как последняя молча их игнорирует.</p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="snntorch._neurons.leakyparallel.LeakyParallel.grad_hook">
+<span class="sig-name descname"><span class="pre">grad_hook</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grad</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/_neurons/leakyparallel.html#LeakyParallel.grad_hook"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snn.neurons_leakyparallel.html#snntorch._neurons.leakyparallel.LeakyParallel.grad_hook" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="snntorch._neurons.leakyparallel.LeakyParallel.weight_hh_enable">
+<span class="sig-name descname"><span class="pre">weight_hh_enable</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/_neurons/leakyparallel.html#LeakyParallel.weight_hh_enable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snn.neurons_leakyparallel.html#snntorch._neurons.leakyparallel.LeakyParallel.weight_hh_enable" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+</dd></dl>
+</section>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="snn.neurons_leaky.html" rel="prev" title="snn.Leaky"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="snn.neurons_rleaky.html" rel="next" title="snn.RLeaky">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright 2021, Jason K. Eshraghian.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

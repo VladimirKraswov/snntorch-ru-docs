@@ -1,0 +1,1378 @@
+<!DOCTYPE html>
+<html class="writer-html5" data-content_root="./" lang="ru">
+<head>
+<meta charset="utf-8"/>
+<meta content="1" name="readthedocs-addons-api-version"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>snntorch.surrogate — snntorch 0.9.4 документация</title>
+<link href="_static/pygments.css%3Fv=03e43079.css" rel="stylesheet" type="text/css"/>
+<link href="_static/css/theme.css%3Fv=9edc463e.css" rel="stylesheet" type="text/css"/>
+<link href="_static/css/default.css" rel="stylesheet" type="text/css"/>
+<script src="_static/jquery.js%3Fv=5d32c60e"></script>
+<script src="_static/_sphinx_javascript_frameworks_compat.js%3Fv=2cd50e6c"></script>
+<script src="_static/documentation_options.js%3Fv=c5ca06ca"></script>
+<script src="_static/doctools.js%3Fv=fd6eb6e6"></script>
+<script src="_static/sphinx_highlight.js%3Fv=6ffebe34"></script>
+<script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+<script src="_static/js/theme.js"></script>
+<script src="_static/js/versions.js"></script>
+<link href="genindex.html" rel="index" title="Index"/>
+<link href="search.html" rel="search" title="Search"/>
+<link href="snntorch.utils.html" rel="next" title="snntorch.utils"/>
+<link href="snntorch.spikevision.spikedata.html" rel="prev" title="snntorch.spikevision.spikedata"/>
+<script async="" src="../../_/static/javascript/readthedocs-addons.js" type="text/javascript"></script><meta content="snntorch" name="readthedocs-project-slug"/><meta content="latest" name="readthedocs-version-slug"/><meta content="/snntorch.surrogate.html" name="readthedocs-resolver-filename"/><meta content="200" name="readthedocs-http-status"/></head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="index.html">
+            snntorch
+              <img alt="Logo" class="logo" src="_static/snntorch_alpha_full.png"/>
+</a>
+<div class="switch-menus">
+<div class="version-switch"></div>
+<div class="language-switch"></div>
+</div>
+<div role="search">
+<form action="search.html" class="wy-form" id="rtd-search-form" method="get">
+<input aria-label="Search docs" name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snntorch.html">snntorch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snntorch.export_nir.html">snntorch.export_nir</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snntorch.functional.html">snntorch.functional</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snntorch.import_nir.html">snntorch.import_nir</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snntorch.spikegen.html">snntorch.spikegen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snntorch.spikeplot.html">snntorch.spikeplot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snntorch.spikevision.html">snntorch.spikevision</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="snntorch.surrogate.html#">snntorch.surrogate</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="snntorch.surrogate.html#how-to-use-surrogate">How to use surrogate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="snntorch.surrogate.html#id1">Custom Surrogate Gradients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="snntorch.surrogate.html#module-snntorch.surrogate">List of surrogate gradients</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.ATan"><code class="docutils literal notranslate"><span class="pre">ATan</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.ATan.backward"><code class="docutils literal notranslate"><span class="pre">ATan.backward()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.ATan.forward"><code class="docutils literal notranslate"><span class="pre">ATan.forward()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.CustomSurrogate"><code class="docutils literal notranslate"><span class="pre">CustomSurrogate</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.CustomSurrogate.backward"><code class="docutils literal notranslate"><span class="pre">CustomSurrogate.backward()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.CustomSurrogate.forward"><code class="docutils literal notranslate"><span class="pre">CustomSurrogate.forward()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.FastSigmoid"><code class="docutils literal notranslate"><span class="pre">FastSigmoid</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.FastSigmoid.backward"><code class="docutils literal notranslate"><span class="pre">FastSigmoid.backward()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.FastSigmoid.forward"><code class="docutils literal notranslate"><span class="pre">FastSigmoid.forward()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.Heaviside"><code class="docutils literal notranslate"><span class="pre">Heaviside</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.Heaviside.backward"><code class="docutils literal notranslate"><span class="pre">Heaviside.backward()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.Heaviside.forward"><code class="docutils literal notranslate"><span class="pre">Heaviside.forward()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.LSO"><code class="docutils literal notranslate"><span class="pre">LSO()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.LeakySpikeOperator"><code class="docutils literal notranslate"><span class="pre">LeakySpikeOperator</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.LeakySpikeOperator.backward"><code class="docutils literal notranslate"><span class="pre">LeakySpikeOperator.backward()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.LeakySpikeOperator.forward"><code class="docutils literal notranslate"><span class="pre">LeakySpikeOperator.forward()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.SFS"><code class="docutils literal notranslate"><span class="pre">SFS()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.SSO"><code class="docutils literal notranslate"><span class="pre">SSO()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.Sigmoid"><code class="docutils literal notranslate"><span class="pre">Sigmoid</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.Sigmoid.backward"><code class="docutils literal notranslate"><span class="pre">Sigmoid.backward()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.Sigmoid.forward"><code class="docutils literal notranslate"><span class="pre">Sigmoid.forward()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.SparseFastSigmoid"><code class="docutils literal notranslate"><span class="pre">SparseFastSigmoid</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.SparseFastSigmoid.backward"><code class="docutils literal notranslate"><span class="pre">SparseFastSigmoid.backward()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.SparseFastSigmoid.forward"><code class="docutils literal notranslate"><span class="pre">SparseFastSigmoid.forward()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.SpikeRateEscape"><code class="docutils literal notranslate"><span class="pre">SpikeRateEscape</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.SpikeRateEscape.backward"><code class="docutils literal notranslate"><span class="pre">SpikeRateEscape.backward()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.SpikeRateEscape.forward"><code class="docutils literal notranslate"><span class="pre">SpikeRateEscape.forward()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.StochasticSpikeOperator"><code class="docutils literal notranslate"><span class="pre">StochasticSpikeOperator</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.StochasticSpikeOperator.backward"><code class="docutils literal notranslate"><span class="pre">StochasticSpikeOperator.backward()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.StochasticSpikeOperator.forward"><code class="docutils literal notranslate"><span class="pre">StochasticSpikeOperator.forward()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.StraightThroughEstimator"><code class="docutils literal notranslate"><span class="pre">StraightThroughEstimator</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.StraightThroughEstimator.backward"><code class="docutils literal notranslate"><span class="pre">StraightThroughEstimator.backward()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.StraightThroughEstimator.forward"><code class="docutils literal notranslate"><span class="pre">StraightThroughEstimator.forward()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.Triangular"><code class="docutils literal notranslate"><span class="pre">Triangular</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.Triangular.backward"><code class="docutils literal notranslate"><span class="pre">Triangular.backward()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.Triangular.forward"><code class="docutils literal notranslate"><span class="pre">Triangular.forward()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.atan"><code class="docutils literal notranslate"><span class="pre">atan()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.custom_surrogate"><code class="docutils literal notranslate"><span class="pre">custom_surrogate()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.fast_sigmoid"><code class="docutils literal notranslate"><span class="pre">fast_sigmoid()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.heaviside"><code class="docutils literal notranslate"><span class="pre">heaviside()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.sigmoid"><code class="docutils literal notranslate"><span class="pre">sigmoid()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.spike_rate_escape"><code class="docutils literal notranslate"><span class="pre">spike_rate_escape()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.straight_through_estimator"><code class="docutils literal notranslate"><span class="pre">straight_through_estimator()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.triangular"><code class="docutils literal notranslate"><span class="pre">triangular()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="snntorch.utils.html">snntorch.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">History</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="index.html">snntorch</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a aria-label="Home" class="icon icon-home" href="index.html"></a></li>
+<li class="breadcrumb-item active">snntorch.surrogate</li>
+<li class="wy-breadcrumbs-aside">
+<a href="_sources/snntorch.surrogate.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<div class="admonition note" data-snn-translation="ru"><p><strong>Русский перевод.</strong> Неофициальный перевод актуальной документации snnTorch latest (0.9.4). Оригинал: https://snntorch.readthedocs.io/en/latest/. Документация распространяется по лицензии CC BY-SA 3.0.</p></div><section id="snntorch-surrogate">
+<h1>snntorch.surrogate<a class="headerlink" href="snntorch.surrogate.html#snntorch-surrogate" title="Link to this heading"></a></h1>
+<p>По умолчанию средства автоматического дифференцирования PyTorch не могут вычислить аналитическую производную графа спайкового нейрона.
+Дискретная природа спайков затрудняет <code class="docutils literal notranslate"><span class="pre">torch.autograd</span></code> вычисление градиента, который облегчает обучение.
+<code class="xref py py-mod docutils literal notranslate"><span class="pre">snntorch</span></code> переопределяет градиент по умолчанию, используя <a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.ATan" title="snntorch.surrogate.ATan"><code class="xref py py-mod docutils literal notranslate"><span class="pre">snntorch.surrogate.ATan</span></code></a>.</p>
+<p>Альтернативные градиенты также доступны в модуле <a class="reference internal" href="snntorch.surrogate.html#module-snntorch.surrogate" title="snntorch.surrogate"><code class="xref py py-mod docutils literal notranslate"><span class="pre">snntorch.surrogate</span></code></a> .
+Они представляют собой либо аппроксимации обратного прохода, либо вероятностные модели срабатывания как функции мембранного потенциала.
+Также можно реализовать пользовательские суррогатные градиенты, заданные пользователем.</p>
+<p>В настоящее время доступные функции суррогатного градиента включают:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="snntorch.surrogate.html#snntorch.surrogate.Sigmoid">Sigmoid</a></p></li>
+<li><p><a class="reference external" href="snntorch.surrogate.html#snntorch.surrogate.FastSigmoid">Fast Sigmoid</a></p></li>
+<li><p><a class="reference external" href="snntorch.surrogate.html#snntorch.surrogate.ATan">ATan</a></p></li>
+<li><p><a class="reference external" href="snntorch.surrogate.html#snntorch.surrogate.StraightThroughEstimator">Straight Through Estimator</a></p></li>
+<li><p><a class="reference external" href="snntorch.surrogate.html#snntorch.surrogate.Triangular">Triangular</a></p></li>
+<li><p><a class="reference external" href="snntorch.surrogate.html#snntorch.surrogate.SpikeRateEscape">SpikeRateEscape</a></p></li>
+<li><p><a class="reference external" href="snntorch.surrogate.html#snntorch.surrogate.CustomSurrogate">Custom Surrogate Gradients</a></p></li>
+</ul>
+<p>среди нескольких других опций.</p>
+<p>Для дальнейшего чтения см.:</p>
+<blockquote>
+<div><p><em>E. O. Neftci, H. Mostafa, F. Zenke (2019) Surrogate Gradient Learning in Spiking Neural Networks: Bringing the Power of Gradient-Based Optimization to Spiking Neural Networks. IEEE Signal Processing Magazine, pp. 51-63.</em></p>
+</div></blockquote>
+<section id="how-to-use-surrogate">
+<h2>Как использовать суррогатный градиент<a class="headerlink" href="snntorch.surrogate.html#how-to-use-surrogate" title="Link to this heading"></a></h2>
+<p>Суррогатный градиент должен быть передан как аргумент <code class="docutils literal notranslate"><span class="pre">spike_grad</span></code> в модель нейрона.
+Если <code class="docutils literal notranslate"><span class="pre">spike_grad</span></code> не указан, по умолчанию используется <a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.ATan" title="snntorch.surrogate.ATan"><code class="xref py py-mod docutils literal notranslate"><span class="pre">snntorch.surrogate.ATan</span></code></a>.
+В следующем примере мы применяем суррогат быстрого сигмоида к <code class="xref py py-mod docutils literal notranslate"><span class="pre">snntorch.Synaptic</span></code>.</p>
+<p>Пример:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">snntorch</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">snn</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">snntorch</span><span class="w"> </span><span class="kn">import</span> <span class="n">surrogate</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nn</span>
+
+<span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.9</span>
+<span class="n">beta</span> <span class="o">=</span> <span class="mf">0.85</span>
+
+<span class="c1"># Initialize surrogate gradient</span>
+<span class="n">spike_grad1</span> <span class="o">=</span> <span class="n">surrogate</span><span class="o">.</span><span class="n">fast_sigmoid</span><span class="p">()</span>  <span class="c1"># passes default parameters from a closure</span>
+<span class="n">spike_grad2</span> <span class="o">=</span> <span class="n">surrogate</span><span class="o">.</span><span class="n">FastSigmoid</span><span class="o">.</span><span class="n">apply</span>  <span class="c1"># passes default parameters, equivalent to above</span>
+<span class="n">spike_grad3</span> <span class="o">=</span> <span class="n">surrogate</span><span class="o">.</span><span class="n">fast_sigmoid</span><span class="p">(</span><span class="n">slope</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>  <span class="c1"># custom parameters from a closure</span>
+
+<span class="c1"># Define Network</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Net</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+ <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+     <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+ <span class="c1"># Initialize layers, specify the ``spike_grad`` argument</span>
+     <span class="bp">self</span><span class="o">.</span><span class="n">fc1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">num_inputs</span><span class="p">,</span> <span class="n">num_hidden</span><span class="p">)</span>
+     <span class="bp">self</span><span class="o">.</span><span class="n">lif1</span> <span class="o">=</span> <span class="n">snn</span><span class="o">.</span><span class="n">Synaptic</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="n">beta</span><span class="p">,</span> <span class="n">spike_grad</span><span class="o">=</span><span class="n">spike_grad1</span><span class="p">)</span>
+     <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">num_hidden</span><span class="p">,</span> <span class="n">num_outputs</span><span class="p">)</span>
+     <span class="bp">self</span><span class="o">.</span><span class="n">lif2</span> <span class="o">=</span> <span class="n">snn</span><span class="o">.</span><span class="n">Synaptic</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="n">beta</span><span class="p">,</span> <span class="n">spike_grad</span><span class="o">=</span><span class="n">spike_grad3</span><span class="p">)</span>
+
+ <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">syn1</span><span class="p">,</span> <span class="n">mem1</span><span class="p">,</span> <span class="n">spk1</span><span class="p">,</span> <span class="n">syn2</span><span class="p">,</span> <span class="n">mem2</span><span class="p">):</span>
+     <span class="n">cur1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+     <span class="n">spk1</span><span class="p">,</span> <span class="n">syn1</span><span class="p">,</span> <span class="n">mem1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lif1</span><span class="p">(</span><span class="n">cur1</span><span class="p">,</span> <span class="n">syn1</span><span class="p">,</span> <span class="n">mem1</span><span class="p">)</span>
+     <span class="n">cur2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span><span class="p">(</span><span class="n">spk1</span><span class="p">)</span>
+     <span class="n">spk2</span><span class="p">,</span> <span class="n">syn2</span><span class="p">,</span> <span class="n">mem2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lif2</span><span class="p">(</span><span class="n">cur2</span><span class="p">,</span> <span class="n">syn2</span><span class="p">,</span> <span class="n">mem2</span><span class="p">)</span>
+     <span class="k">return</span> <span class="n">syn1</span><span class="p">,</span> <span class="n">mem1</span><span class="p">,</span> <span class="n">spk1</span><span class="p">,</span> <span class="n">syn2</span><span class="p">,</span> <span class="n">mem2</span><span class="p">,</span> <span class="n">spk2</span>
+
+ <span class="n">net</span> <span class="o">=</span> <span class="n">Net</span><span class="p">()</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="id1">
+<h2>Custom Surrogate Gradients<a class="headerlink" href="snntorch.surrogate.html#id1" title="Link to this heading"></a></h2>
+<p>Для гибкости пользователь также может определить пользовательские суррогатные градиенты
+с помощью <cite>custom_surrogate</cite>.</p>
+<p>Пример:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">snntorch</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">snn</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">snntorch</span><span class="w"> </span><span class="kn">import</span> <span class="n">surrogate</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nn</span>
+
+<span class="n">beta</span> <span class="o">=</span> <span class="mf">0.9</span>
+
+<span class="c1"># Define custom surrogate gradient</span>
+ <span class="k">def</span><span class="w"> </span><span class="nf">custom_fast_sigmoid</span><span class="p">(</span><span class="n">input_</span><span class="p">,</span> <span class="n">grad_input</span><span class="p">,</span> <span class="n">spikes</span><span class="p">):</span>
+     <span class="c1">## The hyperparameter slope is defined inside the function.</span>
+     <span class="n">slope</span> <span class="o">=</span> <span class="mi">25</span>
+     <span class="n">grad</span> <span class="o">=</span> <span class="n">grad_input</span> <span class="o">/</span> <span class="p">(</span><span class="n">slope</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">input_</span><span class="p">)</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+     <span class="k">return</span> <span class="n">grad</span>
+
+ <span class="n">spike_grad</span> <span class="o">=</span> <span class="n">surrogate</span><span class="o">.</span><span class="n">custom_surrogate</span><span class="p">(</span><span class="n">custom_fast_sigmoid</span><span class="p">)</span>
+
+<span class="c1"># Define Network</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Net</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+ <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+     <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+ <span class="c1"># Initialize layers</span>
+     <span class="bp">self</span><span class="o">.</span><span class="n">fc1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">num_inputs</span><span class="p">,</span> <span class="n">num_hidden</span><span class="p">)</span>
+     <span class="bp">self</span><span class="o">.</span><span class="n">lif1</span> <span class="o">=</span> <span class="n">snn</span><span class="o">.</span><span class="n">Leaky</span><span class="p">(</span><span class="n">beta</span><span class="o">=</span><span class="n">beta</span><span class="p">,</span> <span class="n">spike_grad</span><span class="o">=</span><span class="n">spike_grad</span><span class="p">)</span>
+     <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">num_hidden</span><span class="p">,</span> <span class="n">num_outputs</span><span class="p">)</span>
+     <span class="bp">self</span><span class="o">.</span><span class="n">lif2</span> <span class="o">=</span> <span class="n">snn</span><span class="o">.</span><span class="n">Leaky</span><span class="p">(</span><span class="n">beta</span><span class="o">=</span><span class="n">beta</span><span class="p">,</span> <span class="n">spike_grad</span><span class="o">=</span><span class="n">spike_grad</span><span class="p">)</span>
+
+ <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">mem1</span><span class="p">,</span> <span class="n">spk1</span><span class="p">,</span> <span class="n">mem2</span><span class="p">):</span>
+     <span class="n">cur1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+     <span class="n">spk1</span><span class="p">,</span> <span class="n">mem1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lif1</span><span class="p">(</span><span class="n">cur1</span><span class="p">,</span> <span class="n">mem1</span><span class="p">)</span>
+     <span class="n">cur2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span><span class="p">(</span><span class="n">spk1</span><span class="p">)</span>
+     <span class="n">spk2</span><span class="p">,</span> <span class="n">mem2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lif2</span><span class="p">(</span><span class="n">cur2</span><span class="p">,</span> <span class="n">mem2</span><span class="p">)</span>
+
+     <span class="k">return</span> <span class="n">mem1</span><span class="p">,</span> <span class="n">spk1</span><span class="p">,</span> <span class="n">mem2</span><span class="p">,</span> <span class="n">spk2</span>
+
+ <span class="n">net</span> <span class="o">=</span> <span class="n">Net</span><span class="p">()</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="module-snntorch.surrogate">
+<span id="list-of-surrogate-gradients"></span><h2>Список суррогатных градиентов<a class="headerlink" href="snntorch.surrogate.html#module-snntorch.surrogate" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="snntorch.surrogate.ATan">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">snntorch.surrogate.</span></span><span class="sig-name descname"><span class="pre">ATan</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/surrogate.html#ATan"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snntorch.surrogate.html#snntorch.surrogate.ATan" title="Link to this definition"></a></dt>
+<dd><p>Базовые классы: <code class="xref py py-class docutils literal notranslate"><span class="pre">Function</span></code></p>
+<p>Суррогатный градиент ступенчатой функции Хевисайда.</p>
+<p><strong>Прямой проход:</strong> Сдвинутая ступенчатая функция Хевисайда.</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[\begin{split}S=\begin{cases} 1 &amp; \text{if U ≥ U$_{\rm thr}$} \\
+0 &amp; \text{if U &lt; U$_{\rm thr}$}
+\end{cases}\end{split}\]</div>
+</div></blockquote>
+<p><strong>Обратный проход:</strong> Градиент сдвинутой функции арктангенса.</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[\begin{split}S&amp;≈\frac{1}{π}\text{arctan}(πU \frac{α}{2}) \\
+\frac{∂S}{∂U}&amp;=\frac{1}{π}\frac{1}{(1+(πU\frac{α}{2})^2)}\end{split}\]</div>
+</div></blockquote>
+<p>По умолчанию α = 2, и его можно изменить, вызвав         <code class="docutils literal notranslate"><span class="pre">surrogate.atan(alpha=2)</span></code>.</p>
+<p>Адаптировано из:</p>
+<p><em>W. Fang, Z. Yu, Y. Chen, T. Masquelier, T. Huang,
+Y. Tian (2021) Incorporating Learnable Membrane Time Constants
+to Enhance Learning of Spiking Neural Networks. Proc. IEEE/CVF
+Int. Conf. Computer Vision (ICCV), pp. 2661-2671.</em></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="snntorch.surrogate.ATan.backward">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">backward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grad_output</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/surrogate.html#ATan.backward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snntorch.surrogate.html#snntorch.surrogate.ATan.backward" title="Link to this definition"></a></dt>
+<dd><p>Определите формулу для дифференцирования операции с обратным режимом автоматического дифференцирования.</p>
+<p>Эта функция должна быть переопределена всеми подклассами.
+(Определение этой функции эквивалентно определению <code class="docutils literal notranslate"><span class="pre">vjp</span></code> функции.)</p>
+<p>Она должна принимать контекст <code class="xref py py-attr docutils literal notranslate"><span class="pre">ctx</span></code> в качестве первого аргумента, за которым следует
+столько выходных данных, сколько <a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.ATan.forward" title="snntorch.surrogate.ATan.forward"><code class="xref py py-func docutils literal notranslate"><span class="pre">forward()</span></code></a> возвращено (None будет передано
+для не-тензорных выходов прямой функции),
+и она должна вернуть столько тензоров, сколько было входов в
+<a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.ATan.forward" title="snntorch.surrogate.ATan.forward"><code class="xref py py-func docutils literal notranslate"><span class="pre">forward()</span></code></a>. Каждый аргумент является градиентом по данному выходу,
+и каждое возвращаемое значение должно быть градиентом по
+соответствующему входу. Если вход не является тензором или является тензором, не
+требующим градиентов, вы можете просто передать None в качестве градиента для этого входа.</p>
+<p>Контекст можно использовать для получения тензоров, сохраненных во время прямого
+прохода. Он также имеет атрибут <code class="xref py py-attr docutils literal notranslate"><span class="pre">ctx.needs_input_grad</span></code> в виде кортежа
+булевых значений, представляющих, нуждается ли каждый вход в градиенте. Например,
+<a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.ATan.backward" title="snntorch.surrogate.ATan.backward"><code class="xref py py-func docutils literal notranslate"><span class="pre">backward()</span></code></a> будет иметь <code class="docutils literal notranslate"><span class="pre">ctx.needs_input_grad[0]</span> <span class="pre">=</span> <span class="pre">True</span></code> если
+первый вход в <a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.ATan.forward" title="snntorch.surrogate.ATan.forward"><code class="xref py py-func docutils literal notranslate"><span class="pre">forward()</span></code></a> нуждается в градиенте, вычисленном по
+выходу.</p>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="snntorch.surrogate.ATan.forward">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/surrogate.html#ATan.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snntorch.surrogate.html#snntorch.surrogate.ATan.forward" title="Link to this definition"></a></dt>
+<dd><p>Определите прямой проход пользовательской функции autograd.</p>
+<p>Эта функция должна быть переопределена всеми подклассами.
+Существует два способа определить forward:</p>
+<p>Использование 1 (Объединенный forward и ctx):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="n">ctx</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Он должен принимать контекст ctx в качестве первого аргумента, за которым следует любое
+количество аргументов (тензоров или других типов).</p></li>
+<li><p>Смотрите <span class="xref std std-ref">combining-forward-context</span> для получения дополнительных сведений</p></li>
+</ul>
+<p>Использование 2 (Раздельные forward и ctx):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+    <span class="k">pass</span>
+
+
+<span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">setup_context</span><span class="p">(</span><span class="n">ctx</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">output</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Forward больше не принимает аргумент ctx.</p></li>
+<li><p>Вместо этого вы также должны переопределить <code class="xref py py-meth docutils literal notranslate"><span class="pre">torch.autograd.Function.setup_context()</span></code>
+staticmethod для обработки настройки <code class="docutils literal notranslate"><span class="pre">ctx</span></code> объекта.
+<code class="docutils literal notranslate"><span class="pre">output</span></code> является выходом forward, <code class="docutils literal notranslate"><span class="pre">inputs</span></code> являются кортежем входов
+в forward.</p></li>
+<li><p>Смотрите <span class="xref std std-ref">extending-autograd</span> для получения дополнительных сведений</p></li>
+</ul>
+<p>Контекст может использоваться для хранения произвольных данных, которые могут быть затем
+извлечены во время обратного прохода. Тензоры не должны храниться
+непосредственно на <cite>ctx</cite> (хотя в настоящее время это не обеспечивается для
+обратной совместимости). Вместо этого тензоры должны сохраняться либо с помощью
+<code class="xref py py-func docutils literal notranslate"><span class="pre">ctx.save_for_backward()</span></code> если они предназначены для использования в
+<code class="docutils literal notranslate"><span class="pre">backward</span></code> (эквивалентно, <code class="docutils literal notranslate"><span class="pre">vjp</span></code>) или <code class="xref py py-func docutils literal notranslate"><span class="pre">ctx.save_for_forward()</span></code>
+если они предназначены для использования for in <code class="docutils literal notranslate"><span class="pre">jvp</span></code>.</p>
+</dd></dl>
+</dd></dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="snntorch.surrogate.CustomSurrogate">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">snntorch.surrogate.</span></span><span class="sig-name descname"><span class="pre">CustomSurrogate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/surrogate.html#CustomSurrogate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snntorch.surrogate.html#snntorch.surrogate.CustomSurrogate" title="Link to this definition"></a></dt>
+<dd><p>Базовые классы: <code class="xref py py-class docutils literal notranslate"><span class="pre">Function</span></code></p>
+<p>Суррогатный градиент ступенчатой функции Хевисайда.</p>
+<p><strong>Прямой проход:</strong> Функция оператора спайка.</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[\begin{split}S=\begin{cases} \frac{U(t)}{U} &amp; \text{if U ≥ U$_{\rm thr}$}
+\\
+0 &amp; \text{if U &lt; U$_{\rm thr}$}
+\end{cases}\end{split}\]</div>
+</div></blockquote>
+<p><strong>Обратный проход:</strong> Пользовательская функция суррогатного градиента, заданная пользователем.</p>
+<p>Пользователь определяет пользовательский суррогатный градиент в отдельной функции.
+Она передается в статическом методе forward и используется в статическом
+методе backward.</p>
+<p>Аргументами функции пользовательского суррогатного градиента всегда являются
+входные данные прямого прохода (<a href="snntorch.surrogate.html#id2"><span class="problematic" id="id3">input_</span></a>), градиент входных данных
+(grad_input) и выходные данные прямого прохода (out).</p>
+<p>** Важное примечание: Гиперпараметры пользовательской функции суррогатного градиента
+должны быть определены внутри самой функции. **</p>
+<p>Пример:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nn</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">snntorch</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">snn</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">snntorch</span><span class="w"> </span><span class="kn">import</span> <span class="n">surrogate</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">custom_fast_sigmoid</span><span class="p">(</span><span class="n">input_</span><span class="p">,</span> <span class="n">grad_input</span><span class="p">,</span> <span class="n">spikes</span><span class="p">):</span>
+    <span class="c1">## The hyperparameter slope is defined inside the function.</span>
+    <span class="n">slope</span> <span class="o">=</span> <span class="mi">25</span>
+    <span class="n">grad</span> <span class="o">=</span> <span class="n">grad_input</span> <span class="o">/</span> <span class="p">(</span><span class="n">slope</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">input_</span><span class="p">)</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+    <span class="k">return</span> <span class="n">grad</span>
+
+<span class="n">spike_grad</span> <span class="o">=</span> <span class="n">surrogate</span><span class="o">.</span><span class="n">custom_surrogate</span><span class="p">(</span><span class="n">custom_fast_sigmoid</span><span class="p">)</span>
+
+<span class="n">net_seq</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">MaxPool2d</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span>
+            <span class="n">snn</span><span class="o">.</span><span class="n">Leaky</span><span class="p">(</span><span class="n">beta</span><span class="o">=</span><span class="n">beta</span><span class="p">,</span>
+                    <span class="n">spike_grad</span><span class="o">=</span><span class="n">spike_grad</span><span class="p">,</span>
+                    <span class="n">init_hidden</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">MaxPool2d</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span>
+            <span class="n">snn</span><span class="o">.</span><span class="n">Leaky</span><span class="p">(</span><span class="n">beta</span><span class="o">=</span><span class="n">beta</span><span class="p">,</span>
+                    <span class="n">spike_grad</span><span class="o">=</span><span class="n">spike_grad</span><span class="p">,</span>
+                    <span class="n">init_hidden</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Flatten</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">64</span><span class="o">*</span><span class="mi">4</span><span class="o">*</span><span class="mi">4</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span>
+            <span class="n">snn</span><span class="o">.</span><span class="n">Leaky</span><span class="p">(</span><span class="n">beta</span><span class="o">=</span><span class="n">beta</span><span class="p">,</span>
+                    <span class="n">spike_grad</span><span class="o">=</span><span class="n">spike_grad</span><span class="p">,</span>
+                    <span class="n">init_hidden</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="n">output</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="snntorch.surrogate.CustomSurrogate.backward">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">backward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grad_output</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/surrogate.html#CustomSurrogate.backward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snntorch.surrogate.html#snntorch.surrogate.CustomSurrogate.backward" title="Link to this definition"></a></dt>
+<dd><p>Определите формулу для дифференцирования операции с обратным режимом автоматического дифференцирования.</p>
+<p>Эта функция должна быть переопределена всеми подклассами.
+(Определение этой функции эквивалентно определению <code class="docutils literal notranslate"><span class="pre">vjp</span></code> функции.)</p>
+<p>Она должна принимать контекст <code class="xref py py-attr docutils literal notranslate"><span class="pre">ctx</span></code> в качестве первого аргумента, за которым следует
+столько выходных данных, сколько <a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.CustomSurrogate.forward" title="snntorch.surrogate.CustomSurrogate.forward"><code class="xref py py-func docutils literal notranslate"><span class="pre">forward()</span></code></a> возвращено (None будет передано
+для не-тензорных выходов прямой функции),
+и она должна вернуть столько тензоров, сколько было входов в
+<a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.CustomSurrogate.forward" title="snntorch.surrogate.CustomSurrogate.forward"><code class="xref py py-func docutils literal notranslate"><span class="pre">forward()</span></code></a>. Каждый аргумент является градиентом по данному выходу,
+и каждое возвращаемое значение должно быть градиентом по
+соответствующему входу. Если вход не является тензором или является тензором, не
+требующим градиентов, вы можете просто передать None в качестве градиента для этого входа.</p>
+<p>Контекст можно использовать для получения тензоров, сохраненных во время прямого
+прохода. Он также имеет атрибут <code class="xref py py-attr docutils literal notranslate"><span class="pre">ctx.needs_input_grad</span></code> в виде кортежа
+булевых значений, представляющих, нуждается ли каждый вход в градиенте. Например,
+<a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.CustomSurrogate.backward" title="snntorch.surrogate.CustomSurrogate.backward"><code class="xref py py-func docutils literal notranslate"><span class="pre">backward()</span></code></a> будет иметь <code class="docutils literal notranslate"><span class="pre">ctx.needs_input_grad[0]</span> <span class="pre">=</span> <span class="pre">True</span></code> если
+первый вход в <a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.CustomSurrogate.forward" title="snntorch.surrogate.CustomSurrogate.forward"><code class="xref py py-func docutils literal notranslate"><span class="pre">forward()</span></code></a> нуждается в градиенте, вычисленном по
+выходу.</p>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="snntorch.surrogate.CustomSurrogate.forward">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_surrogate_function</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/surrogate.html#CustomSurrogate.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snntorch.surrogate.html#snntorch.surrogate.CustomSurrogate.forward" title="Link to this definition"></a></dt>
+<dd><p>Определите прямой проход пользовательской функции autograd.</p>
+<p>Эта функция должна быть переопределена всеми подклассами.
+Существует два способа определить forward:</p>
+<p>Использование 1 (Объединенный forward и ctx):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="n">ctx</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Он должен принимать контекст ctx в качестве первого аргумента, за которым следует любое
+количество аргументов (тензоров или других типов).</p></li>
+<li><p>Смотрите <span class="xref std std-ref">combining-forward-context</span> для получения дополнительных сведений</p></li>
+</ul>
+<p>Использование 2 (Раздельные forward и ctx):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+    <span class="k">pass</span>
+
+
+<span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">setup_context</span><span class="p">(</span><span class="n">ctx</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">output</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Forward больше не принимает аргумент ctx.</p></li>
+<li><p>Вместо этого вы также должны переопределить <code class="xref py py-meth docutils literal notranslate"><span class="pre">torch.autograd.Function.setup_context()</span></code>
+staticmethod для обработки настройки <code class="docutils literal notranslate"><span class="pre">ctx</span></code> объекта.
+<code class="docutils literal notranslate"><span class="pre">output</span></code> является выходом forward, <code class="docutils literal notranslate"><span class="pre">inputs</span></code> являются кортежем входов
+в forward.</p></li>
+<li><p>Смотрите <span class="xref std std-ref">extending-autograd</span> для получения дополнительных сведений</p></li>
+</ul>
+<p>Контекст может использоваться для хранения произвольных данных, которые могут быть затем
+извлечены во время обратного прохода. Тензоры не должны храниться
+непосредственно на <cite>ctx</cite> (хотя в настоящее время это не обеспечивается для
+обратной совместимости). Вместо этого тензоры должны сохраняться либо с помощью
+<code class="xref py py-func docutils literal notranslate"><span class="pre">ctx.save_for_backward()</span></code> если они предназначены для использования в
+<code class="docutils literal notranslate"><span class="pre">backward</span></code> (эквивалентно, <code class="docutils literal notranslate"><span class="pre">vjp</span></code>) или <code class="xref py py-func docutils literal notranslate"><span class="pre">ctx.save_for_forward()</span></code>
+если они предназначены для использования for in <code class="docutils literal notranslate"><span class="pre">jvp</span></code>.</p>
+</dd></dl>
+</dd></dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="snntorch.surrogate.FastSigmoid">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">snntorch.surrogate.</span></span><span class="sig-name descname"><span class="pre">FastSigmoid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/surrogate.html#FastSigmoid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snntorch.surrogate.html#snntorch.surrogate.FastSigmoid" title="Link to this definition"></a></dt>
+<dd><p>Базовые классы: <code class="xref py py-class docutils literal notranslate"><span class="pre">Function</span></code></p>
+<p>Суррогатный градиент ступенчатой функции Хевисайда.</p>
+<p><strong>Прямой проход:</strong> Сдвинутая ступенчатая функция Хевисайда.</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[\begin{split}S=\begin{cases} 1 &amp; \text{if U ≥ U$_{\rm thr}$} \\
+0 &amp; \text{if U &lt; U$_{\rm thr}$}
+\end{cases}\end{split}\]</div>
+</div></blockquote>
+<p><strong>Обратный проход:</strong> Градиент функции быстрого сигмоида.</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[\begin{split}S&amp;≈\frac{U}{1 + k|U|} \\
+\frac{∂S}{∂U}&amp;=\frac{1}{(1+k|U|)^2}\end{split}\]</div>
+</div></blockquote>
+<p><span class="math notranslate nohighlight">\(k\)</span> по умолчанию равен 25, и его можно изменить, вызвав         <code class="docutils literal notranslate"><span class="pre">surrogate.fast_sigmoid(slope=25)</span></code>.</p>
+<p>Адаптировано из:</p>
+<p><em>F. Zenke, S. Ganguli (2018) SuperSpike: Supervised Learning in
+Multilayer Spiking Neural Networks. Neural Computation, pp. 1514-1541.</em></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="snntorch.surrogate.FastSigmoid.backward">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">backward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grad_output</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/surrogate.html#FastSigmoid.backward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snntorch.surrogate.html#snntorch.surrogate.FastSigmoid.backward" title="Link to this definition"></a></dt>
+<dd><p>Определите формулу для дифференцирования операции с обратным режимом автоматического дифференцирования.</p>
+<p>Эта функция должна быть переопределена всеми подклассами.
+(Определение этой функции эквивалентно определению <code class="docutils literal notranslate"><span class="pre">vjp</span></code> функции.)</p>
+<p>Она должна принимать контекст <code class="xref py py-attr docutils literal notranslate"><span class="pre">ctx</span></code> в качестве первого аргумента, за которым следует
+столько выходных данных, сколько <a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.FastSigmoid.forward" title="snntorch.surrogate.FastSigmoid.forward"><code class="xref py py-func docutils literal notranslate"><span class="pre">forward()</span></code></a> возвращено (None будет передано
+для не-тензорных выходов прямой функции),
+и она должна вернуть столько тензоров, сколько было входов в
+<a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.FastSigmoid.forward" title="snntorch.surrogate.FastSigmoid.forward"><code class="xref py py-func docutils literal notranslate"><span class="pre">forward()</span></code></a>. Каждый аргумент является градиентом по данному выходу,
+и каждое возвращаемое значение должно быть градиентом по
+соответствующему входу. Если вход не является тензором или является тензором, не
+требующим градиентов, вы можете просто передать None в качестве градиента для этого входа.</p>
+<p>Контекст можно использовать для получения тензоров, сохраненных во время прямого
+прохода. Он также имеет атрибут <code class="xref py py-attr docutils literal notranslate"><span class="pre">ctx.needs_input_grad</span></code> в виде кортежа
+булевых значений, представляющих, нуждается ли каждый вход в градиенте. Например,
+<a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.FastSigmoid.backward" title="snntorch.surrogate.FastSigmoid.backward"><code class="xref py py-func docutils literal notranslate"><span class="pre">backward()</span></code></a> будет иметь <code class="docutils literal notranslate"><span class="pre">ctx.needs_input_grad[0]</span> <span class="pre">=</span> <span class="pre">True</span></code> если
+первый вход в <a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.FastSigmoid.forward" title="snntorch.surrogate.FastSigmoid.forward"><code class="xref py py-func docutils literal notranslate"><span class="pre">forward()</span></code></a> нуждается в градиенте, вычисленном по
+выходу.</p>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="snntorch.surrogate.FastSigmoid.forward">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">slope</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/surrogate.html#FastSigmoid.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snntorch.surrogate.html#snntorch.surrogate.FastSigmoid.forward" title="Link to this definition"></a></dt>
+<dd><p>Определите прямой проход пользовательской функции autograd.</p>
+<p>Эта функция должна быть переопределена всеми подклассами.
+Существует два способа определить forward:</p>
+<p>Использование 1 (Объединенный forward и ctx):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="n">ctx</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Он должен принимать контекст ctx в качестве первого аргумента, за которым следует любое
+количество аргументов (тензоров или других типов).</p></li>
+<li><p>Смотрите <span class="xref std std-ref">combining-forward-context</span> для получения дополнительных сведений</p></li>
+</ul>
+<p>Использование 2 (Раздельные forward и ctx):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+    <span class="k">pass</span>
+
+
+<span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">setup_context</span><span class="p">(</span><span class="n">ctx</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">output</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Forward больше не принимает аргумент ctx.</p></li>
+<li><p>Вместо этого вы также должны переопределить <code class="xref py py-meth docutils literal notranslate"><span class="pre">torch.autograd.Function.setup_context()</span></code>
+staticmethod для обработки настройки <code class="docutils literal notranslate"><span class="pre">ctx</span></code> объекта.
+<code class="docutils literal notranslate"><span class="pre">output</span></code> является выходом forward, <code class="docutils literal notranslate"><span class="pre">inputs</span></code> являются кортежем входов
+в forward.</p></li>
+<li><p>Смотрите <span class="xref std std-ref">extending-autograd</span> для получения дополнительных сведений</p></li>
+</ul>
+<p>Контекст может использоваться для хранения произвольных данных, которые могут быть затем
+извлечены во время обратного прохода. Тензоры не должны храниться
+непосредственно на <cite>ctx</cite> (хотя в настоящее время это не обеспечивается для
+обратной совместимости). Вместо этого тензоры должны сохраняться либо с помощью
+<code class="xref py py-func docutils literal notranslate"><span class="pre">ctx.save_for_backward()</span></code> если они предназначены для использования в
+<code class="docutils literal notranslate"><span class="pre">backward</span></code> (эквивалентно, <code class="docutils literal notranslate"><span class="pre">vjp</span></code>) или <code class="xref py py-func docutils literal notranslate"><span class="pre">ctx.save_for_forward()</span></code>
+если они предназначены для использования for in <code class="docutils literal notranslate"><span class="pre">jvp</span></code>.</p>
+</dd></dl>
+</dd></dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="snntorch.surrogate.Heaviside">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">snntorch.surrogate.</span></span><span class="sig-name descname"><span class="pre">Heaviside</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/surrogate.html#Heaviside"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snntorch.surrogate.html#snntorch.surrogate.Heaviside" title="Link to this definition"></a></dt>
+<dd><p>Базовые классы: <code class="xref py py-class docutils literal notranslate"><span class="pre">Function</span></code></p>
+<p>Функция спайка по умолчанию для нейрона.</p>
+<p><strong>Прямой проход:</strong> Сдвинутая ступенчатая функция Хевисайда.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}S=\begin{cases} 1 &amp; \text{if U ≥ U$_{\rm thr}$} \\
+0 &amp; \text{if U &lt; U$_{\rm thr}$}
+\end{cases}\end{split}\]</div>
+<p><strong>Обратный проход:</strong> Сдвинутая ступенчатая функция Хевисайда.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\frac{∂S}{∂U}=\begin{cases} 1 &amp; \text{if U ≥ U$_{\rm thr}$} \\
+0 &amp; \text{if U &lt; U$_{\rm thr}$}
+\end{cases}\end{split}\]</div>
+<p>Хотя обратный проход явно не является аналитическим
+решением прямого прохода, это предположение выполняется
+на том основании, что сброс обязательно происходит после генерации спайка,
+когда <span class="math notranslate nohighlight">\(U ≥ U_{\rm thr}\)</span>.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="snntorch.surrogate.Heaviside.backward">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">backward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grad_output</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/surrogate.html#Heaviside.backward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snntorch.surrogate.html#snntorch.surrogate.Heaviside.backward" title="Link to this definition"></a></dt>
+<dd><p>Определите формулу для дифференцирования операции с обратным режимом автоматического дифференцирования.</p>
+<p>Эта функция должна быть переопределена всеми подклассами.
+(Определение этой функции эквивалентно определению <code class="docutils literal notranslate"><span class="pre">vjp</span></code> функции.)</p>
+<p>Она должна принимать контекст <code class="xref py py-attr docutils literal notranslate"><span class="pre">ctx</span></code> в качестве первого аргумента, за которым следует
+столько выходных данных, сколько <a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.Heaviside.forward" title="snntorch.surrogate.Heaviside.forward"><code class="xref py py-func docutils literal notranslate"><span class="pre">forward()</span></code></a> возвращено (None будет передано
+для не-тензорных выходов прямой функции),
+и она должна вернуть столько тензоров, сколько было входов в
+<a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.Heaviside.forward" title="snntorch.surrogate.Heaviside.forward"><code class="xref py py-func docutils literal notranslate"><span class="pre">forward()</span></code></a>. Каждый аргумент является градиентом по данному выходу,
+и каждое возвращаемое значение должно быть градиентом по
+соответствующему входу. Если вход не является тензором или является тензором, не
+требующим градиентов, вы можете просто передать None в качестве градиента для этого входа.</p>
+<p>Контекст можно использовать для получения тензоров, сохраненных во время прямого
+прохода. Он также имеет атрибут <code class="xref py py-attr docutils literal notranslate"><span class="pre">ctx.needs_input_grad</span></code> в виде кортежа
+булевых значений, представляющих, нуждается ли каждый вход в градиенте. Например,
+<a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.Heaviside.backward" title="snntorch.surrogate.Heaviside.backward"><code class="xref py py-func docutils literal notranslate"><span class="pre">backward()</span></code></a> будет иметь <code class="docutils literal notranslate"><span class="pre">ctx.needs_input_grad[0]</span> <span class="pre">=</span> <span class="pre">True</span></code> если
+первый вход в <a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.Heaviside.forward" title="snntorch.surrogate.Heaviside.forward"><code class="xref py py-func docutils literal notranslate"><span class="pre">forward()</span></code></a> нуждается в градиенте, вычисленном по
+выходу.</p>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="snntorch.surrogate.Heaviside.forward">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/surrogate.html#Heaviside.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snntorch.surrogate.html#snntorch.surrogate.Heaviside.forward" title="Link to this definition"></a></dt>
+<dd><p>Определите прямой проход пользовательской функции autograd.</p>
+<p>Эта функция должна быть переопределена всеми подклассами.
+Существует два способа определить forward:</p>
+<p>Использование 1 (Объединенный forward и ctx):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="n">ctx</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Он должен принимать контекст ctx в качестве первого аргумента, за которым следует любое
+количество аргументов (тензоров или других типов).</p></li>
+<li><p>Смотрите <span class="xref std std-ref">combining-forward-context</span> для получения дополнительных сведений</p></li>
+</ul>
+<p>Использование 2 (Раздельные forward и ctx):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+    <span class="k">pass</span>
+
+
+<span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">setup_context</span><span class="p">(</span><span class="n">ctx</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">output</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Forward больше не принимает аргумент ctx.</p></li>
+<li><p>Вместо этого вы также должны переопределить <code class="xref py py-meth docutils literal notranslate"><span class="pre">torch.autograd.Function.setup_context()</span></code>
+staticmethod для обработки настройки <code class="docutils literal notranslate"><span class="pre">ctx</span></code> объекта.
+<code class="docutils literal notranslate"><span class="pre">output</span></code> является выходом forward, <code class="docutils literal notranslate"><span class="pre">inputs</span></code> являются кортежем входов
+в forward.</p></li>
+<li><p>Смотрите <span class="xref std std-ref">extending-autograd</span> для получения дополнительных сведений</p></li>
+</ul>
+<p>Контекст может использоваться для хранения произвольных данных, которые могут быть затем
+извлечены во время обратного прохода. Тензоры не должны храниться
+непосредственно на <cite>ctx</cite> (хотя в настоящее время это не обеспечивается для
+обратной совместимости). Вместо этого тензоры должны сохраняться либо с помощью
+<code class="xref py py-func docutils literal notranslate"><span class="pre">ctx.save_for_backward()</span></code> если они предназначены для использования в
+<code class="docutils literal notranslate"><span class="pre">backward</span></code> (эквивалентно, <code class="docutils literal notranslate"><span class="pre">vjp</span></code>) или <code class="xref py py-func docutils literal notranslate"><span class="pre">ctx.save_for_forward()</span></code>
+если они предназначены для использования for in <code class="docutils literal notranslate"><span class="pre">jvp</span></code>.</p>
+</dd></dl>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="snntorch.surrogate.LSO">
+<span class="sig-prename descclassname"><span class="pre">snntorch.surrogate.</span></span><span class="sig-name descname"><span class="pre">LSO</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">slope</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/surrogate.html#LSO"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snntorch.surrogate.html#snntorch.surrogate.LSO" title="Link to this definition"></a></dt>
+<dd><p>Градиент оператора утечки спайка, заключенный в параметризованный наклон.</p>
+</dd></dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="snntorch.surrogate.LeakySpikeOperator">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">snntorch.surrogate.</span></span><span class="sig-name descname"><span class="pre">LeakySpikeOperator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/surrogate.html#LeakySpikeOperator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snntorch.surrogate.html#snntorch.surrogate.LeakySpikeOperator" title="Link to this definition"></a></dt>
+<dd><p>Базовые классы: <code class="xref py py-class docutils literal notranslate"><span class="pre">Function</span></code></p>
+<p>Суррогатный градиент ступенчатой функции Хевисайда.</p>
+<p><strong>Прямой проход:</strong> Функция оператора спайка.</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[\begin{split}S=\begin{cases} \frac{U(t)}{U} &amp; \text{if U ≥ U$_{\rm thr}$}
+\\
+0 &amp; \text{if U &lt; U$_{\rm thr}$}
+\end{cases}\end{split}\]</div>
+</div></blockquote>
+<p><strong>Обратный проход:</strong> Градиент утечки оператора спайка, где
+подпороговый градиент рассматривается как небольшой постоянный наклон.</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[\begin{split}S&amp;≈\begin{cases} \frac{U(t)}{U}\Big{|}_{U(t)→U_{\rm thr}}
+&amp; \text{if U ≥ U$_{\rm thr}$} \\
+kU &amp; \text{if U &lt; U$_{\rm thr}$}\end{cases} \\
+\frac{∂S}{∂U}&amp;=\begin{cases} 1
+&amp; \text{if U ≥ U$_{\rm thr}$} \\
+k &amp; \text{if U &lt; U$_{\rm thr}$}
+\end{cases}\end{split}\]</div>
+</div></blockquote>
+<p><span class="math notranslate nohighlight">\(k\)</span> по умолчанию равен 0,1, и его можно изменить, вызвав         <code class="docutils literal notranslate"><span class="pre">surrogate.LSO(slope=0.1)</span></code>.</p>
+<p>Градиент идентичен градиенту сдвинутого по порогу Leaky ReLU.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="snntorch.surrogate.LeakySpikeOperator.backward">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">backward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grad_output</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/surrogate.html#LeakySpikeOperator.backward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snntorch.surrogate.html#snntorch.surrogate.LeakySpikeOperator.backward" title="Link to this definition"></a></dt>
+<dd><p>Определите формулу для дифференцирования операции с обратным режимом автоматического дифференцирования.</p>
+<p>Эта функция должна быть переопределена всеми подклассами.
+(Определение этой функции эквивалентно определению <code class="docutils literal notranslate"><span class="pre">vjp</span></code> функции.)</p>
+<p>Она должна принимать контекст <code class="xref py py-attr docutils literal notranslate"><span class="pre">ctx</span></code> в качестве первого аргумента, за которым следует
+столько выходных данных, сколько <a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.LeakySpikeOperator.forward" title="snntorch.surrogate.LeakySpikeOperator.forward"><code class="xref py py-func docutils literal notranslate"><span class="pre">forward()</span></code></a> возвращено (None будет передано
+для не-тензорных выходов прямой функции),
+и она должна вернуть столько тензоров, сколько было входов в
+<a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.LeakySpikeOperator.forward" title="snntorch.surrogate.LeakySpikeOperator.forward"><code class="xref py py-func docutils literal notranslate"><span class="pre">forward()</span></code></a>. Каждый аргумент является градиентом по данному выходу,
+и каждое возвращаемое значение должно быть градиентом по
+соответствующему входу. Если вход не является тензором или является тензором, не
+требующим градиентов, вы можете просто передать None в качестве градиента для этого входа.</p>
+<p>Контекст можно использовать для получения тензоров, сохраненных во время прямого
+прохода. Он также имеет атрибут <code class="xref py py-attr docutils literal notranslate"><span class="pre">ctx.needs_input_grad</span></code> в виде кортежа
+булевых значений, представляющих, нуждается ли каждый вход в градиенте. Например,
+<a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.LeakySpikeOperator.backward" title="snntorch.surrogate.LeakySpikeOperator.backward"><code class="xref py py-func docutils literal notranslate"><span class="pre">backward()</span></code></a> будет иметь <code class="docutils literal notranslate"><span class="pre">ctx.needs_input_grad[0]</span> <span class="pre">=</span> <span class="pre">True</span></code> если
+первый вход в <a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.LeakySpikeOperator.forward" title="snntorch.surrogate.LeakySpikeOperator.forward"><code class="xref py py-func docutils literal notranslate"><span class="pre">forward()</span></code></a> нуждается в градиенте, вычисленном по
+выходу.</p>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="snntorch.surrogate.LeakySpikeOperator.forward">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">slope</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/surrogate.html#LeakySpikeOperator.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snntorch.surrogate.html#snntorch.surrogate.LeakySpikeOperator.forward" title="Link to this definition"></a></dt>
+<dd><p>Определите прямой проход пользовательской функции autograd.</p>
+<p>Эта функция должна быть переопределена всеми подклассами.
+Существует два способа определить forward:</p>
+<p>Использование 1 (Объединенный forward и ctx):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="n">ctx</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Он должен принимать контекст ctx в качестве первого аргумента, за которым следует любое
+количество аргументов (тензоров или других типов).</p></li>
+<li><p>Смотрите <span class="xref std std-ref">combining-forward-context</span> для получения дополнительных сведений</p></li>
+</ul>
+<p>Использование 2 (Раздельные forward и ctx):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+    <span class="k">pass</span>
+
+
+<span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">setup_context</span><span class="p">(</span><span class="n">ctx</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">output</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Forward больше не принимает аргумент ctx.</p></li>
+<li><p>Вместо этого вы также должны переопределить <code class="xref py py-meth docutils literal notranslate"><span class="pre">torch.autograd.Function.setup_context()</span></code>
+staticmethod для обработки настройки <code class="docutils literal notranslate"><span class="pre">ctx</span></code> объекта.
+<code class="docutils literal notranslate"><span class="pre">output</span></code> является выходом forward, <code class="docutils literal notranslate"><span class="pre">inputs</span></code> являются кортежем входов
+в forward.</p></li>
+<li><p>Смотрите <span class="xref std std-ref">extending-autograd</span> для получения дополнительных сведений</p></li>
+</ul>
+<p>Контекст может использоваться для хранения произвольных данных, которые могут быть затем
+извлечены во время обратного прохода. Тензоры не должны храниться
+непосредственно на <cite>ctx</cite> (хотя в настоящее время это не обеспечивается для
+обратной совместимости). Вместо этого тензоры должны сохраняться либо с помощью
+<code class="xref py py-func docutils literal notranslate"><span class="pre">ctx.save_for_backward()</span></code> если они предназначены для использования в
+<code class="docutils literal notranslate"><span class="pre">backward</span></code> (эквивалентно, <code class="docutils literal notranslate"><span class="pre">vjp</span></code>) или <code class="xref py py-func docutils literal notranslate"><span class="pre">ctx.save_for_forward()</span></code>
+если они предназначены для использования for in <code class="docutils literal notranslate"><span class="pre">jvp</span></code>.</p>
+</dd></dl>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="snntorch.surrogate.SFS">
+<span class="sig-prename descclassname"><span class="pre">snntorch.surrogate.</span></span><span class="sig-name descname"><span class="pre">SFS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">slope</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">B</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/surrogate.html#SFS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snntorch.surrogate.html#snntorch.surrogate.SFS" title="Link to this definition"></a></dt>
+<dd><p>Суррогатный градиент SparseFastSigmoid, заключенный в
+параметризованный наклон и порог разреженности.</p>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="snntorch.surrogate.SSO">
+<span class="sig-prename descclassname"><span class="pre">snntorch.surrogate.</span></span><span class="sig-name descname"><span class="pre">SSO</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mean</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/surrogate.html#SSO"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snntorch.surrogate.html#snntorch.surrogate.SSO" title="Link to this definition"></a></dt>
+<dd><p>Стохастический градиент оператора спайка, заключенный в параметризованное среднее
+и дисперсию.</p>
+</dd></dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="snntorch.surrogate.Sigmoid">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">snntorch.surrogate.</span></span><span class="sig-name descname"><span class="pre">Sigmoid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/surrogate.html#Sigmoid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snntorch.surrogate.html#snntorch.surrogate.Sigmoid" title="Link to this definition"></a></dt>
+<dd><p>Базовые классы: <code class="xref py py-class docutils literal notranslate"><span class="pre">Function</span></code></p>
+<p>Суррогатный градиент ступенчатой функции Хевисайда.</p>
+<p><strong>Прямой проход:</strong> Сдвинутая ступенчатая функция Хевисайда.</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[\begin{split}S=\begin{cases} 1 &amp; \text{if U ≥ U$_{\rm thr}$} \\
+0 &amp; \text{if U &lt; U$_{\rm thr}$}
+\end{cases}\end{split}\]</div>
+</div></blockquote>
+<p><strong>Обратный проход:</strong> Градиент сигмоидной функции.</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[\begin{split}S&amp;≈\frac{1}{1 + {\rm exp}(-kU)} \\
+\frac{∂S}{∂U}&amp;=\frac{k
+{\rm exp}(-kU)}{[{\rm exp}(-kU)+1]^2}\end{split}\]</div>
+</div></blockquote>
+<p><span class="math notranslate nohighlight">\(k\)</span> по умолчанию равен 25, и его можно изменить, вызвав         <code class="docutils literal notranslate"><span class="pre">surrogate.sigmoid(slope=25)</span></code>.</p>
+<p>Адаптировано из:</p>
+<p><em>F. Zenke, S. Ganguli (2018) SuperSpike: Supervised Learning
+in Multilayer Spiking
+Neural Networks. Neural Computation, pp. 1514-1541.</em></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="snntorch.surrogate.Sigmoid.backward">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">backward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grad_output</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/surrogate.html#Sigmoid.backward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snntorch.surrogate.html#snntorch.surrogate.Sigmoid.backward" title="Link to this definition"></a></dt>
+<dd><p>Определите формулу для дифференцирования операции с обратным режимом автоматического дифференцирования.</p>
+<p>Эта функция должна быть переопределена всеми подклассами.
+(Определение этой функции эквивалентно определению <code class="docutils literal notranslate"><span class="pre">vjp</span></code> функции.)</p>
+<p>Она должна принимать контекст <code class="xref py py-attr docutils literal notranslate"><span class="pre">ctx</span></code> в качестве первого аргумента, за которым следует
+столько выходных данных, сколько <a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.Sigmoid.forward" title="snntorch.surrogate.Sigmoid.forward"><code class="xref py py-func docutils literal notranslate"><span class="pre">forward()</span></code></a> возвращено (None будет передано
+для не-тензорных выходов прямой функции),
+и она должна вернуть столько тензоров, сколько было входов в
+<a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.Sigmoid.forward" title="snntorch.surrogate.Sigmoid.forward"><code class="xref py py-func docutils literal notranslate"><span class="pre">forward()</span></code></a>. Каждый аргумент является градиентом по данному выходу,
+и каждое возвращаемое значение должно быть градиентом по
+соответствующему входу. Если вход не является тензором или является тензором, не
+требующим градиентов, вы можете просто передать None в качестве градиента для этого входа.</p>
+<p>Контекст можно использовать для получения тензоров, сохраненных во время прямого
+прохода. Он также имеет атрибут <code class="xref py py-attr docutils literal notranslate"><span class="pre">ctx.needs_input_grad</span></code> в виде кортежа
+булевых значений, представляющих, нуждается ли каждый вход в градиенте. Например,
+<a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.Sigmoid.backward" title="snntorch.surrogate.Sigmoid.backward"><code class="xref py py-func docutils literal notranslate"><span class="pre">backward()</span></code></a> будет иметь <code class="docutils literal notranslate"><span class="pre">ctx.needs_input_grad[0]</span> <span class="pre">=</span> <span class="pre">True</span></code> если
+первый вход в <a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.Sigmoid.forward" title="snntorch.surrogate.Sigmoid.forward"><code class="xref py py-func docutils literal notranslate"><span class="pre">forward()</span></code></a> нуждается в градиенте, вычисленном по
+выходу.</p>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="snntorch.surrogate.Sigmoid.forward">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">slope</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/surrogate.html#Sigmoid.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snntorch.surrogate.html#snntorch.surrogate.Sigmoid.forward" title="Link to this definition"></a></dt>
+<dd><p>Определите прямой проход пользовательской функции autograd.</p>
+<p>Эта функция должна быть переопределена всеми подклассами.
+Существует два способа определить forward:</p>
+<p>Использование 1 (Объединенный forward и ctx):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="n">ctx</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Он должен принимать контекст ctx в качестве первого аргумента, за которым следует любое
+количество аргументов (тензоров или других типов).</p></li>
+<li><p>Смотрите <span class="xref std std-ref">combining-forward-context</span> для получения дополнительных сведений</p></li>
+</ul>
+<p>Использование 2 (Раздельные forward и ctx):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+    <span class="k">pass</span>
+
+
+<span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">setup_context</span><span class="p">(</span><span class="n">ctx</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">output</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Forward больше не принимает аргумент ctx.</p></li>
+<li><p>Вместо этого вы также должны переопределить <code class="xref py py-meth docutils literal notranslate"><span class="pre">torch.autograd.Function.setup_context()</span></code>
+staticmethod для обработки настройки <code class="docutils literal notranslate"><span class="pre">ctx</span></code> объекта.
+<code class="docutils literal notranslate"><span class="pre">output</span></code> является выходом forward, <code class="docutils literal notranslate"><span class="pre">inputs</span></code> являются кортежем входов
+в forward.</p></li>
+<li><p>Смотрите <span class="xref std std-ref">extending-autograd</span> для получения дополнительных сведений</p></li>
+</ul>
+<p>Контекст может использоваться для хранения произвольных данных, которые могут быть затем
+извлечены во время обратного прохода. Тензоры не должны храниться
+непосредственно на <cite>ctx</cite> (хотя в настоящее время это не обеспечивается для
+обратной совместимости). Вместо этого тензоры должны сохраняться либо с помощью
+<code class="xref py py-func docutils literal notranslate"><span class="pre">ctx.save_for_backward()</span></code> если они предназначены для использования в
+<code class="docutils literal notranslate"><span class="pre">backward</span></code> (эквивалентно, <code class="docutils literal notranslate"><span class="pre">vjp</span></code>) или <code class="xref py py-func docutils literal notranslate"><span class="pre">ctx.save_for_forward()</span></code>
+если они предназначены для использования for in <code class="docutils literal notranslate"><span class="pre">jvp</span></code>.</p>
+</dd></dl>
+</dd></dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="snntorch.surrogate.SparseFastSigmoid">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">snntorch.surrogate.</span></span><span class="sig-name descname"><span class="pre">SparseFastSigmoid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/surrogate.html#SparseFastSigmoid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snntorch.surrogate.html#snntorch.surrogate.SparseFastSigmoid" title="Link to this definition"></a></dt>
+<dd><p>Базовые классы: <code class="xref py py-class docutils literal notranslate"><span class="pre">Function</span></code></p>
+<p>Суррогатный градиент ступенчатой функции Хевисайда.</p>
+<p><strong>Прямой проход:</strong> Сдвинутая ступенчатая функция Хевисайда.</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[\begin{split}S=\begin{cases} 1 &amp; \text{if U ≥ U$_{\rm thr}$} \\
+0 &amp; \text{if U &lt; U$_{\rm thr}$}
+\end{cases}\end{split}\]</div>
+</div></blockquote>
+<p><strong>Обратный проход:</strong> Градиент функции быстрого сигмоида, обрезанный ниже B.</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[\begin{split}S&amp;≈\frac{U}{1 + k|U|}H(U-B) \\
+\frac{∂S}{∂U}&amp;=\begin{cases} \frac{1}{(1+k|U|)^2}
+&amp; \text{\rm if U &gt; B}
+0 &amp; \text{\rm otherwise}
+\end{cases}\end{split}\]</div>
+</div></blockquote>
+<p><span class="math notranslate nohighlight">\(k\)</span> по умолчанию равен 25, и его можно изменить, вызвав         <code class="docutils literal notranslate"><span class="pre">surrogate.SFS(slope=25)</span></code>.
+<span class="math notranslate nohighlight">\(B\)</span> по умолчанию равно 1, и может быть изменено вызовом         <code class="docutils literal notranslate"><span class="pre">surrogate.SFS(B=1)</span></code>.</p>
+<p>Адаптировано из:</p>
+<p><em>N. Perez-Nieves and D.F.M. Goodman (2021) Sparse Spiking
+Gradient Descent. https://arxiv.org/pdf/2105.08810.pdf.</em></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="snntorch.surrogate.SparseFastSigmoid.backward">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">backward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grad_output</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/surrogate.html#SparseFastSigmoid.backward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snntorch.surrogate.html#snntorch.surrogate.SparseFastSigmoid.backward" title="Link to this definition"></a></dt>
+<dd><p>Определите формулу для дифференцирования операции с обратным режимом автоматического дифференцирования.</p>
+<p>Эта функция должна быть переопределена всеми подклассами.
+(Определение этой функции эквивалентно определению <code class="docutils literal notranslate"><span class="pre">vjp</span></code> функции.)</p>
+<p>Она должна принимать контекст <code class="xref py py-attr docutils literal notranslate"><span class="pre">ctx</span></code> в качестве первого аргумента, за которым следует
+столько выходных данных, сколько <a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.SparseFastSigmoid.forward" title="snntorch.surrogate.SparseFastSigmoid.forward"><code class="xref py py-func docutils literal notranslate"><span class="pre">forward()</span></code></a> возвращено (None будет передано
+для не-тензорных выходов прямой функции),
+и она должна вернуть столько тензоров, сколько было входов в
+<a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.SparseFastSigmoid.forward" title="snntorch.surrogate.SparseFastSigmoid.forward"><code class="xref py py-func docutils literal notranslate"><span class="pre">forward()</span></code></a>. Каждый аргумент является градиентом по данному выходу,
+и каждое возвращаемое значение должно быть градиентом по
+соответствующему входу. Если вход не является тензором или является тензором, не
+требующим градиентов, вы можете просто передать None в качестве градиента для этого входа.</p>
+<p>Контекст можно использовать для получения тензоров, сохраненных во время прямого
+прохода. Он также имеет атрибут <code class="xref py py-attr docutils literal notranslate"><span class="pre">ctx.needs_input_grad</span></code> в виде кортежа
+булевых значений, представляющих, нуждается ли каждый вход в градиенте. Например,
+<a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.SparseFastSigmoid.backward" title="snntorch.surrogate.SparseFastSigmoid.backward"><code class="xref py py-func docutils literal notranslate"><span class="pre">backward()</span></code></a> будет иметь <code class="docutils literal notranslate"><span class="pre">ctx.needs_input_grad[0]</span> <span class="pre">=</span> <span class="pre">True</span></code> если
+первый вход в <a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.SparseFastSigmoid.forward" title="snntorch.surrogate.SparseFastSigmoid.forward"><code class="xref py py-func docutils literal notranslate"><span class="pre">forward()</span></code></a> нуждается в градиенте, вычисленном по
+выходу.</p>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="snntorch.surrogate.SparseFastSigmoid.forward">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">slope</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">B</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/surrogate.html#SparseFastSigmoid.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snntorch.surrogate.html#snntorch.surrogate.SparseFastSigmoid.forward" title="Link to this definition"></a></dt>
+<dd><p>Определите прямой проход пользовательской функции autograd.</p>
+<p>Эта функция должна быть переопределена всеми подклассами.
+Существует два способа определить forward:</p>
+<p>Использование 1 (Объединенный forward и ctx):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="n">ctx</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Он должен принимать контекст ctx в качестве первого аргумента, за которым следует любое
+количество аргументов (тензоров или других типов).</p></li>
+<li><p>Смотрите <span class="xref std std-ref">combining-forward-context</span> для получения дополнительных сведений</p></li>
+</ul>
+<p>Использование 2 (Раздельные forward и ctx):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+    <span class="k">pass</span>
+
+
+<span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">setup_context</span><span class="p">(</span><span class="n">ctx</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">output</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Forward больше не принимает аргумент ctx.</p></li>
+<li><p>Вместо этого вы также должны переопределить <code class="xref py py-meth docutils literal notranslate"><span class="pre">torch.autograd.Function.setup_context()</span></code>
+staticmethod для обработки настройки <code class="docutils literal notranslate"><span class="pre">ctx</span></code> объекта.
+<code class="docutils literal notranslate"><span class="pre">output</span></code> является выходом forward, <code class="docutils literal notranslate"><span class="pre">inputs</span></code> являются кортежем входов
+в forward.</p></li>
+<li><p>Смотрите <span class="xref std std-ref">extending-autograd</span> для получения дополнительных сведений</p></li>
+</ul>
+<p>Контекст может использоваться для хранения произвольных данных, которые могут быть затем
+извлечены во время обратного прохода. Тензоры не должны храниться
+непосредственно на <cite>ctx</cite> (хотя в настоящее время это не обеспечивается для
+обратной совместимости). Вместо этого тензоры должны сохраняться либо с помощью
+<code class="xref py py-func docutils literal notranslate"><span class="pre">ctx.save_for_backward()</span></code> если они предназначены для использования в
+<code class="docutils literal notranslate"><span class="pre">backward</span></code> (эквивалентно, <code class="docutils literal notranslate"><span class="pre">vjp</span></code>) или <code class="xref py py-func docutils literal notranslate"><span class="pre">ctx.save_for_forward()</span></code>
+если они предназначены для использования for in <code class="docutils literal notranslate"><span class="pre">jvp</span></code>.</p>
+</dd></dl>
+</dd></dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="snntorch.surrogate.SpikeRateEscape">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">snntorch.surrogate.</span></span><span class="sig-name descname"><span class="pre">SpikeRateEscape</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/surrogate.html#SpikeRateEscape"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snntorch.surrogate.html#snntorch.surrogate.SpikeRateEscape" title="Link to this definition"></a></dt>
+<dd><p>Базовые классы: <code class="xref py py-class docutils literal notranslate"><span class="pre">Function</span></code></p>
+<p>Суррогатный градиент ступенчатой функции Хевисайда.</p>
+<p><strong>Прямой проход:</strong> Сдвинутая ступенчатая функция Хевисайда.</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[\begin{split}S=\begin{cases} 1 &amp; \text{if U ≥ U$_{\rm thr}$} \\
+0 &amp; \text{if U &lt; U$_{\rm thr}$}
+\end{cases}\end{split}\]</div>
+</div></blockquote>
+<p><strong>Обратный проход:</strong> Градиент распределения Больцмана.</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[\frac{∂S}{∂U}=k{\rm exp}(-β|U-1|)\]</div>
+</div></blockquote>
+<p><span class="math notranslate nohighlight">\(β\)</span> по умолчанию равно 1, и может быть изменено вызовом         <code class="docutils literal notranslate"><span class="pre">surrogate.spike_rate_escape(beta=1)</span></code>.
+<span class="math notranslate nohighlight">\(k\)</span> по умолчанию равен 25, и его можно изменить, вызвав         <code class="docutils literal notranslate"><span class="pre">surrogate.spike_rate_escape(slope=25)</span></code>.</p>
+<p>Адаптировано из:</p>
+<ul class="simple">
+<li><p>Wulfram Gerstner and Werner M. Kistler,</p></li>
+</ul>
+<p>Spiking neuron models: Single neurons, populations, plasticity.
+Cambridge University Press, 2002.*</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="snntorch.surrogate.SpikeRateEscape.backward">
+<span class="sig-name descname"><span class="pre">backward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grad_output</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/surrogate.html#SpikeRateEscape.backward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snntorch.surrogate.html#snntorch.surrogate.SpikeRateEscape.backward" title="Link to this definition"></a></dt>
+<dd><p>Определите формулу для дифференцирования операции с обратным режимом автоматического дифференцирования.</p>
+<p>Эта функция должна быть переопределена всеми подклассами.
+(Определение этой функции эквивалентно определению <code class="docutils literal notranslate"><span class="pre">vjp</span></code> функции.)</p>
+<p>Она должна принимать контекст <code class="xref py py-attr docutils literal notranslate"><span class="pre">ctx</span></code> в качестве первого аргумента, за которым следует
+столько выходных данных, сколько <a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.SpikeRateEscape.forward" title="snntorch.surrogate.SpikeRateEscape.forward"><code class="xref py py-func docutils literal notranslate"><span class="pre">forward()</span></code></a> возвращено (None будет передано
+для не-тензорных выходов прямой функции),
+и она должна вернуть столько тензоров, сколько было входов в
+<a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.SpikeRateEscape.forward" title="snntorch.surrogate.SpikeRateEscape.forward"><code class="xref py py-func docutils literal notranslate"><span class="pre">forward()</span></code></a>. Каждый аргумент является градиентом по данному выходу,
+и каждое возвращаемое значение должно быть градиентом по
+соответствующему входу. Если вход не является тензором или является тензором, не
+требующим градиентов, вы можете просто передать None в качестве градиента для этого входа.</p>
+<p>Контекст можно использовать для получения тензоров, сохраненных во время прямого
+прохода. Он также имеет атрибут <code class="xref py py-attr docutils literal notranslate"><span class="pre">ctx.needs_input_grad</span></code> в виде кортежа
+булевых значений, представляющих, нуждается ли каждый вход в градиенте. Например,
+<a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.SpikeRateEscape.backward" title="snntorch.surrogate.SpikeRateEscape.backward"><code class="xref py py-func docutils literal notranslate"><span class="pre">backward()</span></code></a> будет иметь <code class="docutils literal notranslate"><span class="pre">ctx.needs_input_grad[0]</span> <span class="pre">=</span> <span class="pre">True</span></code> если
+первый вход в <a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.SpikeRateEscape.forward" title="snntorch.surrogate.SpikeRateEscape.forward"><code class="xref py py-func docutils literal notranslate"><span class="pre">forward()</span></code></a> нуждается в градиенте, вычисленном по
+выходу.</p>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="snntorch.surrogate.SpikeRateEscape.forward">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">slope</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/surrogate.html#SpikeRateEscape.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snntorch.surrogate.html#snntorch.surrogate.SpikeRateEscape.forward" title="Link to this definition"></a></dt>
+<dd><p>Определите прямой проход пользовательской функции autograd.</p>
+<p>Эта функция должна быть переопределена всеми подклассами.
+Существует два способа определить forward:</p>
+<p>Использование 1 (Объединенный forward и ctx):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="n">ctx</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Он должен принимать контекст ctx в качестве первого аргумента, за которым следует любое
+количество аргументов (тензоров или других типов).</p></li>
+<li><p>Смотрите <span class="xref std std-ref">combining-forward-context</span> для получения дополнительных сведений</p></li>
+</ul>
+<p>Использование 2 (Раздельные forward и ctx):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+    <span class="k">pass</span>
+
+
+<span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">setup_context</span><span class="p">(</span><span class="n">ctx</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">output</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Forward больше не принимает аргумент ctx.</p></li>
+<li><p>Вместо этого вы также должны переопределить <code class="xref py py-meth docutils literal notranslate"><span class="pre">torch.autograd.Function.setup_context()</span></code>
+staticmethod для обработки настройки <code class="docutils literal notranslate"><span class="pre">ctx</span></code> объекта.
+<code class="docutils literal notranslate"><span class="pre">output</span></code> является выходом forward, <code class="docutils literal notranslate"><span class="pre">inputs</span></code> являются кортежем входов
+в forward.</p></li>
+<li><p>Смотрите <span class="xref std std-ref">extending-autograd</span> для получения дополнительных сведений</p></li>
+</ul>
+<p>Контекст может использоваться для хранения произвольных данных, которые могут быть затем
+извлечены во время обратного прохода. Тензоры не должны храниться
+непосредственно на <cite>ctx</cite> (хотя в настоящее время это не обеспечивается для
+обратной совместимости). Вместо этого тензоры должны сохраняться либо с помощью
+<code class="xref py py-func docutils literal notranslate"><span class="pre">ctx.save_for_backward()</span></code> если они предназначены для использования в
+<code class="docutils literal notranslate"><span class="pre">backward</span></code> (эквивалентно, <code class="docutils literal notranslate"><span class="pre">vjp</span></code>) или <code class="xref py py-func docutils literal notranslate"><span class="pre">ctx.save_for_forward()</span></code>
+если они предназначены для использования for in <code class="docutils literal notranslate"><span class="pre">jvp</span></code>.</p>
+</dd></dl>
+</dd></dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="snntorch.surrogate.StochasticSpikeOperator">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">snntorch.surrogate.</span></span><span class="sig-name descname"><span class="pre">StochasticSpikeOperator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/surrogate.html#StochasticSpikeOperator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snntorch.surrogate.html#snntorch.surrogate.StochasticSpikeOperator" title="Link to this definition"></a></dt>
+<dd><p>Базовые классы: <code class="xref py py-class docutils literal notranslate"><span class="pre">Function</span></code></p>
+<p>Суррогатный градиент ступенчатой функции Хевисайда.</p>
+<p><strong>Прямой проход:</strong> Функция оператора спайка.</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[\begin{split}S=\begin{cases} \frac{U(t)}{U}
+&amp; \text{if U ≥ U$_{\rm thr}$} \\
+0 &amp; \text{if U &lt; U$_{\rm thr}$}
+\end{cases}\end{split}\]</div>
+</div></blockquote>
+<p><strong>Обратный проход:</strong> Градиент спайкового оператора,
+где подпороговый градиент выбирается из равномерно
+распределенного шума на интервале <span class="math notranslate nohighlight">\((𝒰\sim[-0.5, 0.5)+μ) σ^2\)</span>,
+где <span class="math notranslate nohighlight">\(μ\)</span> является средним, а <span class="math notranslate nohighlight">\(σ^2\)</span> является дисперсией.</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[\begin{split}S&amp;≈\begin{cases} \frac{U(t)}{U}\Big{|}_{U(t)→U_{\rm thr}}
+&amp; \text{if U ≥ U$_{\rm thr}$} \\
+(𝒰\sim[-0.5, 0.5) + μ) σ^2 &amp; \text{if U &lt; U$_{\rm thr}$}
+\end{cases} \\
+\frac{∂S}{∂U}&amp;=\begin{cases} 1  &amp; \text{if U ≥ U$_{\rm thr}$}
+\\
+(𝒰\sim[-0.5, 0.5) + μ) σ^2 &amp; \text{if U &lt; U$_{\rm thr}$}
+\end{cases}\end{split}\]</div>
+</div></blockquote>
+<p><span class="math notranslate nohighlight">\(μ\)</span> по умолчанию равно 0, и может быть изменено вызовом         <code class="docutils literal notranslate"><span class="pre">surrogate.SSO(mean=0)</span></code>.</p>
+<p><span class="math notranslate nohighlight">\(σ^2\)</span> по умолчанию равно 0.2, и может быть изменено вызовом         <code class="docutils literal notranslate"><span class="pre">surrogate.SSO(variance=0.5)</span></code>.</p>
+<p>Вышеуказанные значения по умолчанию устанавливают градиент в следующее выражение:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\frac{∂S}{∂U}&amp;=\begin{cases} 1
+&amp; \text{if U ≥ U$_{\rm thr}$} \\
+(𝒰\sim[-0.1, 0.1) &amp; \text{if U &lt; U$_{\rm thr}$}
+\end{cases}\end{split}\]</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="snntorch.surrogate.StochasticSpikeOperator.backward">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">backward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grad_output</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/surrogate.html#StochasticSpikeOperator.backward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snntorch.surrogate.html#snntorch.surrogate.StochasticSpikeOperator.backward" title="Link to this definition"></a></dt>
+<dd><p>Определите формулу для дифференцирования операции с обратным режимом автоматического дифференцирования.</p>
+<p>Эта функция должна быть переопределена всеми подклассами.
+(Определение этой функции эквивалентно определению <code class="docutils literal notranslate"><span class="pre">vjp</span></code> функции.)</p>
+<p>Она должна принимать контекст <code class="xref py py-attr docutils literal notranslate"><span class="pre">ctx</span></code> в качестве первого аргумента, за которым следует
+столько выходных данных, сколько <a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.StochasticSpikeOperator.forward" title="snntorch.surrogate.StochasticSpikeOperator.forward"><code class="xref py py-func docutils literal notranslate"><span class="pre">forward()</span></code></a> возвращено (None будет передано
+для не-тензорных выходов прямой функции),
+и она должна вернуть столько тензоров, сколько было входов в
+<a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.StochasticSpikeOperator.forward" title="snntorch.surrogate.StochasticSpikeOperator.forward"><code class="xref py py-func docutils literal notranslate"><span class="pre">forward()</span></code></a>. Каждый аргумент является градиентом по данному выходу,
+и каждое возвращаемое значение должно быть градиентом по
+соответствующему входу. Если вход не является тензором или является тензором, не
+требующим градиентов, вы можете просто передать None в качестве градиента для этого входа.</p>
+<p>Контекст можно использовать для получения тензоров, сохраненных во время прямого
+прохода. Он также имеет атрибут <code class="xref py py-attr docutils literal notranslate"><span class="pre">ctx.needs_input_grad</span></code> в виде кортежа
+булевых значений, представляющих, нуждается ли каждый вход в градиенте. Например,
+<a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.StochasticSpikeOperator.backward" title="snntorch.surrogate.StochasticSpikeOperator.backward"><code class="xref py py-func docutils literal notranslate"><span class="pre">backward()</span></code></a> будет иметь <code class="docutils literal notranslate"><span class="pre">ctx.needs_input_grad[0]</span> <span class="pre">=</span> <span class="pre">True</span></code> если
+первый вход в <a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.StochasticSpikeOperator.forward" title="snntorch.surrogate.StochasticSpikeOperator.forward"><code class="xref py py-func docutils literal notranslate"><span class="pre">forward()</span></code></a> нуждается в градиенте, вычисленном по
+выходу.</p>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="snntorch.surrogate.StochasticSpikeOperator.forward">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mean</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variance</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/surrogate.html#StochasticSpikeOperator.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snntorch.surrogate.html#snntorch.surrogate.StochasticSpikeOperator.forward" title="Link to this definition"></a></dt>
+<dd><p>Определите прямой проход пользовательской функции autograd.</p>
+<p>Эта функция должна быть переопределена всеми подклассами.
+Существует два способа определить forward:</p>
+<p>Использование 1 (Объединенный forward и ctx):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="n">ctx</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Он должен принимать контекст ctx в качестве первого аргумента, за которым следует любое
+количество аргументов (тензоров или других типов).</p></li>
+<li><p>Смотрите <span class="xref std std-ref">combining-forward-context</span> для получения дополнительных сведений</p></li>
+</ul>
+<p>Использование 2 (Раздельные forward и ctx):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+    <span class="k">pass</span>
+
+
+<span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">setup_context</span><span class="p">(</span><span class="n">ctx</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">output</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Forward больше не принимает аргумент ctx.</p></li>
+<li><p>Вместо этого вы также должны переопределить <code class="xref py py-meth docutils literal notranslate"><span class="pre">torch.autograd.Function.setup_context()</span></code>
+staticmethod для обработки настройки <code class="docutils literal notranslate"><span class="pre">ctx</span></code> объекта.
+<code class="docutils literal notranslate"><span class="pre">output</span></code> является выходом forward, <code class="docutils literal notranslate"><span class="pre">inputs</span></code> являются кортежем входов
+в forward.</p></li>
+<li><p>Смотрите <span class="xref std std-ref">extending-autograd</span> для получения дополнительных сведений</p></li>
+</ul>
+<p>Контекст может использоваться для хранения произвольных данных, которые могут быть затем
+извлечены во время обратного прохода. Тензоры не должны храниться
+непосредственно на <cite>ctx</cite> (хотя в настоящее время это не обеспечивается для
+обратной совместимости). Вместо этого тензоры должны сохраняться либо с помощью
+<code class="xref py py-func docutils literal notranslate"><span class="pre">ctx.save_for_backward()</span></code> если они предназначены для использования в
+<code class="docutils literal notranslate"><span class="pre">backward</span></code> (эквивалентно, <code class="docutils literal notranslate"><span class="pre">vjp</span></code>) или <code class="xref py py-func docutils literal notranslate"><span class="pre">ctx.save_for_forward()</span></code>
+если они предназначены для использования for in <code class="docutils literal notranslate"><span class="pre">jvp</span></code>.</p>
+</dd></dl>
+</dd></dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="snntorch.surrogate.StraightThroughEstimator">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">snntorch.surrogate.</span></span><span class="sig-name descname"><span class="pre">StraightThroughEstimator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/surrogate.html#StraightThroughEstimator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snntorch.surrogate.html#snntorch.surrogate.StraightThroughEstimator" title="Link to this definition"></a></dt>
+<dd><p>Базовые классы: <code class="xref py py-class docutils literal notranslate"><span class="pre">Function</span></code></p>
+<p>Straight Through Estimator.</p>
+<p><strong>Прямой проход:</strong> Сдвинутая ступенчатая функция Хевисайда.</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[\begin{split}S=\begin{cases} 1 &amp; \text{if U ≥ U$_{\rm thr}$} \\
+0 &amp; \text{if U &lt; U$_{\rm thr}$}
+\end{cases}\end{split}\]</div>
+</div></blockquote>
+<p><strong>Обратный проход:</strong> Градиент функции быстрого сигмоида.</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[\frac{∂S}{∂U}=1\]</div>
+</div></blockquote>
+<dl class="py method">
+<dt class="sig sig-object py" id="snntorch.surrogate.StraightThroughEstimator.backward">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">backward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grad_output</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/surrogate.html#StraightThroughEstimator.backward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snntorch.surrogate.html#snntorch.surrogate.StraightThroughEstimator.backward" title="Link to this definition"></a></dt>
+<dd><p>Определите формулу для дифференцирования операции с обратным режимом автоматического дифференцирования.</p>
+<p>Эта функция должна быть переопределена всеми подклассами.
+(Определение этой функции эквивалентно определению <code class="docutils literal notranslate"><span class="pre">vjp</span></code> функции.)</p>
+<p>Она должна принимать контекст <code class="xref py py-attr docutils literal notranslate"><span class="pre">ctx</span></code> в качестве первого аргумента, за которым следует
+столько выходных данных, сколько <a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.StraightThroughEstimator.forward" title="snntorch.surrogate.StraightThroughEstimator.forward"><code class="xref py py-func docutils literal notranslate"><span class="pre">forward()</span></code></a> возвращено (None будет передано
+для не-тензорных выходов прямой функции),
+и она должна вернуть столько тензоров, сколько было входов в
+<a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.StraightThroughEstimator.forward" title="snntorch.surrogate.StraightThroughEstimator.forward"><code class="xref py py-func docutils literal notranslate"><span class="pre">forward()</span></code></a>. Каждый аргумент является градиентом по данному выходу,
+и каждое возвращаемое значение должно быть градиентом по
+соответствующему входу. Если вход не является тензором или является тензором, не
+требующим градиентов, вы можете просто передать None в качестве градиента для этого входа.</p>
+<p>Контекст можно использовать для получения тензоров, сохраненных во время прямого
+прохода. Он также имеет атрибут <code class="xref py py-attr docutils literal notranslate"><span class="pre">ctx.needs_input_grad</span></code> в виде кортежа
+булевых значений, представляющих, нуждается ли каждый вход в градиенте. Например,
+<a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.StraightThroughEstimator.backward" title="snntorch.surrogate.StraightThroughEstimator.backward"><code class="xref py py-func docutils literal notranslate"><span class="pre">backward()</span></code></a> будет иметь <code class="docutils literal notranslate"><span class="pre">ctx.needs_input_grad[0]</span> <span class="pre">=</span> <span class="pre">True</span></code> если
+первый вход в <a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.StraightThroughEstimator.forward" title="snntorch.surrogate.StraightThroughEstimator.forward"><code class="xref py py-func docutils literal notranslate"><span class="pre">forward()</span></code></a> нуждается в градиенте, вычисленном по
+выходу.</p>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="snntorch.surrogate.StraightThroughEstimator.forward">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/surrogate.html#StraightThroughEstimator.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snntorch.surrogate.html#snntorch.surrogate.StraightThroughEstimator.forward" title="Link to this definition"></a></dt>
+<dd><p>Определите прямой проход пользовательской функции autograd.</p>
+<p>Эта функция должна быть переопределена всеми подклассами.
+Существует два способа определить forward:</p>
+<p>Использование 1 (Объединенный forward и ctx):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="n">ctx</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Он должен принимать контекст ctx в качестве первого аргумента, за которым следует любое
+количество аргументов (тензоров или других типов).</p></li>
+<li><p>Смотрите <span class="xref std std-ref">combining-forward-context</span> для получения дополнительных сведений</p></li>
+</ul>
+<p>Использование 2 (Раздельные forward и ctx):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+    <span class="k">pass</span>
+
+
+<span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">setup_context</span><span class="p">(</span><span class="n">ctx</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">output</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Forward больше не принимает аргумент ctx.</p></li>
+<li><p>Вместо этого вы также должны переопределить <code class="xref py py-meth docutils literal notranslate"><span class="pre">torch.autograd.Function.setup_context()</span></code>
+staticmethod для обработки настройки <code class="docutils literal notranslate"><span class="pre">ctx</span></code> объекта.
+<code class="docutils literal notranslate"><span class="pre">output</span></code> является выходом forward, <code class="docutils literal notranslate"><span class="pre">inputs</span></code> являются кортежем входов
+в forward.</p></li>
+<li><p>Смотрите <span class="xref std std-ref">extending-autograd</span> для получения дополнительных сведений</p></li>
+</ul>
+<p>Контекст может использоваться для хранения произвольных данных, которые могут быть затем
+извлечены во время обратного прохода. Тензоры не должны храниться
+непосредственно на <cite>ctx</cite> (хотя в настоящее время это не обеспечивается для
+обратной совместимости). Вместо этого тензоры должны сохраняться либо с помощью
+<code class="xref py py-func docutils literal notranslate"><span class="pre">ctx.save_for_backward()</span></code> если они предназначены для использования в
+<code class="docutils literal notranslate"><span class="pre">backward</span></code> (эквивалентно, <code class="docutils literal notranslate"><span class="pre">vjp</span></code>) или <code class="xref py py-func docutils literal notranslate"><span class="pre">ctx.save_for_forward()</span></code>
+если они предназначены для использования for in <code class="docutils literal notranslate"><span class="pre">jvp</span></code>.</p>
+</dd></dl>
+</dd></dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="snntorch.surrogate.Triangular">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">snntorch.surrogate.</span></span><span class="sig-name descname"><span class="pre">Triangular</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/surrogate.html#Triangular"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snntorch.surrogate.html#snntorch.surrogate.Triangular" title="Link to this definition"></a></dt>
+<dd><p>Базовые классы: <code class="xref py py-class docutils literal notranslate"><span class="pre">Function</span></code></p>
+<p>Треугольный суррогатный градиент.</p>
+<p><strong>Прямой проход:</strong> Сдвинутая ступенчатая функция Хевисайда.</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[\begin{split}S=\begin{cases} 1 &amp; \text{if U ≥ U$_{\rm thr}$} \\
+0 &amp; \text{if U &lt; U$_{\rm thr}$}
+\end{cases}\end{split}\]</div>
+</div></blockquote>
+<p><strong>Обратный проход:</strong> Градиент треугольной функции.</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[\begin{split}\frac{∂S}{∂U}=\begin{cases} U_{\rm thr} &amp;
+\text{if U &lt; U$_{\rm thr}$} \\
+-U_{\rm thr}  &amp; \text{if U ≥ U$_{\rm thr}$}
+\end{cases}\end{split}\]</div>
+</div></blockquote>
+<dl class="py method">
+<dt class="sig sig-object py" id="snntorch.surrogate.Triangular.backward">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">backward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grad_output</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/surrogate.html#Triangular.backward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snntorch.surrogate.html#snntorch.surrogate.Triangular.backward" title="Link to this definition"></a></dt>
+<dd><p>Определите формулу для дифференцирования операции с обратным режимом автоматического дифференцирования.</p>
+<p>Эта функция должна быть переопределена всеми подклассами.
+(Определение этой функции эквивалентно определению <code class="docutils literal notranslate"><span class="pre">vjp</span></code> функции.)</p>
+<p>Она должна принимать контекст <code class="xref py py-attr docutils literal notranslate"><span class="pre">ctx</span></code> в качестве первого аргумента, за которым следует
+столько выходных данных, сколько <a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.Triangular.forward" title="snntorch.surrogate.Triangular.forward"><code class="xref py py-func docutils literal notranslate"><span class="pre">forward()</span></code></a> возвращено (None будет передано
+для не-тензорных выходов прямой функции),
+и она должна вернуть столько тензоров, сколько было входов в
+<a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.Triangular.forward" title="snntorch.surrogate.Triangular.forward"><code class="xref py py-func docutils literal notranslate"><span class="pre">forward()</span></code></a>. Каждый аргумент является градиентом по данному выходу,
+и каждое возвращаемое значение должно быть градиентом по
+соответствующему входу. Если вход не является тензором или является тензором, не
+требующим градиентов, вы можете просто передать None в качестве градиента для этого входа.</p>
+<p>Контекст можно использовать для получения тензоров, сохраненных во время прямого
+прохода. Он также имеет атрибут <code class="xref py py-attr docutils literal notranslate"><span class="pre">ctx.needs_input_grad</span></code> в виде кортежа
+булевых значений, представляющих, нуждается ли каждый вход в градиенте. Например,
+<a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.Triangular.backward" title="snntorch.surrogate.Triangular.backward"><code class="xref py py-func docutils literal notranslate"><span class="pre">backward()</span></code></a> будет иметь <code class="docutils literal notranslate"><span class="pre">ctx.needs_input_grad[0]</span> <span class="pre">=</span> <span class="pre">True</span></code> если
+первый вход в <a class="reference internal" href="snntorch.surrogate.html#snntorch.surrogate.Triangular.forward" title="snntorch.surrogate.Triangular.forward"><code class="xref py py-func docutils literal notranslate"><span class="pre">forward()</span></code></a> нуждается в градиенте, вычисленном по
+выходу.</p>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="snntorch.surrogate.Triangular.forward">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/surrogate.html#Triangular.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snntorch.surrogate.html#snntorch.surrogate.Triangular.forward" title="Link to this definition"></a></dt>
+<dd><p>Определите прямой проход пользовательской функции autograd.</p>
+<p>Эта функция должна быть переопределена всеми подклассами.
+Существует два способа определить forward:</p>
+<p>Использование 1 (Объединенный forward и ctx):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="n">ctx</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Он должен принимать контекст ctx в качестве первого аргумента, за которым следует любое
+количество аргументов (тензоров или других типов).</p></li>
+<li><p>Смотрите <span class="xref std std-ref">combining-forward-context</span> для получения дополнительных сведений</p></li>
+</ul>
+<p>Использование 2 (Раздельные forward и ctx):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+    <span class="k">pass</span>
+
+
+<span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">setup_context</span><span class="p">(</span><span class="n">ctx</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">output</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Forward больше не принимает аргумент ctx.</p></li>
+<li><p>Вместо этого вы также должны переопределить <code class="xref py py-meth docutils literal notranslate"><span class="pre">torch.autograd.Function.setup_context()</span></code>
+staticmethod для обработки настройки <code class="docutils literal notranslate"><span class="pre">ctx</span></code> объекта.
+<code class="docutils literal notranslate"><span class="pre">output</span></code> является выходом forward, <code class="docutils literal notranslate"><span class="pre">inputs</span></code> являются кортежем входов
+в forward.</p></li>
+<li><p>Смотрите <span class="xref std std-ref">extending-autograd</span> для получения дополнительных сведений</p></li>
+</ul>
+<p>Контекст может использоваться для хранения произвольных данных, которые могут быть затем
+извлечены во время обратного прохода. Тензоры не должны храниться
+непосредственно на <cite>ctx</cite> (хотя в настоящее время это не обеспечивается для
+обратной совместимости). Вместо этого тензоры должны сохраняться либо с помощью
+<code class="xref py py-func docutils literal notranslate"><span class="pre">ctx.save_for_backward()</span></code> если они предназначены для использования в
+<code class="docutils literal notranslate"><span class="pre">backward</span></code> (эквивалентно, <code class="docutils literal notranslate"><span class="pre">vjp</span></code>) или <code class="xref py py-func docutils literal notranslate"><span class="pre">ctx.save_for_forward()</span></code>
+если они предназначены для использования for in <code class="docutils literal notranslate"><span class="pre">jvp</span></code>.</p>
+</dd></dl>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="snntorch.surrogate.atan">
+<span class="sig-prename descclassname"><span class="pre">snntorch.surrogate.</span></span><span class="sig-name descname"><span class="pre">atan</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/surrogate.html#atan"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snntorch.surrogate.html#snntorch.surrogate.atan" title="Link to this definition"></a></dt>
+<dd><p>ArcTan суррогатный градиент с параметризованным наклоном.</p>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="snntorch.surrogate.custom_surrogate">
+<span class="sig-prename descclassname"><span class="pre">snntorch.surrogate.</span></span><span class="sig-name descname"><span class="pre">custom_surrogate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">custom_surrogate_function</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/surrogate.html#custom_surrogate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snntorch.surrogate.html#snntorch.surrogate.custom_surrogate" title="Link to this definition"></a></dt>
+<dd><p>Пользовательский суррогатный градиент, заключенный в обертку.</p>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="snntorch.surrogate.fast_sigmoid">
+<span class="sig-prename descclassname"><span class="pre">snntorch.surrogate.</span></span><span class="sig-name descname"><span class="pre">fast_sigmoid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">slope</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/surrogate.html#fast_sigmoid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snntorch.surrogate.html#snntorch.surrogate.fast_sigmoid" title="Link to this definition"></a></dt>
+<dd><p>FastSigmoid суррогатный градиент с параметризованным наклоном.</p>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="snntorch.surrogate.heaviside">
+<span class="sig-prename descclassname"><span class="pre">snntorch.surrogate.</span></span><span class="sig-name descname"><span class="pre">heaviside</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/surrogate.html#heaviside"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snntorch.surrogate.html#snntorch.surrogate.heaviside" title="Link to this definition"></a></dt>
+<dd><p>Обертка суррогатного градиента Хевисайда.</p>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="snntorch.surrogate.sigmoid">
+<span class="sig-prename descclassname"><span class="pre">snntorch.surrogate.</span></span><span class="sig-name descname"><span class="pre">sigmoid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">slope</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/surrogate.html#sigmoid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snntorch.surrogate.html#snntorch.surrogate.sigmoid" title="Link to this definition"></a></dt>
+<dd><p>Сигмоидный суррогатный градиент с параметризованным наклоном.</p>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="snntorch.surrogate.spike_rate_escape">
+<span class="sig-prename descclassname"><span class="pre">snntorch.surrogate.</span></span><span class="sig-name descname"><span class="pre">spike_rate_escape</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">slope</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/surrogate.html#spike_rate_escape"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snntorch.surrogate.html#snntorch.surrogate.spike_rate_escape" title="Link to this definition"></a></dt>
+<dd><p>Суррогатный градиент SpikeRateEscape
+с параметризованным наклоном.</p>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="snntorch.surrogate.straight_through_estimator">
+<span class="sig-prename descclassname"><span class="pre">snntorch.surrogate.</span></span><span class="sig-name descname"><span class="pre">straight_through_estimator</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/surrogate.html#straight_through_estimator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snntorch.surrogate.html#snntorch.surrogate.straight_through_estimator" title="Link to this definition"></a></dt>
+<dd><p>Суррогатный градиент Straight Through Estimator
+с параметризованным наклоном.</p>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="snntorch.surrogate.triangular">
+<span class="sig-prename descclassname"><span class="pre">snntorch.surrogate.</span></span><span class="sig-name descname"><span class="pre">triangular</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/surrogate.html#triangular"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snntorch.surrogate.html#snntorch.surrogate.triangular" title="Link to this definition"></a></dt>
+<dd><p>Треугольный суррогатный градиент с
+параметризованным порогом.</p>
+</dd></dl>
+</section>
+</section>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="snntorch.spikevision.spikedata.html" rel="prev" title="snntorch.spikevision.spikedata"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="snntorch.utils.html" rel="next" title="snntorch.utils">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright 2021, Jason K. Eshraghian.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

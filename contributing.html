@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html class="writer-html5" data-content_root="./" lang="ru">
+<head>
+<meta charset="utf-8"/>
+<meta content="1" name="readthedocs-addons-api-version"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Участие — документация snntorch 0.9.4</title>
+<link href="_static/pygments.css%3Fv=03e43079.css" rel="stylesheet" type="text/css"/>
+<link href="_static/css/theme.css%3Fv=9edc463e.css" rel="stylesheet" type="text/css"/>
+<link href="_static/css/default.css" rel="stylesheet" type="text/css"/>
+<script src="_static/jquery.js%3Fv=5d32c60e"></script>
+<script src="_static/_sphinx_javascript_frameworks_compat.js%3Fv=2cd50e6c"></script>
+<script src="_static/documentation_options.js%3Fv=c5ca06ca"></script>
+<script src="_static/doctools.js%3Fv=fd6eb6e6"></script>
+<script src="_static/sphinx_highlight.js%3Fv=6ffebe34"></script>
+<script src="_static/js/theme.js"></script>
+<script src="_static/js/versions.js"></script>
+<link href="genindex.html" rel="index" title="Index"/>
+<link href="search.html" rel="search" title="Search"/>
+<link href="history.html" rel="next" title="History"/>
+<link href="tutorials/tutorial_stmnist.html" rel="prev" title="Training on ST-MNIST with Tonic + snnTorch Tutorial"/>
+<script async="" src="../../_/static/javascript/readthedocs-addons.js" type="text/javascript"></script><meta content="snntorch" name="readthedocs-project-slug"/><meta content="latest" name="readthedocs-version-slug"/><meta content="/contributing.html" name="readthedocs-resolver-filename"/><meta content="200" name="readthedocs-http-status"/></head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="index.html">
+            snntorch
+              <img alt="Logo" class="logo" src="_static/snntorch_alpha_full.png"/>
+</a>
+<div class="switch-menus">
+<div class="version-switch"></div>
+<div class="language-switch"></div>
+</div>
+<div role="search">
+<form action="search.html" class="wy-form" id="rtd-search-form" method="get">
+<input aria-label="Search docs" name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snntorch.html">snntorch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snntorch.export_nir.html">snntorch.export_nir</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snntorch.functional.html">snntorch.functional</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snntorch.import_nir.html">snntorch.import_nir</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snntorch.spikegen.html">snntorch.spikegen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snntorch.spikeplot.html">snntorch.spikeplot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snntorch.spikevision.html">snntorch.spikevision</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snntorch.surrogate.html">snntorch.surrogate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snntorch.utils.html">snntorch.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="contributing.html#">Contributing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#types-of-contributions">Types of Contributions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="contributing.html#report-bugs">Report Bugs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="contributing.html#fix-bugs">Fix Bugs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="contributing.html#implement-features">Implement Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="contributing.html#write-documentation">Write Documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="contributing.html#submit-feedback">Submit Feedback</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#get-started">Get Started!</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#pull-request-guidelines">Pull Request Guidelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#tips">Tips</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#deploying">Deploying</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">History</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="index.html">snntorch</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a aria-label="Home" class="icon icon-home" href="index.html"></a></li>
+<li class="breadcrumb-item active">Contributing</li>
+<li class="wy-breadcrumbs-aside">
+<a href="_sources/contributing.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<div class="admonition note" data-snn-translation="ru"><p><strong>Русский перевод.</strong> Неофициальный перевод актуальной документации snnTorch latest (0.9.4). Оригинал: https://snntorch.readthedocs.io/en/latest/. Документация распространяется по лицензии CC BY-SA 3.0.</p></div><section id="contributing">
+<h1>Вклад<a class="headerlink" href="contributing.html#contributing" title="Link to this heading"></a></h1>
+<p>Приветствуются любые вклады! Мы очень ценим вашу помощь. Любая мелочь полезна, и авторство всегда будет указано.</p>
+<p>Вы можете внести свой вклад разными способами:</p>
+<section id="types-of-contributions">
+<h2>Типы вкладов<a class="headerlink" href="contributing.html#types-of-contributions" title="Link to this heading"></a></h2>
+<section id="report-bugs">
+<h3>Сообщить об ошибках<a class="headerlink" href="contributing.html#report-bugs" title="Link to this heading"></a></h3>
+<p>Сообщайте об ошибках по адресу <a class="reference external" href="https://github.com/jeshraghian/snntorch/issues">https://github.com/jeshraghian/snntorch/issues</a>.</p>
+<p>Если вы сообщаете об ошибке, пожалуйста, укажите:</p>
+<ul class="simple">
+<li><p>Название и версию вашей операционной системы.</p></li>
+<li><p>Любые детали о вашей локальной настройке, которые могут помочь в устранении неполадок.</p></li>
+<li><p>Подробные шаги для воспроизведения ошибки.</p></li>
+</ul>
+</section>
+<section id="fix-bugs">
+<h3>Исправить ошибки<a class="headerlink" href="contributing.html#fix-bugs" title="Link to this heading"></a></h3>
+<p>Просмотрите задачи GitHub с меткой 'bug' и 'help wanted' — они открыты для всех желающих.</p>
+</section>
+<section id="implement-features">
+<h3>Реализовать функции<a class="headerlink" href="contributing.html#implement-features" title="Link to this heading"></a></h3>
+<p>Просмотрите задачи GitHub с меткой 'enhancement' и 'help wanted' — они открыты для всех желающих.</p>
+</section>
+<section id="write-documentation">
+<h3>Написать документацию<a class="headerlink" href="contributing.html#write-documentation" title="Link to this heading"></a></h3>
+<p>snntorch всегда нуждается в дополнительной документации: будь то в официальной документации snntorch, в docstrings, или даже в интернете в виде постов в блогах, статей и т.д.</p>
+</section>
+<section id="submit-feedback">
+<h3>Отправить отзыв<a class="headerlink" href="contributing.html#submit-feedback" title="Link to this heading"></a></h3>
+<p>Лучший способ отправить отзыв — создать задачу по адресу <a class="reference external" href="https://github.com/jeshraghian/snntorch/issues">https://github.com/jeshraghian/snntorch/issues</a>.</p>
+<p>Если вы предлагаете новую функцию:</p>
+<ul class="simple">
+<li><p>Подробно объясните, как она будет работать.</p></li>
+<li><p>Старайтесь максимально сузить область, чтобы упростить реализацию.</p></li>
+<li><p>Помните, что это проект, управляемый добровольцами, и вклады приветствуются :)</p></li>
+</ul>
+</section>
+</section>
+<section id="get-started">
+<h2>Начните работу!<a class="headerlink" href="contributing.html#get-started" title="Link to this heading"></a></h2>
+<p>Готовы внести свой вклад? Вот как настроить <cite>snntorch</cite> для локальной разработки.</p>
+<ol class="arabic">
+<li><p>Сделайте форк <cite>snntorch</cite> репозитория на GitHub.</p></li>
+<li><p>Клонируйте свой форк локально:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>git@github.com:your_name_here/snntorch.git
+</pre></div>
+</div>
+</li>
+<li><p>Установите локальную копию в virtualenv. Предполагается, что у вас установлен virtualenvwrapper; вот как настроить форк для локальной разработки:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>mkvirtualenv<span class="w"> </span>snntorch
+$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>snntorch/
+$<span class="w"> </span>python<span class="w"> </span>setup.py<span class="w"> </span>develop
+</pre></div>
+</div>
+</li>
+<li><p>Создайте ветку для локальной разработки:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>name-of-your-bugfix-or-feature
+</pre></div>
+</div>
+<p>Теперь вы можете вносить изменения локально.</p>
+</li>
+<li><p>Когда вы закончите вносить изменения, убедитесь, что они проходят проверку flake8 и тесты. Кроме того, убедитесь, что ваш код отформатирован с помощью black:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>flake8<span class="w"> </span>snntorch<span class="w"> </span>tests
+$<span class="w"> </span>black<span class="w"> </span>snntorch<span class="w"> </span>tests
+$<span class="w"> </span>python<span class="w"> </span>setup.py<span class="w"> </span><span class="nb">test</span><span class="w"> </span>or<span class="w"> </span>pytest
+</pre></div>
+</div>
+<p>Чтобы установить flake8, black и tox, просто выполните pip install в вашем virtualenv. При желании можно добавить предварительные хуки (pre-commit hooks) для flake8 и black, чтобы упростить форматирование.</p>
+</li>
+<li><p>Зафиксируйте изменения (commit) и отправьте ветку на GitHub:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>git<span class="w"> </span>add<span class="w"> </span>.
+$<span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"Your detailed description of your changes."</span>
+$<span class="w"> </span>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>name-of-your-bugfix-or-feature
+</pre></div>
+</div>
+</li>
+<li><p>Создайте pull request через веб-сайт GitHub.</p></li>
+</ol>
+</section>
+<section id="pull-request-guidelines">
+<h2>Рекомендации по pull request<a class="headerlink" href="contributing.html#pull-request-guidelines" title="Link to this heading"></a></h2>
+<p>Перед отправкой pull request проверьте, соответствует ли он следующим рекомендациям:</p>
+<ol class="arabic simple">
+<li><p>Pull request должен включать тесты.</p></li>
+<li><p>Если pull request добавляет функциональность, документация должна быть обновлена. Поместите новую функциональность в функцию с docstring и добавьте описание функции в список в README.rst.</p></li>
+<li><p>Pull request должен работать для Python 3.9, 3.10, 3.11 и PyPy. Проверьте
+<a class="reference external" href="https://github.com/jeshraghian/snntorch/actions">https://github.com/jeshraghian/snntorch/actions</a>
+и убедитесь, что тесты проходят для всех поддерживаемых версий Python.</p></li>
+</ol>
+</section>
+<section id="tips">
+<h2>Советы<a class="headerlink" href="contributing.html#tips" title="Link to this heading"></a></h2>
+<p>Чтобы запустить подмножество тестов:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>pytest<span class="w"> </span>tests.test_snntorch
+</pre></div>
+</div>
+</section>
+<section id="deploying">
+<h2>Развертывание<a class="headerlink" href="contributing.html#deploying" title="Link to this heading"></a></h2>
+<p>Напоминание для мейнтейнеров о том, как выполнить развертывание. Убедитесь, что все ваши изменения зафиксированы (включая запись в HISTORY.rst). Затем выполните:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>bump2version<span class="w"> </span>patch<span class="w"> </span><span class="c1"># possible: major / minor / patch</span>
+$<span class="w"> </span>git<span class="w"> </span>push
+$<span class="w"> </span>git<span class="w"> </span>push<span class="w"> </span>--tags
+</pre></div>
+</div>
+<p>Затем GitHub Actions развернет пакет на PyPI, если тесты пройдут успешно.</p>
+</section>
+</section>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="tutorials/tutorial_stmnist.html" rel="prev" title="Training on ST-MNIST with Tonic + snnTorch Tutorial"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="history.html" rel="next" title="History">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright 2021, Jason K. Eshraghian.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html class="writer-html5" data-content_root="../" lang="ru">
+<head>
+<meta charset="utf-8"/>
+<meta content="1" name="readthedocs-addons-api-version"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Урок 2 - Нейрон Leaky Integrate-and-Fire — документация snntorch 0.9.4</title>
+<link href="../_static/pygments.css%3Fv=03e43079.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/css/theme.css%3Fv=9edc463e.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/css/default.css" rel="stylesheet" type="text/css"/>
+<script src="../_static/jquery.js%3Fv=5d32c60e"></script>
+<script src="../_static/_sphinx_javascript_frameworks_compat.js%3Fv=2cd50e6c"></script>
+<script src="../_static/documentation_options.js%3Fv=c5ca06ca"></script>
+<script src="../_static/doctools.js%3Fv=fd6eb6e6"></script>
+<script src="../_static/sphinx_highlight.js%3Fv=6ffebe34"></script>
+<script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+<script src="../_static/js/theme.js"></script>
+<script src="../_static/js/versions.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="tutorial_3.html" rel="next" title="Tutorial 3 - A Feedforward Spiking Neural Network"/>
+<link href="tutorial_1.html" rel="prev" title="Tutorial 1 - Spike Encoding"/>
+<script async="" src="../../../_/static/javascript/readthedocs-addons.js" type="text/javascript"></script><meta content="snntorch" name="readthedocs-project-slug"/><meta content="latest" name="readthedocs-version-slug"/><meta content="/tutorials/tutorial_2.html" name="readthedocs-resolver-filename"/><meta content="200" name="readthedocs-http-status"/></head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html">
+            snntorch
+              <img alt="Logo" class="logo" src="../_static/snntorch_alpha_full.png"/>
+</a>
+<div class="switch-menus">
+<div class="version-switch"></div>
+<div class="language-switch"></div>
+</div>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input aria-label="Search docs" name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../snntorch.html">snntorch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../snntorch.export_nir.html">snntorch.export_nir</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../snntorch.functional.html">snntorch.functional</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../snntorch.import_nir.html">snntorch.import_nir</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../snntorch.spikegen.html">snntorch.spikegen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../snntorch.spikeplot.html">snntorch.spikeplot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../snntorch.spikevision.html">snntorch.spikevision</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../snntorch.surrogate.html">snntorch.surrogate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../snntorch.utils.html">snntorch.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Tutorials</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="tutorial_1.html">Tutorial 1 - Spike Encoding</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="tutorial_2.html#">Tutorial 2 - The Leaky Integrate-and-Fire Neuron</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorial_2.html#introduction">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorial_2.html#the-spectrum-of-neuron-models">1. The Spectrum of Neuron Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorial_2.html#the-leaky-integrate-and-fire-neuron-model">2. The Leaky Integrate-and-Fire Neuron Model</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_2.html#spiking-neurons-intuition">2.1 Spiking Neurons: Intuition</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_2.html#the-passive-membrane">2.2 The Passive Membrane</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tutorial_2.html#lapicques-lif-neuron-model">3 Lapicque’s LIF Neuron Model</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_2.html#lapicque-without-stimulus">3.1 Lapicque: Without Stimulus</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_2.html#lapicque-step-input">3.2 Lapicque: Step Input</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_2.html#lapicque-pulse-input">3.3 Lapicque: Pulse Input</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_2.html#lapicque-firing">3.4 Lapicque: Firing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_2.html#lapicque-spike-inputs">3.5 Lapicque: Spike Inputs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_2.html#lapicque-reset-mechanisms">3.6 Lapicque: Reset Mechanisms</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tutorial_2.html#conclusion">Conclusion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorial_2.html#further-reading">Further Reading</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_3.html">Tutorial 3 - A Feedforward Spiking Neural Network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_4.html">Tutorial 4 - 2nd Order Spiking Neuron Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_5.html">Tutorial 5 - Training Spiking Neural Networks with snntorch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_6.html">Tutorial 6 - Surrogate Gradient Descent in a Convolutional SNN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_7.html">Tutorial 7 - Neuromorphic Datasets with Tonic + snnTorch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_exoplanet_hunter.html">Exoplanet Hunter: Finding Planets Using Light Intensity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_forward_forward.html">The Forward-Forward Algorithm with a Spiking Neural Network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_ipu_1.html">Accelerating snnTorch on IPUs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_pop.html">Population Coding in Spiking Neural Nets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_regression_1.html">Regression with SNNs: Part I</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_regression_2.html">Regression with SNNs: Part II</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_stmnist.html">Training on ST-MNIST with Tonic + snnTorch Tutorial</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">History</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">snntorch</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a aria-label="Home" class="icon icon-home" href="../index.html"></a></li>
+<li class="breadcrumb-item"><a href="index.html">Tutorials</a></li>
+<li class="breadcrumb-item active">Tutorial 2 - The Leaky Integrate-and-Fire Neuron</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/tutorials/tutorial_2.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<div class="admonition note" data-snn-translation="ru"><p><strong>Русский перевод.</strong> Неофициальный перевод актуальной документации snnTorch latest (0.9.4). Оригинал: https://snntorch.readthedocs.io/en/latest/. Документация распространяется по лицензии CC BY-SA 3.0.</p></div><section id="tutorial-2-the-leaky-integrate-and-fire-neuron">
+<h1>Учебник 2 - Нейрон Leaky Integrate-and-Fire<a class="headerlink" href="tutorial_2.html#tutorial-2-the-leaky-integrate-and-fire-neuron" title="Link to this heading"></a></h1>
+<p>Учебное пособие написано Джейсоном К. Эшрагианом (<a class="reference external" href="https://www.ncg.ucsc.edu">www.ncg.ucsc.edu</a>)</p>
+<a class="reference external image-reference" href="https://colab.research.google.com/github/jeshraghian/snntorch/blob/master/examples/tutorial_2_lif_neuron.ipynb"><img alt="Open In Colab" src="../_static/external_images/e79852128a5f83c92496.svg"/>
+</a>
+<p>Серия учебных пособий snnTorch основана на следующей статье. Если вы считаете эти ресурсы или код полезными в своей работе, пожалуйста, укажите следующий источник:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://ieeexplore.ieee.org/abstract/document/10242251">Jason K. Eshraghian, Max Ward, Emre Neftci, Xinxin Wang, Gregor Lenz, Girish Dwivedi, Mohammed Bennamoun, Doo Seok Jeong, and Wei D. Lu. “Training Spiking Neural Networks Using Lessons From Deep Learning”. Proceedings of the IEEE, 111(9) September 2023.</a></p>
+</div></blockquote>
+<div class="admonition note">
+<p class="admonition-title">Примечание</p>
+<dl class="simple">
+<dt>Этот учебник является статической нередактируемой версией. Интерактивные редактируемые версии доступны по следующим ссылкам:</dt><dd><ul class="simple">
+<li><p><a class="reference external" href="https://colab.research.google.com/github/jeshraghian/snntorch/blob/master/examples/tutorial_2_lif_neuron.ipynb">Google Colab</a></p></li>
+<li><p><a class="reference external" href="https://github.com/jeshraghian/snntorch/tree/master/examples">Локальный блокнот (скачать через GitHub)</a></p></li>
+</ul>
+</dd>
+</dl>
+</div>
+<section id="introduction">
+<h2>Введение<a class="headerlink" href="tutorial_2.html#introduction" title="Link to this heading"></a></h2>
+<p>В этом руководстве вы:</p>
+<ul class="simple">
+<li><p>Изучите основы модели нейрона с утечкой, интеграцией и срабатыванием (LIF)</p></li>
+<li><p>Используйте snnTorch для реализации LIF-нейрона первого порядка</p></li>
+</ul>
+<p>Установите последнюю версию дистрибутива snnTorch из PyPi:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ pip install snntorch
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># imports</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">snntorch</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">snn</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">snntorch</span><span class="w"> </span><span class="kn">import</span> <span class="n">spikeplot</span> <span class="k">as</span> <span class="n">splt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">snntorch</span><span class="w"> </span><span class="kn">import</span> <span class="n">spikegen</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nn</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+</pre></div>
+</div>
+</section>
+<section id="the-spectrum-of-neuron-models">
+<h2>1. Спектр моделей нейронов<a class="headerlink" href="tutorial_2.html#the-spectrum-of-neuron-models" title="Link to this heading"></a></h2>
+<p>Существует большое разнообразие моделей нейронов: от биологически точных моделей (например, модели Ходжкина-Хаксли) до чрезвычайно простого искусственного нейрона, который пронизывает все аспекты современного глубокого обучения.</p>
+<p><strong>Модели нейронов Ходжкина-Хаксли</strong><span class="math notranslate nohighlight">\(-\)</span>Хотя биофизические модели могут воспроизводить электрофизиологические результаты с высокой степенью точности, их сложность в настоящее время затрудняет их использование.</p>
+<p><strong>Модель искусственного нейрона</strong><span class="math notranslate nohighlight">\(-\)</span>На другом конце спектра находится искусственный нейрон. Входные сигналы умножаются на соответствующие веса и пропускаются через функцию активации. Это упрощение позволило исследователям глубокого обучения совершать невероятные подвиги в компьютерном зрении, обработке естественного языка и многих других задачах в области машинного обучения.</p>
+<p><strong>Модели нейронов с утечкой, интеграцией и срабатыванием (LIF)</strong><span class="math notranslate nohighlight">\(-\)</span>Где-то посередине этого спектра находится модель нейрона с утечкой, интеграцией и срабатыванием (LIF). Она принимает сумму взвешенных входных сигналов, как и искусственный нейрон. Но вместо того, чтобы передавать ее напрямую на функцию активации, она интегрирует входной сигнал во времени с утечкой, подобно RC-цепи. Если интегрированное значение превышает порог, LIF-нейрон генерирует всплеск напряжения. Модель LIF абстрагируется от формы и профиля выходного всплеска; он просто рассматривается как дискретное событие. В результате информация сохраняется не в самом всплеске, а во времени (или частоте) всплесков. Простые модели спайковых нейронов дали много понимания нейронного кода, памяти, динамики сетей и, в последнее время, глубокого обучения. LIF-нейрон находится в идеальном балансе между биологической правдоподобностью и практичностью.</p>
+<a class="reference internal image-reference" href="../_static/external_images/c4789e7c1d64520d3484.png"><img alt="https://github.com/jeshraghian/snntorch/blob/master/docs/_static/img/examples/tutorial2/2_1_neuronmodels.png?raw=true" class="align-center" src="../_static/external_images/c4789e7c1d64520d3484.png" width="1000"/>
+</a>
+<p>Различные версии модели LIF имеют свою собственную динамику и сценарии использования. snnTorch в настоящее время поддерживает следующие LIF-нейроны:</p>
+<ul class="simple">
+<li><p>Модель RC Лапика: <code class="docutils literal notranslate"><span class="pre">snntorch.Lapicque</span></code></p></li>
+<li><p>Модель первого порядка: <code class="docutils literal notranslate"><span class="pre">snntorch.Leaky</span></code></p></li>
+<li><p>Модель нейрона на основе синаптической проводимости: <code class="docutils literal notranslate"><span class="pre">snntorch.Synaptic</span></code></p></li>
+<li><p>Рекуррентная модель первого порядка: <code class="docutils literal notranslate"><span class="pre">snntorch.RLeaky</span></code></p></li>
+<li><p>Рекуррентная модель нейрона на основе синаптической проводимости: <code class="docutils literal notranslate"><span class="pre">snntorch.RSynaptic</span></code></p></li>
+<li><p>Модель альфа-нейрона: <code class="docutils literal notranslate"><span class="pre">snntorch.Alpha</span></code></p></li>
+</ul>
+<p>Также доступно несколько других не-LIF спайковых нейронов. Данное руководство сосредоточено на первой из этих моделей. Она будет использоваться для перехода к другим моделям в <a class="reference external" href="index.html">последующих руководствах</a>.</p>
+</section>
+<section id="the-leaky-integrate-and-fire-neuron-model">
+<h2>2. Модель нейрона с утечкой, интеграцией и срабатыванием (LIF)<a class="headerlink" href="tutorial_2.html#the-leaky-integrate-and-fire-neuron-model" title="Link to this heading"></a></h2>
+<section id="spiking-neurons-intuition">
+<h3>2.1 Спайковые нейроны: интуиция<a class="headerlink" href="tutorial_2.html#spiking-neurons-intuition" title="Link to this heading"></a></h3>
+<p>В нашем мозге нейрон может быть связан с 1 000 <span class="math notranslate nohighlight">\(-\)</span> 10 000 других нейронов. Если один нейрон срабатывает, все нижележащие нейроны могут это почувствовать. Но что определяет, срабатывает ли нейрон вообще? Эксперименты прошлого века показывают, что если нейрон испытывает
+<em>достаточный</em> стимул на его входе, то он может возбудиться и сгенерировать свой собственный спайк.</p>
+<p>Откуда берется этот стимул? Он может исходить от:</p>
+<ul class="simple">
+<li><p>сенсорной периферии,</p></li>
+<li><p>инвазивного электрода, искусственно стимулирующего нейрон, или, в большинстве случаев,</p></li>
+<li><p>от других пресинаптических нейронов.</p></li>
+</ul>
+<a class="reference internal image-reference" href="../_static/external_images/7e3ec0b5d9a87b43bf1a.png"><img alt="https://github.com/jeshraghian/snntorch/blob/master/docs/_static/img/examples/tutorial2/2_2_intuition.png?raw=true" class="align-center" src="../_static/external_images/7e3ec0b5d9a87b43bf1a.png" width="600"/>
+</a>
+<p>Учитывая, что эти спайки представляют собой очень короткие всплески электрической активности, маловероятно, что все входные спайки поступят к телу нейрона точно в унисон. Это указывает на наличие временной динамики, которая «поддерживает» входные спайки, наподобие задержки.</p>
+</section>
+<section id="the-passive-membrane">
+<h3>2.2 Пассивная мембрана<a class="headerlink" href="tutorial_2.html#the-passive-membrane" title="Link to this heading"></a></h3>
+<p>Как и все клетки, нейрон окружен тонкой мембраной. Эта мембрана
+представляет собой липидный бислой, который изолирует проводящий солевой раствор внутри
+нейрона от внеклеточной среды. Электрически два
+проводящих раствора, разделенных изолятором, действуют как конденсатор.</p>
+<p>Другая функция этой мембраны — контролировать, что входит и выходит из
+этой клетки (например, такие ионы, как Na<span class="math notranslate nohighlight">\(^+\)</span>). Обычно мембрана непроницаема для ионов, что предотвращает их вход и выход из
+тела нейрона. Но в мембране есть специальные каналы, которые
+открываются при введении тока в нейрон. Это движение зарядов
+электрически моделируется резистором.</p>
+<a class="reference internal image-reference" href="../_static/external_images/b5438d8ad04ced081e76.png"><img alt="https://github.com/jeshraghian/snntorch/blob/master/docs/_static/img/examples/tutorial2/2_3_passivemembrane.png?raw=true" class="align-center" src="../_static/external_images/b5438d8ad04ced081e76.png" width="450"/>
+</a>
+<p>Следующий блок выведет поведение LIF-нейрона с нуля.
+Если вы предпочитаете пропустить математику, можете свободно пролистать
+дальше; после вывода мы применим более практический подход к пониманию динамики LIF-нейрона.</p>
+<hr class="docutils"/>
+<p><strong>Необязательно: Вывод модели LIF-нейрона</strong></p>
+<p>Теперь предположим, что некоторый произвольный изменяющийся во времени ток <span class="math notranslate nohighlight">\(I_{\rm in}(t)\)</span> вводится в нейрон,
+будь то через электрическую стимуляцию или от других нейронов. Полный ток в цепи сохраняется, поэтому:</p>
+<div class="math notranslate nohighlight">
+\[I_{\rm in}(t) = I_{R} + I_{C}\]</div>
+<p>Согласно закону Ома, потенциал мембраны, измеряемый между внутренней
+и внешней сторонами нейрона <span class="math notranslate nohighlight">\(U_{\rm mem}\)</span> пропорционален
+току через резистор:</p>
+<div class="math notranslate nohighlight">
+\[I_{R}(t) = \frac{U_{\rm mem}(t)}{R}\]</div>
+<p>Емкость — это коэффициент пропорциональности между зарядом,
+накопленным на конденсаторе <span class="math notranslate nohighlight">\(Q\)</span> и <span class="math notranslate nohighlight">\(U_{\rm mem}(t)\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[Q = CU_{\rm mem}(t)\]</div>
+<p>Скорость изменения заряда дает емкостный ток:</p>
+<div class="math notranslate nohighlight">
+\[\frac{dQ}{dt}=I_C(t) = C\frac{dU_{\rm mem}(t)}{dt}\]</div>
+<p>Следовательно:</p>
+<div class="math notranslate nohighlight">
+\[I_{\rm in}(t) = \frac{U_{\rm mem}(t)}{R} + C\frac{dU_{\rm mem}(t)}{dt}\]</div>
+<div class="math notranslate nohighlight">
+\[\implies RC \frac{dU_{\rm mem}(t)}{dt} = -U_{\rm mem}(t) + RI_{\rm in}(t)\]</div>
+<p>Правая часть уравнения имеет единицы
+<strong>[Voltage]</strong>. В левой части уравнения
+член <span class="math notranslate nohighlight">\(\frac{dU_{\rm mem}(t)}{dt}\)</span> имеет единицы
+<strong>[Voltage/Time]</strong>. Чтобы приравнять его к левой части (т.е. к напряжению),
+<span class="math notranslate nohighlight">\(RC\)</span> должен иметь единицу <strong>[Time]</strong>. Мы называем <span class="math notranslate nohighlight">\(\tau = RC\)</span> постоянной времени цепи:</p>
+<div class="math notranslate nohighlight">
+\[\tau \frac{dU_{\rm mem}(t)}{dt} = -U_{\rm mem}(t) + RI_{\rm in}(t)\]</div>
+<p>Пассивная мембрана, таким образом, описывается линейным дифференциальным уравнением.</p>
+<p>Чтобы производная функции имела ту же форму, что и исходная функция,
+т.е. <span class="math notranslate nohighlight">\(\frac{dU_{\rm mem}(t)}{dt} \propto U_{\rm mem}(t)\)</span>, это означает, что решение является экспоненциальным с постоянной времени <span class="math notranslate nohighlight">\(\tau\)</span>.</p>
+<p>Предположим, нейрон начинает с некоторого значения <span class="math notranslate nohighlight">\(U_{0}\)</span> без дальнейшего входа,
+т.е. <span class="math notranslate nohighlight">\(I_{\rm in}(t)=0.\)</span> Решение линейного дифференциального уравнения:</p>
+<div class="math notranslate nohighlight">
+\[U_{\rm mem}(t) = U_0e^{-\frac{t}{\tau}}\]</div>
+<p>Общее решение показано ниже.</p>
+<a class="reference internal image-reference" href="../_static/external_images/c6600685960d548e42b2.png"><img alt="https://github.com/jeshraghian/snntorch/blob/master/docs/_static/img/examples/tutorial2/2_4_RCmembrane.png?raw=true" class="align-center" src="../_static/external_images/c6600685960d548e42b2.png" width="450"/>
+</a>
+<hr class="docutils"/>
+<p><strong>Необязательно: Метод прямого Эйлера для решения модели LIF-нейрона</strong></p>
+<p>Нам удалось найти аналитическое решение для LIF-нейрона, но неясно,
+как это может быть полезно в нейронной сети. На этот раз
+давайте вместо этого используем метод прямого Эйлера для решения предыдущего линейного
+обыкновенного дифференциального уравнения (ODE). Этот подход может показаться
+трудоемким, но он дает нам дискретное рекуррентное представление LIF-
+нейрона. Как только мы получим это решение, его можно будет напрямую применить к нейронной
+сети. Как и ранее, линейное ODE, описывающее RC-цепь:</p>
+<div class="math notranslate nohighlight">
+\[\tau \frac{dU(t)}{dt} = -U(t) + RI_{\rm in}(t)\]</div>
+<p>Индекс от <span class="math notranslate nohighlight">\(U(t)\)</span> опущен для простоты.</p>
+<p>Сначала решим эту производную, не беря предел
+<span class="math notranslate nohighlight">\(\Delta t \rightarrow 0\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\tau \frac{U(t+\Delta t)-U(t)}{\Delta t} = -U(t) + RI_{\rm in}(t)\]</div>
+<p>Для достаточно малого <span class="math notranslate nohighlight">\(\Delta t\)</span>, это дает достаточно хорошее
+приближение непрерывного интегрирования. Выделяя мембранный потенциал на
+следующем временном шаге, получаем:</p>
+<div class="math notranslate nohighlight">
+\[U(t+\Delta t) = U(t) + \frac{\Delta t}{\tau}\big(-U(t) + RI_{\rm in}(t)\big)\]</div>
+<p>Следующая функция представляет это уравнение:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">leaky_integrate_neuron</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">time_step</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">I</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">R</span><span class="o">=</span><span class="mf">5e7</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">):</span>
+  <span class="n">tau</span> <span class="o">=</span> <span class="n">R</span><span class="o">*</span><span class="n">C</span>
+  <span class="n">U</span> <span class="o">=</span> <span class="n">U</span> <span class="o">+</span> <span class="p">(</span><span class="n">time_step</span><span class="o">/</span><span class="n">tau</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="o">-</span><span class="n">U</span> <span class="o">+</span> <span class="n">I</span><span class="o">*</span><span class="n">R</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">U</span>
+</pre></div>
+</div>
+<p>Значения по умолчанию установлены на <span class="math notranslate nohighlight">\(R=50 M\Omega\)</span> и
+<span class="math notranslate nohighlight">\(C=100pF\)</span> (т.е. <span class="math notranslate nohighlight">\(\tau=5ms\)</span>). Они вполне
+реалистичны по отношению к биологическим нейронам.</p>
+<p>Теперь выполните цикл по этой функции, итерация за один временной шаг.
+Мембранный потенциал инициализируется значением <span class="math notranslate nohighlight">\(U=0.9 V\)</span>, при условии, что
+нет входного тока, <span class="math notranslate nohighlight">\(I_{\rm in}=0 A\)</span>.
+Моделирование выполняется с миллисекундной точностью
+<span class="math notranslate nohighlight">\(\Delta t=1\times 10^{-3}\)</span>с.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">num_steps</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">U</span> <span class="o">=</span> <span class="mf">0.9</span>
+<span class="n">U_trace</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># keeps a record of U for plotting</span>
+
+<span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_steps</span><span class="p">):</span>
+  <span class="n">U_trace</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">U</span><span class="p">)</span>
+  <span class="n">U</span> <span class="o">=</span> <span class="n">leaky_integrate_neuron</span><span class="p">(</span><span class="n">U</span><span class="p">)</span>  <span class="c1"># solve next step of U</span>
+
+<span class="n">plot_mem</span><span class="p">(</span><span class="n">U_trace</span><span class="p">,</span> <span class="s2">"Leaky Neuron Model"</span><span class="p">)</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_static/external_images/9416478bae8bac63f87a.png"><img alt="https://github.com/jeshraghian/snntorch/blob/master/docs/_static/img/examples/tutorial2/_static/leaky1.png?raw=true" class="align-center" src="../_static/external_images/9416478bae8bac63f87a.png" width="300"/>
+</a>
+<p>Это экспоненциальное затухание, похоже, соответствует нашим ожиданиям!</p>
+</section>
+</section>
+<section id="lapicques-lif-neuron-model">
+<h2>3 Модель нейрона LIF Лапика<a class="headerlink" href="tutorial_2.html#lapicques-lif-neuron-model" title="Link to this heading"></a></h2>
+<p>Это сходство между нервными мембранами и RC-цепями было отмечено
+<a class="reference external" href="https://pubmed.ncbi.nlm.nih.gov/17968583/">Луи Лапиком в
+1907 году</a>. Он стимулировал
+нервное волокно лягушки коротким электрическим импульсом и обнаружил, что мембраны
+нейронов можно приближенно рассматривать как конденсатор с утечкой. Мы отдаем
+дань его открытиям, назвав базовую модель нейрона LIF в snnTorch
+в его честь.</p>
+<p>Большинство концепций модели Лапика переносятся и на другие модели нейронов LIF.
+Теперь пришло время смоделировать этот нейрон с помощью snnTorch.</p>
+<section id="lapicque-without-stimulus">
+<h3>3.1 Лапик: без стимула<a class="headerlink" href="tutorial_2.html#lapicque-without-stimulus" title="Link to this heading"></a></h3>
+<p>Создайте экземпляр нейрона Лапика с помощью следующей строки кода.
+R и C изменены на более простые значения, при сохранении прежней постоянной
+времени <span class="math notranslate nohighlight">\(\tau=5\times10^{-3}\)</span>с.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">time_step</span> <span class="o">=</span> <span class="mf">1e-3</span>
+<span class="n">R</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">C</span> <span class="o">=</span> <span class="mf">1e-3</span>
+
+<span class="c1"># leaky integrate and fire neuron, tau=5e-3</span>
+<span class="n">lif1</span> <span class="o">=</span> <span class="n">snn</span><span class="o">.</span><span class="n">Lapicque</span><span class="p">(</span><span class="n">R</span><span class="o">=</span><span class="n">R</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="n">C</span><span class="p">,</span> <span class="n">time_step</span><span class="o">=</span><span class="n">time_step</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Модель нейрона теперь хранится в <code class="docutils literal notranslate"><span class="pre">lif1</span></code>. Чтобы использовать этот нейрон:</p>
+<p><strong>Входы</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">cur_in</span></code>: каждый элемент <span class="math notranslate nohighlight">\(I_{\rm in}\)</span> последовательно подается на вход (пока 0)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mem</span></code>: мембранный потенциал, ранее <span class="math notranslate nohighlight">\(U[t]\)</span>, также подается на вход. Инициализируйте его произвольно, например <span class="math notranslate nohighlight">\(U[0] = 0.9~V\)</span>.</p></li>
+</ul>
+<p><strong>Выходы</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">spk_out</span></code>: выходной спайк <span class="math notranslate nohighlight">\(S_{\rm out}[t+\Delta t]\)</span> на следующем временном шаге ('1' если есть спайк; '0' если спайка нет)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mem</span></code>: мембранный потенциал <span class="math notranslate nohighlight">\(U_{\rm mem}[t+\Delta t]\)</span> на следующем временном шаге</p></li>
+</ul>
+<p>Все они должны быть типа <code class="docutils literal notranslate"><span class="pre">torch.Tensor</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Initialize membrane, input, and output</span>
+<span class="n">mem</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.9</span>  <span class="c1"># U=0.9 at t=0</span>
+<span class="n">cur_in</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">num_steps</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># I=0 for all t</span>
+<span class="n">spk_out</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># initialize output spikes</span>
+</pre></div>
+</div>
+<p>Эти значения только для начального временного шага <span class="math notranslate nohighlight">\(t=0\)</span>.
+Чтобы проанализировать эволюцию <code class="docutils literal notranslate"><span class="pre">mem</span></code> с течением времени, создайте список <code class="docutils literal notranslate"><span class="pre">mem_rec</span></code> для записи этих значений на каждом временном шаге.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># A list to store a recording of membrane potential</span>
+<span class="n">mem_rec</span> <span class="o">=</span> <span class="p">[</span><span class="n">mem</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Теперь пора запустить моделирование! На каждом временном шаге <code class="docutils literal notranslate"><span class="pre">mem</span></code> обновляется и сохраняется в <code class="docutils literal notranslate"><span class="pre">mem_rec</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># pass updated value of mem and cur_in[step]=0 at every time step</span>
+<span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_steps</span><span class="p">):</span>
+  <span class="n">spk_out</span><span class="p">,</span> <span class="n">mem</span> <span class="o">=</span> <span class="n">lif1</span><span class="p">(</span><span class="n">cur_in</span><span class="p">[</span><span class="n">step</span><span class="p">],</span> <span class="n">mem</span><span class="p">)</span>
+
+  <span class="c1"># Store recordings of membrane potential</span>
+  <span class="n">mem_rec</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mem</span><span class="p">)</span>
+
+<span class="c1"># convert the list of tensors into one tensor</span>
+<span class="n">mem_rec</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">mem_rec</span><span class="p">)</span>
+
+<span class="c1"># pre-defined plotting function</span>
+<span class="n">plot_mem</span><span class="p">(</span><span class="n">mem_rec</span><span class="p">,</span> <span class="s2">"Lapicque's Neuron Model Without Stimulus"</span><span class="p">)</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_static/external_images/2847cedddc43dcacd91a.png"><img alt="https://github.com/jeshraghian/snntorch/blob/master/docs/_static/img/examples/tutorial2/_static/lapicque.png?raw=true" class="align-center" src="../_static/external_images/2847cedddc43dcacd91a.png" width="300"/>
+</a>
+<p>Мембранный потенциал затухает со временем при отсутствии каких-либо входных
+стимулов.</p>
+</section>
+<section id="lapicque-step-input">
+<h3>3.2 Лапик: ступенчатый вход<a class="headerlink" href="tutorial_2.html#lapicque-step-input" title="Link to this heading"></a></h3>
+<p>Теперь подайте ступенчатый ток <span class="math notranslate nohighlight">\(I_{\rm in}(t)\)</span> который включается в момент
+<span class="math notranslate nohighlight">\(t=t_0\)</span>. Дано линейное дифференциальное уравнение первого порядка:</p>
+<div class="math notranslate nohighlight">
+\[\tau \frac{dU_{\rm mem}}{dt} = -U_{\rm mem} + RI_{\rm in}(t),\]</div>
+<p>общее решение:</p>
+<div class="math notranslate nohighlight">
+\[U_{\rm mem}=I_{\rm in}(t)R + [U_0 - I_{\rm in}(t)R]e^{-\frac{t}{\tau}}\]</div>
+<p>Если мембранный потенциал инициализирован значением
+<span class="math notranslate nohighlight">\(U_{\rm mem}(t=0) = 0 V\)</span>, то:</p>
+<div class="math notranslate nohighlight">
+\[U_{\rm mem}(t)=I_{\rm in}(t)R [1 - e^{-\frac{t}{\tau}}]\]</div>
+<p>Основываясь на этой явной зависимости от времени, мы ожидаем, что
+<span class="math notranslate nohighlight">\(U_{\rm mem}\)</span> будет экспоненциально релаксировать к <span class="math notranslate nohighlight">\(I_{\rm in}R\)</span>.
+Давайте визуализируем это, подав импульс тока величиной
+<span class="math notranslate nohighlight">\(I_{in}=100mA\)</span> в момент <span class="math notranslate nohighlight">\(t_0 = 10ms\)</span>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Initialize input current pulse</span>
+<span class="n">cur_in</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">((</span><span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">190</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="mf">0.1</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>  <span class="c1"># input current turns on at t=10</span>
+
+<span class="c1"># Initialize membrane, output and recordings</span>
+<span class="n">mem</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># membrane potential of 0 at t=0</span>
+<span class="n">spk_out</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># neuron needs somewhere to sequentially dump its output spikes</span>
+<span class="n">mem_rec</span> <span class="o">=</span> <span class="p">[</span><span class="n">mem</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>На этот раз новые значения <code class="docutils literal notranslate"><span class="pre">cur_in</span></code> передаются нейрону:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">num_steps</span> <span class="o">=</span> <span class="mi">200</span>
+
+<span class="c1"># pass updated value of mem and cur_in[step] at every time step</span>
+<span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_steps</span><span class="p">):</span>
+  <span class="n">spk_out</span><span class="p">,</span> <span class="n">mem</span> <span class="o">=</span> <span class="n">lif1</span><span class="p">(</span><span class="n">cur_in</span><span class="p">[</span><span class="n">step</span><span class="p">],</span> <span class="n">mem</span><span class="p">)</span>
+  <span class="n">mem_rec</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mem</span><span class="p">)</span>
+
+<span class="c1"># crunch -list- of tensors into one tensor</span>
+<span class="n">mem_rec</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">mem_rec</span><span class="p">)</span>
+
+<span class="n">plot_step_current_response</span><span class="p">(</span><span class="n">cur_in</span><span class="p">,</span> <span class="n">mem_rec</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_static/external_images/4829ca1e815be3f8801a.png"><img alt="https://github.com/jeshraghian/snntorch/blob/master/docs/_static/img/examples/tutorial2/_static/lapicque_step.png?raw=true" class="align-center" src="../_static/external_images/4829ca1e815be3f8801a.png" width="450"/>
+</a>
+<p>По мере того как <span class="math notranslate nohighlight">\(t\rightarrow \infty\)</span>, мембранный потенциал
+<span class="math notranslate nohighlight">\(U_{\rm mem}\)</span> экспоненциально релаксирует к <span class="math notranslate nohighlight">\(I_{\rm in}R\)</span>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"The calculated value of input pulse [A] x resistance [Ω] is: </span><span class="si">{</span><span class="n">cur_in</span><span class="p">[</span><span class="mi">11</span><span class="p">]</span><span class="o">*</span><span class="n">lif1</span><span class="o">.</span><span class="n">R</span><span class="si">}</span><span class="s2"> V"</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"The simulated value of steady-state membrane potential is: </span><span class="si">{</span><span class="n">mem_rec</span><span class="p">[</span><span class="mi">200</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2"> V"</span><span class="p">)</span>
+
+<span class="go">The calculated value of input pulse [A] x resistance [Ω] is: 0.5 V</span>
+<span class="go">The simulated value of steady-state membrane potential is: 0.4999999403953552 V</span>
+</pre></div>
+</div>
+<p>Достаточно близко!</p>
+</section>
+<section id="lapicque-pulse-input">
+<h3>3.3 Лапик: импульсный вход<a class="headerlink" href="tutorial_2.html#lapicque-pulse-input" title="Link to this heading"></a></h3>
+<p>А что если ступенчатый вход был обрезан на <span class="math notranslate nohighlight">\(t=30ms\)</span>?</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Initialize current pulse, membrane and outputs</span>
+<span class="n">cur_in1</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">((</span><span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mf">0.1</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">170</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span> <span class="mi">0</span><span class="p">)</span>  <span class="c1"># input turns on at t=10, off at t=30</span>
+<span class="n">mem</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">spk_out</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">mem_rec1</span> <span class="o">=</span> <span class="p">[</span><span class="n">mem</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># neuron simulation</span>
+<span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_steps</span><span class="p">):</span>
+  <span class="n">spk_out</span><span class="p">,</span> <span class="n">mem</span> <span class="o">=</span> <span class="n">lif1</span><span class="p">(</span><span class="n">cur_in1</span><span class="p">[</span><span class="n">step</span><span class="p">],</span> <span class="n">mem</span><span class="p">)</span>
+  <span class="n">mem_rec1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mem</span><span class="p">)</span>
+<span class="n">mem_rec1</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">mem_rec1</span><span class="p">)</span>
+
+<span class="n">plot_current_pulse_response</span><span class="p">(</span><span class="n">cur_in1</span><span class="p">,</span> <span class="n">mem_rec1</span><span class="p">,</span> <span class="s2">"Lapicque's Neuron Model With Input Pulse"</span><span class="p">,</span>
+                            <span class="n">vline1</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">vline2</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_static/external_images/6c834f224366b04fe224.png"><img alt="https://github.com/jeshraghian/snntorch/blob/master/docs/_static/img/examples/tutorial2/_static/lapicque_pulse1.png?raw=true" class="align-center" src="../_static/external_images/6c834f224366b04fe224.png" width="450"/>
+</a>
+<p><span class="math notranslate nohighlight">\(U_{\rm mem}\)</span> возрастает так же, как и для ступенчатого входа, но теперь он
+затухает с постоянной времени <span class="math notranslate nohighlight">\(\tau\)</span> как в нашем первом моделировании.</p>
+<p>Давайте подадим примерно такое же количество заряда
+<span class="math notranslate nohighlight">\(Q = I \times t\)</span> в цепь за вдвое меньшее время. Это означает, что
+амплитуда входного тока должна быть немного увеличена, а временное
+окно уменьшено.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Increase amplitude of current pulse; half the time.</span>
+<span class="n">cur_in2</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">((</span><span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="mf">0.111</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">180</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span> <span class="mi">0</span><span class="p">)</span>  <span class="c1"># input turns on at t=10, off at t=20</span>
+<span class="n">mem</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">spk_out</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">mem_rec2</span> <span class="o">=</span> <span class="p">[</span><span class="n">mem</span><span class="p">]</span>
+
+<span class="c1"># neuron simulation</span>
+<span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_steps</span><span class="p">):</span>
+  <span class="n">spk_out</span><span class="p">,</span> <span class="n">mem</span> <span class="o">=</span> <span class="n">lif1</span><span class="p">(</span><span class="n">cur_in2</span><span class="p">[</span><span class="n">step</span><span class="p">],</span> <span class="n">mem</span><span class="p">)</span>
+  <span class="n">mem_rec2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mem</span><span class="p">)</span>
+<span class="n">mem_rec2</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">mem_rec2</span><span class="p">)</span>
+
+<span class="n">plot_current_pulse_response</span><span class="p">(</span><span class="n">cur_in2</span><span class="p">,</span> <span class="n">mem_rec2</span><span class="p">,</span> <span class="s2">"Lapicque's Neuron Model With Input Pulse: x1/2 pulse width"</span><span class="p">,</span>
+                            <span class="n">vline1</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">vline2</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_static/external_images/e3bf4ec810ce53e5b14e.png"><img alt="https://github.com/jeshraghian/snntorch/blob/master/docs/_static/img/examples/tutorial2/_static/lapicque_pulse2.png?raw=true" class="align-center" src="../_static/external_images/e3bf4ec810ce53e5b14e.png" width="450"/>
+</a>
+<p>Повторим это снова, но с еще более быстрым входным импульсом и большей
+амплитудой:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Increase amplitude of current pulse; quarter the time.</span>
+<span class="n">cur_in3</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">((</span><span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="mf">0.147</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">185</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span> <span class="mi">0</span><span class="p">)</span>  <span class="c1"># input turns on at t=10, off at t=15</span>
+<span class="n">mem</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">spk_out</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">mem_rec3</span> <span class="o">=</span> <span class="p">[</span><span class="n">mem</span><span class="p">]</span>
+
+<span class="c1"># neuron simulation</span>
+<span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_steps</span><span class="p">):</span>
+  <span class="n">spk_out</span><span class="p">,</span> <span class="n">mem</span> <span class="o">=</span> <span class="n">lif1</span><span class="p">(</span><span class="n">cur_in3</span><span class="p">[</span><span class="n">step</span><span class="p">],</span> <span class="n">mem</span><span class="p">)</span>
+  <span class="n">mem_rec3</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mem</span><span class="p">)</span>
+<span class="n">mem_rec3</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">mem_rec3</span><span class="p">)</span>
+
+<span class="n">plot_current_pulse_response</span><span class="p">(</span><span class="n">cur_in3</span><span class="p">,</span> <span class="n">mem_rec3</span><span class="p">,</span> <span class="s2">"Lapicque's Neuron Model With Input Pulse: x1/4 pulse width"</span><span class="p">,</span>
+                            <span class="n">vline1</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">vline2</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_static/external_images/1520eeaabc7898c16b57.png"><img alt="https://github.com/jeshraghian/snntorch/blob/master/docs/_static/img/examples/tutorial2/_static/lapicque_pulse3.png?raw=true" class="align-center" src="../_static/external_images/1520eeaabc7898c16b57.png" width="450"/>
+</a>
+<p>Теперь сравните все три эксперимента на одном графике:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">compare_plots</span><span class="p">(</span><span class="n">cur_in1</span><span class="p">,</span> <span class="n">cur_in2</span><span class="p">,</span> <span class="n">cur_in3</span><span class="p">,</span> <span class="n">mem_rec1</span><span class="p">,</span> <span class="n">mem_rec2</span><span class="p">,</span> <span class="n">mem_rec3</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span>
+              <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="s2">"Lapicque's Neuron Model With Input Pulse: Varying inputs"</span><span class="p">)</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_static/external_images/47191d7d3a8298ee6478.png"><img alt="https://github.com/jeshraghian/snntorch/blob/master/docs/_static/img/examples/tutorial2/_static/compare_pulse.png?raw=true" class="align-center" src="../_static/external_images/47191d7d3a8298ee6478.png" width="450"/>
+</a>
+<p>По мере увеличения амплитуды входного импульса тока время нарастания
+мембранного потенциала сокращается. В пределе, когда ширина входного импульса
+тока становится бесконечно малой, <span class="math notranslate nohighlight">\(T_W \rightarrow 0s\)</span>, мембранный потенциал будет скачкообразно возрастать практически за нулевое время нарастания:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Current spike input</span>
+<span class="n">cur_in4</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">((</span><span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">189</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span> <span class="mi">0</span><span class="p">)</span>  <span class="c1"># input only on for 1 time step</span>
+<span class="n">mem</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">spk_out</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">mem_rec4</span> <span class="o">=</span> <span class="p">[</span><span class="n">mem</span><span class="p">]</span>
+
+<span class="c1"># neuron simulation</span>
+<span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_steps</span><span class="p">):</span>
+  <span class="n">spk_out</span><span class="p">,</span> <span class="n">mem</span> <span class="o">=</span> <span class="n">lif1</span><span class="p">(</span><span class="n">cur_in4</span><span class="p">[</span><span class="n">step</span><span class="p">],</span> <span class="n">mem</span><span class="p">)</span>
+  <span class="n">mem_rec4</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mem</span><span class="p">)</span>
+<span class="n">mem_rec4</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">mem_rec4</span><span class="p">)</span>
+
+<span class="n">plot_current_pulse_response</span><span class="p">(</span><span class="n">cur_in4</span><span class="p">,</span> <span class="n">mem_rec4</span><span class="p">,</span> <span class="s2">"Lapicque's Neuron Model With Input Spike"</span><span class="p">,</span>
+                            <span class="n">vline1</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">ylim_max1</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_static/external_images/1808ad51881e1ffe6415.png"><img alt="https://github.com/jeshraghian/snntorch/blob/master/docs/_static/img/examples/tutorial2/_static/lapicque_spike.png?raw=true" class="align-center" src="../_static/external_images/1808ad51881e1ffe6415.png" width="450"/>
+</a>
+<p>Ширина импульса тока теперь настолько мала, что он фактически выглядит как
+спайк. То есть заряд доставляется за бесконечно короткий промежуток
+времени, <span class="math notranslate nohighlight">\(I_{\rm in}(t) = Q/t_0\)</span> где <span class="math notranslate nohighlight">\(t_0 \rightarrow 0\)</span>.
+Более формально:</p>
+<div class="math notranslate nohighlight">
+\[I_{\rm in}(t) = Q \delta (t-t_0),\]</div>
+<p>где <span class="math notranslate nohighlight">\(\delta (t-t_0)\)</span> является дельта-функцией Дирака. Физически невозможно «мгновенно» передать заряд. Но интегрирование
+<span class="math notranslate nohighlight">\(I_{\rm in}\)</span> дает физически осмысленный результат, так как мы можем
+получить переданный заряд:</p>
+<div class="math notranslate nohighlight">
+\[1 = \int^{t_0 + a}_{t_0 - a}\delta(t-t_0)dt\]</div>
+<div class="math notranslate nohighlight">
+\[f(t_0) = \int^{t_0 + a}_{t_0 - a}f(t)\delta(t-t_0)dt\]</div>
+<p>Здесь,
+<span class="math notranslate nohighlight">\(f(t_0) = I_{\rm in}(t_0=10) = 0.5A \implies f(t) = Q = 0.5C\)</span>.</p>
+<p>Надеюсь, вы хорошо поняли, как мембранный потенциал утекает в
+состоянии покоя и интегрирует входной ток. Это охватывает «утечку» и
+«интеграцию» части нейрона. А как насчет срабатывания?</p>
+</section>
+<section id="lapicque-firing">
+<h3>3.4 Lapicque: Срабатывание<a class="headerlink" href="tutorial_2.html#lapicque-firing" title="Link to this heading"></a></h3>
+<p>До сих пор мы видели только то, как нейрон реагирует на спайки на
+входе. Чтобы нейрон мог генерировать и испускать собственные спайки на выходе,
+пассивная мембранная модель должна быть объединена с порогом.</p>
+<p>Если мембранный потенциал превышает этот порог, то за пределами
+пассивной мембранной модели будет генерироваться спайк напряжения.</p>
+<a class="reference internal image-reference" href="../_static/external_images/6cd3327ea00a0c91e9c8.png"><img alt="https://github.com/jeshraghian/snntorch/blob/master/docs/_static/img/examples/tutorial2/2_4_spiking.png?raw=true" class="align-center" src="../_static/external_images/6cd3327ea00a0c91e9c8.png" width="400"/>
+</a>
+<p>Измените <code class="docutils literal notranslate"><span class="pre">leaky_integrate_neuron</span></code> функцию из предыдущего раздела, чтобы добавить
+спайковый ответ.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># R=5.1, C=5e-3 for illustrative purposes</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">leaky_integrate_and_fire</span><span class="p">(</span><span class="n">mem</span><span class="p">,</span> <span class="n">cur</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">time_step</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">R</span><span class="o">=</span><span class="mf">5.1</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="mf">5e-3</span><span class="p">):</span>
+  <span class="n">tau_mem</span> <span class="o">=</span> <span class="n">R</span><span class="o">*</span><span class="n">C</span>
+  <span class="n">spk</span> <span class="o">=</span> <span class="p">(</span><span class="n">mem</span> <span class="o">&gt;</span> <span class="n">threshold</span><span class="p">)</span> <span class="c1"># if membrane exceeds threshold, spk=1, else, 0</span>
+  <span class="n">mem</span> <span class="o">=</span> <span class="n">mem</span> <span class="o">+</span> <span class="p">(</span><span class="n">time_step</span><span class="o">/</span><span class="n">tau_mem</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="o">-</span><span class="n">mem</span> <span class="o">+</span> <span class="n">cur</span><span class="o">*</span><span class="n">R</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">mem</span><span class="p">,</span> <span class="n">spk</span>
+</pre></div>
+</div>
+<p>Задайте <code class="docutils literal notranslate"><span class="pre">threshold=1</span></code>, и приложите ступенчатый ток, чтобы заставить этот нейрон
+генерировать спайки.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Small step current input</span>
+<span class="n">cur_in</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">((</span><span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">190</span><span class="p">)</span><span class="o">*</span><span class="mf">0.2</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">mem</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">mem_rec</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">spk_rec</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># neuron simulation</span>
+<span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_steps</span><span class="p">):</span>
+  <span class="n">mem</span><span class="p">,</span> <span class="n">spk</span> <span class="o">=</span> <span class="n">leaky_integrate_and_fire</span><span class="p">(</span><span class="n">mem</span><span class="p">,</span> <span class="n">cur_in</span><span class="p">[</span><span class="n">step</span><span class="p">])</span>
+  <span class="n">mem_rec</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mem</span><span class="p">)</span>
+  <span class="n">spk_rec</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">spk</span><span class="p">)</span>
+
+<span class="c1"># convert lists to tensors</span>
+<span class="n">mem_rec</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">mem_rec</span><span class="p">)</span>
+<span class="n">spk_rec</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">spk_rec</span><span class="p">)</span>
+
+<span class="n">plot_cur_mem_spk</span><span class="p">(</span><span class="n">cur_in</span><span class="p">,</span> <span class="n">mem_rec</span><span class="p">,</span> <span class="n">spk_rec</span><span class="p">,</span> <span class="n">thr_line</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">vline</span><span class="o">=</span><span class="mi">109</span><span class="p">,</span> <span class="n">ylim_max2</span><span class="o">=</span><span class="mf">1.3</span><span class="p">,</span>
+                 <span class="n">title</span><span class="o">=</span><span class="s2">"LIF Neuron Model With Uncontrolled Spiking"</span><span class="p">)</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_static/external_images/d412f9ad6fd23ee1fd8e.png"><img alt="https://github.com/jeshraghian/snntorch/blob/master/docs/_static/img/examples/tutorial2/_static/lif_uncontrolled.png?raw=true" class="align-center" src="../_static/external_images/d412f9ad6fd23ee1fd8e.png" width="450"/>
+</a>
+<p>Ой! Выходные спайки вышли из-под контроля! Это потому, что мы
+забыли добавить механизм сброса. В реальности каждый раз, когда нейрон
+срабатывает, мембранный потенциал гиперполяризуется обратно к потенциалу покоя.</p>
+<p>Реализация этого механизма сброса в нашем нейроне:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># LIF w/Reset mechanism</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">leaky_integrate_and_fire</span><span class="p">(</span><span class="n">mem</span><span class="p">,</span> <span class="n">cur</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">time_step</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">R</span><span class="o">=</span><span class="mf">5.1</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="mf">5e-3</span><span class="p">):</span>
+  <span class="n">tau_mem</span> <span class="o">=</span> <span class="n">R</span><span class="o">*</span><span class="n">C</span>
+  <span class="n">spk</span> <span class="o">=</span> <span class="p">(</span><span class="n">mem</span> <span class="o">&gt;</span> <span class="n">threshold</span><span class="p">)</span>
+  <span class="n">mem</span> <span class="o">=</span> <span class="n">mem</span> <span class="o">+</span> <span class="p">(</span><span class="n">time_step</span><span class="o">/</span><span class="n">tau_mem</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="o">-</span><span class="n">mem</span> <span class="o">+</span> <span class="n">cur</span><span class="o">*</span><span class="n">R</span><span class="p">)</span> <span class="o">-</span> <span class="n">spk</span><span class="o">*</span><span class="n">threshold</span>  <span class="c1"># every time spk=1, subtract the threhsold</span>
+  <span class="k">return</span> <span class="n">mem</span><span class="p">,</span> <span class="n">spk</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Small step current input</span>
+<span class="n">cur_in</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">((</span><span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">190</span><span class="p">)</span><span class="o">*</span><span class="mf">0.2</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">mem</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">mem_rec</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">spk_rec</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># neuron simulation</span>
+<span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_steps</span><span class="p">):</span>
+  <span class="n">mem</span><span class="p">,</span> <span class="n">spk</span> <span class="o">=</span> <span class="n">leaky_integrate_and_fire</span><span class="p">(</span><span class="n">mem</span><span class="p">,</span> <span class="n">cur_in</span><span class="p">[</span><span class="n">step</span><span class="p">])</span>
+  <span class="n">mem_rec</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mem</span><span class="p">)</span>
+  <span class="n">spk_rec</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">spk</span><span class="p">)</span>
+
+<span class="c1"># convert lists to tensors</span>
+<span class="n">mem_rec</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">mem_rec</span><span class="p">)</span>
+<span class="n">spk_rec</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">spk_rec</span><span class="p">)</span>
+
+<span class="n">plot_cur_mem_spk</span><span class="p">(</span><span class="n">cur_in</span><span class="p">,</span> <span class="n">mem_rec</span><span class="p">,</span> <span class="n">spk_rec</span><span class="p">,</span> <span class="n">thr_line</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">vline</span><span class="o">=</span><span class="mi">109</span><span class="p">,</span> <span class="n">ylim_max2</span><span class="o">=</span><span class="mf">1.3</span><span class="p">,</span>
+                 <span class="n">title</span><span class="o">=</span><span class="s2">"LIF Neuron Model With Reset"</span><span class="p">)</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_static/external_images/46452208b90c03ea8329.png"><img alt="https://github.com/jeshraghian/snntorch/blob/master/docs/_static/img/examples/tutorial2/_static/reset_2.png?raw=true" class="align-center" src="../_static/external_images/46452208b90c03ea8329.png" width="450"/>
+</a>
+<p>Бам! Теперь у нас есть рабочая модель нейрона с утечкой, интеграцией и срабатыванием (LIF)!</p>
+<p>Обратите внимание, что если <span class="math notranslate nohighlight">\(I_{\rm in}=0.2 A\)</span> и <span class="math notranslate nohighlight">\(R&lt;5 \Omega\)</span>, то
+<span class="math notranslate nohighlight">\(I\times R &lt; 1 V\)</span>. Если <code class="docutils literal notranslate"><span class="pre">threshold=1</span></code>, то спайки не будут
+возникать. Можете вернуться назад, изменить значения и проверить это.</p>
+<p>Как и прежде, весь этот код сводится к вызову встроенной модели нейрона Lapicque из snnTorch:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create the same neuron as before using snnTorch</span>
+<span class="n">lif2</span> <span class="o">=</span> <span class="n">snn</span><span class="o">.</span><span class="n">Lapicque</span><span class="p">(</span><span class="n">R</span><span class="o">=</span><span class="mf">5.1</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="mf">5e-3</span><span class="p">,</span> <span class="n">time_step</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">)</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Membrane potential time constant: </span><span class="si">{</span><span class="n">lif2</span><span class="o">.</span><span class="n">R</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">lif2</span><span class="o">.</span><span class="n">C</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">s"</span><span class="p">)</span>
+<span class="s2">"Membrane potential time constant: 0.025s"</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Initialize inputs and outputs</span>
+<span class="n">cur_in</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">((</span><span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">190</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="mf">0.2</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">mem</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">spk_out</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">mem_rec</span> <span class="o">=</span> <span class="p">[</span><span class="n">mem</span><span class="p">]</span>
+<span class="n">spk_rec</span> <span class="o">=</span> <span class="p">[</span><span class="n">spk_out</span><span class="p">]</span>
+
+<span class="c1"># Simulation run across 100 time steps.</span>
+<span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_steps</span><span class="p">):</span>
+  <span class="n">spk_out</span><span class="p">,</span> <span class="n">mem</span> <span class="o">=</span> <span class="n">lif2</span><span class="p">(</span><span class="n">cur_in</span><span class="p">[</span><span class="n">step</span><span class="p">],</span> <span class="n">mem</span><span class="p">)</span>
+  <span class="n">mem_rec</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mem</span><span class="p">)</span>
+  <span class="n">spk_rec</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">spk_out</span><span class="p">)</span>
+
+<span class="c1"># convert lists to tensors</span>
+<span class="n">mem_rec</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">mem_rec</span><span class="p">)</span>
+<span class="n">spk_rec</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">spk_rec</span><span class="p">)</span>
+
+<span class="n">plot_cur_mem_spk</span><span class="p">(</span><span class="n">cur_in</span><span class="p">,</span> <span class="n">mem_rec</span><span class="p">,</span> <span class="n">spk_rec</span><span class="p">,</span> <span class="n">thr_line</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">vline</span><span class="o">=</span><span class="mi">109</span><span class="p">,</span> <span class="n">ylim_max2</span><span class="o">=</span><span class="mf">1.3</span><span class="p">,</span>
+                 <span class="n">title</span><span class="o">=</span><span class="s2">"Lapicque Neuron Model With Step Input"</span><span class="p">)</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_static/external_images/245e98304ddb3cf950b1.png"><img alt="https://github.com/jeshraghian/snntorch/blob/master/docs/_static/img/examples/tutorial2/_static/lapicque_reset.png?raw=true" class="align-center" src="../_static/external_images/245e98304ddb3cf950b1.png" width="450"/>
+</a>
+<p>Мембранный потенциал экспоненциально растет, затем достигает порога,
+после чего сбрасывается. Мы можем примерно увидеть, что это происходит между
+<span class="math notranslate nohighlight">\(105ms &lt; t_{\rm spk} &lt; 115ms\)</span>. Из любопытства давайте
+посмотрим, из чего на самом деле состоит запись спайков:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">spk_rec</span><span class="p">[</span><span class="mi">105</span><span class="p">:</span><span class="mi">115</span><span class="p">]</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+<span class="go">tensor([0., 0., 0., 0., 1., 0., 0., 0., 0., 0.])</span>
+</pre></div>
+</div>
+<p>Отсутствие спайка обозначается <span class="math notranslate nohighlight">\(S_{\rm out}=0\)</span>, а наличие
+спайка — <span class="math notranslate nohighlight">\(S_{\rm out}=1\)</span>. Здесь спайк происходит
+в момент <span class="math notranslate nohighlight">\(S_{\rm out}[t=109]=1\)</span>. Если вам интересно, почему каждая из этих записей хранится в виде тензора, то
+это потому, что в будущих руководствах мы будем моделировать крупномасштабные
+нейронные сети. Каждая запись будет содержать спайковые ответы многих нейронов,
+и тензоры могут быть загружены в память GPU для ускорения процесса обучения.</p>
+<p>Если <span class="math notranslate nohighlight">\(I_{\rm in}\)</span> увеличивается, то мембранный потенциал
+приближается к порогу <span class="math notranslate nohighlight">\(U_{\rm thr}\)</span> быстрее:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Initialize inputs and outputs</span>
+<span class="n">cur_in</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">((</span><span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">190</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="mf">0.3</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>  <span class="c1"># increased current</span>
+<span class="n">mem</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">spk_out</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">mem_rec</span> <span class="o">=</span> <span class="p">[</span><span class="n">mem</span><span class="p">]</span>
+<span class="n">spk_rec</span> <span class="o">=</span> <span class="p">[</span><span class="n">spk_out</span><span class="p">]</span>
+
+<span class="c1"># neuron simulation</span>
+<span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_steps</span><span class="p">):</span>
+  <span class="n">spk_out</span><span class="p">,</span> <span class="n">mem</span> <span class="o">=</span> <span class="n">lif2</span><span class="p">(</span><span class="n">cur_in</span><span class="p">[</span><span class="n">step</span><span class="p">],</span> <span class="n">mem</span><span class="p">)</span>
+  <span class="n">mem_rec</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mem</span><span class="p">)</span>
+  <span class="n">spk_rec</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">spk_out</span><span class="p">)</span>
+
+<span class="c1"># convert lists to tensors</span>
+<span class="n">mem_rec</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">mem_rec</span><span class="p">)</span>
+<span class="n">spk_rec</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">spk_rec</span><span class="p">)</span>
+
+
+<span class="n">plot_cur_mem_spk</span><span class="p">(</span><span class="n">cur_in</span><span class="p">,</span> <span class="n">mem_rec</span><span class="p">,</span> <span class="n">spk_rec</span><span class="p">,</span> <span class="n">thr_line</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ylim_max2</span><span class="o">=</span><span class="mf">1.3</span><span class="p">,</span>
+                 <span class="n">title</span><span class="o">=</span><span class="s2">"Lapicque Neuron Model With Periodic Firing"</span><span class="p">)</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_static/external_images/92e82dfe60194346abd5.png"><img alt="https://github.com/jeshraghian/snntorch/blob/master/docs/_static/img/examples/tutorial2/_static/periodic.png?raw=true" class="align-center" src="../_static/external_images/92e82dfe60194346abd5.png" width="450"/>
+</a>
+<p>Аналогичное увеличение частоты срабатывания также может быть вызвано уменьшением
+порога. Для этого необходимо инициализировать новую модель нейрона, но
+остальная часть блока кода полностью совпадает с приведенной выше:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># neuron with halved threshold</span>
+<span class="n">lif3</span> <span class="o">=</span> <span class="n">snn</span><span class="o">.</span><span class="n">Lapicque</span><span class="p">(</span><span class="n">R</span><span class="o">=</span><span class="mf">5.1</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="mf">5e-3</span><span class="p">,</span> <span class="n">time_step</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+<span class="c1"># Initialize inputs and outputs</span>
+<span class="n">cur_in</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">((</span><span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">190</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="mf">0.3</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">mem</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">spk_out</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">mem_rec</span> <span class="o">=</span> <span class="p">[</span><span class="n">mem</span><span class="p">]</span>
+<span class="n">spk_rec</span> <span class="o">=</span> <span class="p">[</span><span class="n">spk_out</span><span class="p">]</span>
+
+<span class="c1"># Neuron simulation</span>
+<span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_steps</span><span class="p">):</span>
+  <span class="n">spk_out</span><span class="p">,</span> <span class="n">mem</span> <span class="o">=</span> <span class="n">lif3</span><span class="p">(</span><span class="n">cur_in</span><span class="p">[</span><span class="n">step</span><span class="p">],</span> <span class="n">mem</span><span class="p">)</span>
+  <span class="n">mem_rec</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mem</span><span class="p">)</span>
+  <span class="n">spk_rec</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">spk_out</span><span class="p">)</span>
+
+<span class="c1"># convert lists to tensors</span>
+<span class="n">mem_rec</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">mem_rec</span><span class="p">)</span>
+<span class="n">spk_rec</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">spk_rec</span><span class="p">)</span>
+
+<span class="n">plot_cur_mem_spk</span><span class="p">(</span><span class="n">cur_in</span><span class="p">,</span> <span class="n">mem_rec</span><span class="p">,</span> <span class="n">spk_rec</span><span class="p">,</span> <span class="n">thr_line</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">ylim_max2</span><span class="o">=</span><span class="mf">1.3</span><span class="p">,</span>
+                 <span class="n">title</span><span class="o">=</span><span class="s2">"Lapicque Neuron Model With Lower Threshold"</span><span class="p">)</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_static/external_images/6d20b25a387c2055f8d4.png"><img alt="https://github.com/jeshraghian/snntorch/blob/master/docs/_static/img/examples/tutorial2/_static/threshold.png?raw=true" class="align-center" src="../_static/external_images/6d20b25a387c2055f8d4.png" width="450"/>
+</a>
+<p>Вот что происходит при инъекции постоянного тока. Но как в глубоких
+нейронных сетях, так и в биологическом мозге большинство нейронов соединены
+с другими нейронами. Они с большей вероятностью получают спайки,
+а не инъекции постоянного тока.</p>
+</section>
+<section id="lapicque-spike-inputs">
+<h3>3.5 Lapicque: Спайковые входы<a class="headerlink" href="tutorial_2.html#lapicque-spike-inputs" title="Link to this heading"></a></h3>
+<p>Давайте используем некоторые из навыков, которые мы получили в <a class="reference external" href="https://colab.research.google.com/github/jeshraghian/snntorch/blob/master/examples/tutorial_1_spikegen.ipynb">Урок
+1</a>,
+и используем <code class="docutils literal notranslate"><span class="pre">snntorch.spikegen</span></code> модуль для создания случайно
+генерируемых входных спайков.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a 1-D random spike train. Each element has a probability of 40% of firing.</span>
+<span class="n">spk_in</span> <span class="o">=</span> <span class="n">spikegen</span><span class="o">.</span><span class="n">rate_conv</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">num_steps</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="mf">0.40</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Запустите следующий блок кода, чтобы увидеть, сколько спайков было сгенерировано.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"There are </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">spk_in</span><span class="p">))</span><span class="si">}</span><span class="s2"> total spikes out of </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">spk_in</span><span class="p">)</span><span class="si">}</span><span class="s2"> time steps."</span><span class="p">)</span>
+<span class="go">There are 85 total spikes out of 200 time steps.</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s2">"w"</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+
+<span class="n">splt</span><span class="o">.</span><span class="n">raster</span><span class="p">(</span><span class="n">spk_in</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">num_steps</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">ax</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"black"</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">"|"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Input Spikes"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"Time step"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_static/external_images/e423891204222bd5cba7.png"><img alt="https://github.com/jeshraghian/snntorch/blob/master/docs/_static/img/examples/tutorial2/_static/spikes.png?raw=true" class="align-center" src="../_static/external_images/e423891204222bd5cba7.png" width="400"/>
+</a>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Initialize inputs and outputs</span>
+<span class="n">mem</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="mf">0.5</span>
+<span class="n">spk_out</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">mem_rec</span> <span class="o">=</span> <span class="p">[</span><span class="n">mem</span><span class="p">]</span>
+<span class="n">spk_rec</span> <span class="o">=</span> <span class="p">[</span><span class="n">spk_out</span><span class="p">]</span>
+
+<span class="c1"># Neuron simulation</span>
+<span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_steps</span><span class="p">):</span>
+  <span class="n">spk_out</span><span class="p">,</span> <span class="n">mem</span> <span class="o">=</span> <span class="n">lif3</span><span class="p">(</span><span class="n">spk_in</span><span class="p">[</span><span class="n">step</span><span class="p">],</span> <span class="n">mem</span><span class="p">)</span>
+  <span class="n">spk_rec</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">spk_out</span><span class="p">)</span>
+  <span class="n">mem_rec</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mem</span><span class="p">)</span>
+
+<span class="c1"># convert lists to tensors</span>
+<span class="n">mem_rec</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">mem_rec</span><span class="p">)</span>
+<span class="n">spk_rec</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">spk_rec</span><span class="p">)</span>
+
+<span class="n">plot_spk_mem_spk</span><span class="p">(</span><span class="n">spk_in</span><span class="p">,</span> <span class="n">mem_rec</span><span class="p">,</span> <span class="n">spk_rec</span><span class="p">,</span> <span class="s2">"Lapicque's Neuron Model With Input Spikes"</span><span class="p">)</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_static/external_images/3748b1abe66bb49bfb04.png"><img alt="https://github.com/jeshraghian/snntorch/blob/master/docs/_static/img/examples/tutorial2/_static/spk_mem_spk.png?raw=true" class="align-center" src="../_static/external_images/3748b1abe66bb49bfb04.png" width="450"/>
+</a>
+</section>
+<section id="lapicque-reset-mechanisms">
+<h3>3.6 Lapicque: Механизмы сброса<a class="headerlink" href="tutorial_2.html#lapicque-reset-mechanisms" title="Link to this heading"></a></h3>
+<p>Мы уже реализовали механизм сброса с нуля, но давайте углубимся
+немного глубже. Это резкое падение мембранного потенциала способствует
+снижению генерации спайков, что дополняет часть теории о том,
+как мозг является таким энергоэффективным. Биологически это падение мембранного
+потенциала известно как «гиперполяризация». После этого
+временно становится сложнее вызвать очередной спайк у нейрона.
+Здесь мы используем механизм сброса для моделирования гиперполяризации.</p>
+<p>Существует два способа реализации механизма сброса:</p>
+<ol class="arabic simple">
+<li><p><em>сброс вычитанием</em> (по умолчанию) <span class="math notranslate nohighlight">\(-\)</span> вычитать порог из мембранного потенциала каждый раз, когда генерируется спайк;</p></li>
+<li><p><em>сброс до нуля</em> <span class="math notranslate nohighlight">\(-\)</span> принудительно обнулять мембранный потенциал при каждом спайке.</p></li>
+<li><p><em>без сброса</em> <span class="math notranslate nohighlight">\(-\)</span> ничего не делать, позволяя разряду идти потенциально неконтролируемо.</p></li>
+</ol>
+<a class="reference internal image-reference" href="../_static/external_images/a514541ccc1bba7f8513.png"><img alt="https://github.com/jeshraghian/snntorch/blob/master/docs/_static/img/examples/tutorial2/2_5_reset.png?raw=true" class="align-center" src="../_static/external_images/a514541ccc1bba7f8513.png" width="400"/>
+</a>
+<p>Создайте другую модель нейрона, чтобы продемонстрировать, как переключаться между механизмами сброса. По умолчанию модели нейронов snnTorch используют <code class="docutils literal notranslate"><span class="pre">reset_mechanism</span> <span class="pre">=</span> <span class="pre">"subtract"</span></code>.
+Это можно явно переопределить, передав аргумент
+<code class="docutils literal notranslate"><span class="pre">reset_mechanism</span> <span class="pre">=</span>  <span class="pre">"zero"</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Neuron with reset_mechanism set to "zero"</span>
+<span class="n">lif4</span> <span class="o">=</span> <span class="n">snn</span><span class="o">.</span><span class="n">Lapicque</span><span class="p">(</span><span class="n">R</span><span class="o">=</span><span class="mf">5.1</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="mf">5e-3</span><span class="p">,</span> <span class="n">time_step</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">reset_mechanism</span><span class="o">=</span><span class="s2">"zero"</span><span class="p">)</span>
+
+<span class="c1"># Initialize inputs and outputs</span>
+<span class="n">spk_in</span> <span class="o">=</span> <span class="n">spikegen</span><span class="o">.</span><span class="n">rate_conv</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">num_steps</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="mf">0.40</span><span class="p">)</span>
+<span class="n">mem</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="mf">0.5</span>
+<span class="n">spk_out</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">mem_rec0</span> <span class="o">=</span> <span class="p">[</span><span class="n">mem</span><span class="p">]</span>
+<span class="n">spk_rec0</span> <span class="o">=</span> <span class="p">[</span><span class="n">spk_out</span><span class="p">]</span>
+
+<span class="c1"># Neuron simulation</span>
+<span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_steps</span><span class="p">):</span>
+  <span class="n">spk_out</span><span class="p">,</span> <span class="n">mem</span> <span class="o">=</span> <span class="n">lif4</span><span class="p">(</span><span class="n">spk_in</span><span class="p">[</span><span class="n">step</span><span class="p">],</span> <span class="n">mem</span><span class="p">)</span>
+  <span class="n">spk_rec0</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">spk_out</span><span class="p">)</span>
+  <span class="n">mem_rec0</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mem</span><span class="p">)</span>
+
+<span class="c1"># convert lists to tensors</span>
+<span class="n">mem_rec0</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">mem_rec0</span><span class="p">)</span>
+<span class="n">spk_rec0</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">spk_rec0</span><span class="p">)</span>
+
+<span class="n">plot_reset_comparison</span><span class="p">(</span><span class="n">spk_in</span><span class="p">,</span> <span class="n">mem_rec</span><span class="p">,</span> <span class="n">spk_rec</span><span class="p">,</span> <span class="n">mem_rec0</span><span class="p">,</span> <span class="n">spk_rec0</span><span class="p">)</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_static/external_images/bb335e97d9a880a0b4be.png"><img alt="https://github.com/jeshraghian/snntorch/blob/master/docs/_static/img/examples/tutorial2/_static/comparison.png?raw=true" class="align-center" src="../_static/external_images/bb335e97d9a880a0b4be.png" width="550"/>
+</a>
+<p>Обратите пристальное внимание на эволюцию мембранного потенциала, особенно в моменты после достижения порога. Вы можете заметить,
+что для варианта “Reset to Zero”, мембранный потенциал принудительно возвращается к нулю
+после каждого спайка.</p>
+<p>Так какой же лучше? Применение <code class="docutils literal notranslate"><span class="pre">"subtract"</span></code> (значение по умолчанию в
+<code class="docutils literal notranslate"><span class="pre">reset_mechanism</span></code>) менее затратно, поскольку не игнорирует, насколько
+мембранный потенциал превышает порог.</p>
+<p>С другой стороны, применение жесткого сброса с помощью <code class="docutils literal notranslate"><span class="pre">"zero"</span></code> способствует
+разреженности и потенциально меньшему энергопотреблению при работе
+на специализированном нейроморфном оборудовании. Оба варианта доступны для
+экспериментов.</p>
+<p>Это охватывает основы модели нейрона LIF!</p>
+</section>
+</section>
+<section id="conclusion">
+<h2>Заключение<a class="headerlink" href="tutorial_2.html#conclusion" title="Link to this heading"></a></h2>
+<p>На практике мы, вероятно, не стали бы использовать эту модель нейрона для обучения
+нейронной сети. Модель Lapicque LIF добавила много
+гиперпараметров для настройки: <span class="math notranslate nohighlight">\(R\)</span>, <span class="math notranslate nohighlight">\(C\)</span>, <span class="math notranslate nohighlight">\(\Delta t\)</span>,
+<span class="math notranslate nohighlight">\(U_{\rm thr}\)</span>, и выбор механизма сброса. Это всё
+немного пугает. Поэтому <a class="reference external" href="index.html">следующий учебник</a> устранит большую часть этих
+гиперпараметров и представит модель нейрона, лучше подходящую для
+крупномасштабного глубокого обучения.</p>
+<p>Если вам нравится этот проект, пожалуйста, рассмотрите возможность поставить звезду ⭐ репозиторию на GitHub, так как это самый простой и лучший способ поддержать его.</p>
+<p>Для справки, документация <a class="reference external" href="../snntorch.html">может быть найдена
+здесь</a>.</p>
+</section>
+<section id="further-reading">
+<h2>Дальнейшее чтение<a class="headerlink" href="tutorial_2.html#further-reading" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/jeshraghian/snntorch">Ознакомьтесь с проектом snnTorch на GitHub здесь.</a></p></li>
+<li><p><a class="reference external" href="../snntorch.html">snnTorch
+документация</a>
+моделей Lapicque, Leaky, Synaptic и Alpha</p></li>
+<li><p><a class="reference external" href="https://neuronaldynamics.epfl.ch/index.html">Нейронная динамика: от одиночных нейронов до сетей и моделей
+познания</a> от Вульфрама
+Герстнера, Вернера М. Кистлера, Ричарда Науда и Лиама Панински.</p></li>
+<li><p><a class="reference external" href="https://mitpress.mit.edu/books/theoretical-neuroscience">Теоретическая нейронаука: вычислительное и математическое моделирование
+нейронных
+систем</a>
+от Лоуренса Ф. Эбботта и Питера Даяна</p></li>
+</ul>
+</section>
+</section>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="tutorial_1.html" rel="prev" title="Tutorial 1 - Spike Encoding"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="tutorial_3.html" rel="next" title="Tutorial 3 - A Feedforward Spiking Neural Network">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright 2021, Jason K. Eshraghian.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

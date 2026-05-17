@@ -1,0 +1,534 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="readthedocs-addons-api-version" content="1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>snntorch.spikevision.spikedata.dvs_gesture &mdash; snntorch 0.9.4 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css%3Fv=03e43079.css" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css%3Fv=9edc463e.css" />
+      <link rel="stylesheet" href="../../../../_static/css/default.css" type="text/css" />
+
+  
+      <script src="../../../../_static/jquery.js%3Fv=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js%3Fv=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js%3Fv=c5ca06ca"></script>
+      <script src="../../../../_static/doctools.js%3Fv=fd6eb6e6"></script>
+      <script src="../../../../_static/sphinx_highlight.js%3Fv=6ffebe34"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <script src="../../../../_static/js/versions.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+<script async type="text/javascript" src="../../../../../../_/static/javascript/readthedocs-addons.js"></script><meta name="readthedocs-project-slug" content="snntorch" /><meta name="readthedocs-version-slug" content="latest" /><meta name="readthedocs-resolver-filename" content="/_modules/snntorch/spikevision/spikedata/dvs_gesture.html" /><meta name="readthedocs-http-status" content="200" /></head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            snntorch
+              <img src="../../../../_static/snntorch_alpha_full.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="switch-menus">
+                <div class="version-switch"></div>
+                <div class="language-switch"></div>
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../readme.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../snntorch.html">snntorch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../snntorch.export_nir.html">snntorch.export_nir</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../snntorch.functional.html">snntorch.functional</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../snntorch.import_nir.html">snntorch.import_nir</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../snntorch.spikegen.html">snntorch.spikegen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../snntorch.spikeplot.html">snntorch.spikeplot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../snntorch.spikevision.html">snntorch.spikevision</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../snntorch.surrogate.html">snntorch.surrogate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../snntorch.utils.html">snntorch.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../history.html">History</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">snntorch</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">snntorch.spikevision.spikedata.dvs_gesture</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for snntorch.spikevision.spikedata.dvs_gesture</h1><div class="highlight"><pre>
+<span></span><span class="c1"># DVS Gesture citation:</span>
+<span class="c1"># A. Amir, B. Taba, D. Berg, T. Melano,</span>
+<span class="c1"># J. McKinstry, C. Di Nolfo, T. Nayak, A. Andreopoulos,</span>
+<span class="c1"># G. Garreau, M. Mendoza, J. Kusnitz, M. Debole, S. Esser,</span>
+<span class="c1"># T. Delbruck, M. Flickner, and D. Modha, &quot;A Low Power,</span>
+<span class="c1"># Fully Event-Based Gesture Recognition System,&quot;</span>
+<span class="c1"># 2017 IEEE Conference on Computer Vision and Pattern Recognition (CVPR),</span>
+<span class="c1"># Honolulu, HI, 2017.</span>
+<span class="c1"># Dataloader adapted from</span>
+<span class="c1"># https://github.com/nmi-lab/torchneuromorphic</span>
+<span class="c1"># by Emre Neftci and Clemens Schaefer</span>
+
+<span class="c1"># import struct</span>
+<span class="c1"># import time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">h5py</span>
+
+<span class="c1"># import torch.utils.data</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..neuromorphic_dataset</span><span class="w"> </span><span class="kn">import</span> <span class="n">NeuromorphicDataset</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..events_timeslices</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_tmad_slice</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.._transforms</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">dvs_permute</span><span class="p">,</span>
+    <span class="n">Compose</span><span class="p">,</span>
+    <span class="n">Repeat</span><span class="p">,</span>
+    <span class="n">toOneHot</span><span class="p">,</span>
+    <span class="n">ToTensor</span><span class="p">,</span>
+    <span class="n">ToCountFrame</span><span class="p">,</span>
+    <span class="n">Downsample</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.._utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">aedat_to_events</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tqdm</span><span class="w"> </span><span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">glob</span>
+
+
+<span class="n">mapping</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="mi">0</span><span class="p">:</span> <span class="s2">&quot;Hand Clapping&quot;</span><span class="p">,</span>
+    <span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;Right Hand Wave&quot;</span><span class="p">,</span>
+    <span class="mi">2</span><span class="p">:</span> <span class="s2">&quot;Left Hand Wave&quot;</span><span class="p">,</span>
+    <span class="mi">3</span><span class="p">:</span> <span class="s2">&quot;Right Arm CW&quot;</span><span class="p">,</span>
+    <span class="mi">4</span><span class="p">:</span> <span class="s2">&quot;Right Arm CCW&quot;</span><span class="p">,</span>
+    <span class="mi">5</span><span class="p">:</span> <span class="s2">&quot;Left Arm CW&quot;</span><span class="p">,</span>
+    <span class="mi">6</span><span class="p">:</span> <span class="s2">&quot;Left Arm CCW&quot;</span><span class="p">,</span>
+    <span class="mi">7</span><span class="p">:</span> <span class="s2">&quot;Arm Roll&quot;</span><span class="p">,</span>
+    <span class="mi">8</span><span class="p">:</span> <span class="s2">&quot;Air Drums&quot;</span><span class="p">,</span>
+    <span class="mi">9</span><span class="p">:</span> <span class="s2">&quot;Air Guitar&quot;</span><span class="p">,</span>
+    <span class="mi">10</span><span class="p">:</span> <span class="s2">&quot;Other&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+
+
+<div class="viewcode-block" id="DVSGesture">
+<a class="viewcode-back" href="../../../../snntorch.spikevision.spikedata.html#snntorch.spikevision.spikedata.dvs_gesture.DVSGesture">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">DVSGesture</span><span class="p">(</span><span class="n">NeuromorphicDataset</span><span class="p">):</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;`DVS Gesture &lt;https://www.research.ibm.com/dvsgesture/&gt;`_ Dataset.</span>
+
+<span class="sd">    The data was recorded using a DVS128. The dataset contains 11</span>
+<span class="sd">    hand gestures from 29 subjects under 3 illumination conditions.</span>
+
+<span class="sd">    **Number of classes:** 11</span>
+
+<span class="sd">    **Number of train samples:**  1176</span>
+
+<span class="sd">    **Number of test samples:**  288</span>
+
+<span class="sd">    **Dimensions:** ``[num_steps x 2 x 128 x 128]``</span>
+
+<span class="sd">    * **num_steps:** time-dimension of event-based footage</span>
+<span class="sd">    * **2:** number of channels (on-spikes for luminance increasing;</span>
+<span class="sd">    off-spikes for luminance decreasing)</span>
+<span class="sd">    * **128x128:** W x H spatial dimensions of event-based footage</span>
+
+<span class="sd">    For further reading, see:</span>
+
+<span class="sd">        *A. Amir, B. Taba, D. Berg, T. Melano, J. McKinstry, C. Di Nolfo,</span>
+<span class="sd">        T. Nayak, A. Andreopoulos, G. Garreau, M. Mendoza, J. Kusnitz,</span>
+<span class="sd">        M. Debole, S. Esser, T. Delbruck, M. Flickner, and D. Modha,</span>
+<span class="sd">        &quot;A Low Power, Fully Event-Based Gesture Recognition System,&quot;</span>
+<span class="sd">        2017 IEEE Conference on Computer Vision and Pattern Recognition (CVPR),</span>
+<span class="sd">        Honolulu, HI, 2017.*</span>
+
+
+
+
+<span class="sd">    Example::</span>
+
+<span class="sd">        from snntorch.spikevision import spikedata</span>
+
+<span class="sd">        train_ds = spikedata.DVSGesture(&quot;data/dvsgesture&quot;, train=True,</span>
+<span class="sd">        num_steps=500, dt=1000)</span>
+<span class="sd">        test_ds = spikedata.DVSGesture(&quot;data/dvsgesture&quot;, train=False,</span>
+<span class="sd">        num_steps=1800, dt=1000)</span>
+
+<span class="sd">        # by default, each time step is integrated over 1ms, or</span>
+<span class="sd">        dt=1000 microseconds</span>
+<span class="sd">        # dt can be changed to integrate events over a varying number</span>
+<span class="sd">        of time steps</span>
+<span class="sd">        # Note that num_steps should be scaled inversely by the same factor</span>
+
+<span class="sd">        train_ds = spikedata.DVSGesture(&quot;data/dvsgesture&quot;, train=True,</span>
+<span class="sd">        num_steps=250, dt=2000)</span>
+<span class="sd">        test_ds = spikedata.DVSGesture(&quot;data/dvsgesture&quot;, train=False,</span>
+<span class="sd">        num_steps=900, dt=2000)</span>
+
+
+<span class="sd">    The dataset can also be manually downloaded, extracted and placed into</span>
+<span class="sd">    ``root`` which will allow the dataloader to bypass straight to the</span>
+<span class="sd">    generation of a hdf5 file.</span>
+
+<span class="sd">    **Direct Download Links:**</span>
+
+<span class="sd">        `IBM Box Link</span>
+<span class="sd">        &lt;https://ibm.ent.box.com/s/3hiq58ww1pbbjrinh367ykfdf60xsfm8/</span>
+<span class="sd">        folder/50167556794&gt;`_</span>
+
+<span class="sd">        `Dropbox Link &lt;https://www.dropbox.com/s/cct5kyilhtsliup/</span>
+<span class="sd">        DvsGesture.tar.gz?dl=0&gt;`_</span>
+
+
+<span class="sd">    :param root: Root directory of dataset.</span>
+<span class="sd">    :type root: string</span>
+
+<span class="sd">    :param train: If True, creates dataset from training set of dvsgesture,</span>
+<span class="sd">        otherwise test set.</span>
+<span class="sd">    :type train: bool, optional</span>
+
+<span class="sd">    :param transform: A function/transform that takes in a PIL image and</span>
+<span class="sd">        returns a transforms version. By default, a pre-defined set of</span>
+<span class="sd">        transforms are applied to all samples to convert them into a</span>
+<span class="sd">        time-first tensor with correct orientation.</span>
+<span class="sd">    :type transform: callable, optional</span>
+
+<span class="sd">    :param target_transform: A function/transform that takes in the target</span>
+<span class="sd">        and transforms it.</span>
+<span class="sd">    :type target_transform: callable, optional</span>
+
+<span class="sd">    :param download_and_create: If True, downloads the dataset from the</span>
+<span class="sd">        internet and puts it in root directory. If dataset is already</span>
+<span class="sd">        downloaded, it is not downloaded again.</span>
+<span class="sd">    :type download_and_create: bool, optional</span>
+
+<span class="sd">    :param num_steps: Number of time steps, defaults to ``500``</span>
+<span class="sd">        for train set, or ``1800`` for test set</span>
+<span class="sd">    :type num_steps: int, optional</span>
+
+<span class="sd">    :param dt: The number of time stamps integrated in microseconds,</span>
+<span class="sd">        defaults to ``1000``</span>
+<span class="sd">    :type dt: int, optional</span>
+
+<span class="sd">    :param ds: Rescaling factor, defaults to ``1``.</span>
+<span class="sd">    :type ds: int, optional</span>
+
+<span class="sd">    :return_meta: Option to return metadata, defaults to ``False``</span>
+<span class="sd">    :type return_meta: bool, optional</span>
+
+<span class="sd">    :time_shuffle: Option to randomize start time of dataset, defaults to</span>
+<span class="sd">        ``False``</span>
+<span class="sd">    :type time_shuffle: bool, optional</span>
+
+<span class="sd">    Dataloader adapted from `torchneuromorphic</span>
+<span class="sd">    &lt;https://github.com/nmi-lab/torchneuromorphic&gt;`_</span>
+<span class="sd">    originally by Emre Neftci and Clemens Schaefer.</span>
+
+<span class="sd">    The dataset is released under a Creative Commons</span>
+<span class="sd">    Attribution 4.0 license. All rights remain with the original authors.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># _resources_url = [[&#39;Manually Download dataset here:</span>
+    <span class="c1"># https://ibm.ent.box.com/s/3hiq58ww1pbbjrinh367ykfdf60xsfm8/</span>
+    <span class="c1"># file/211521748942?sb=/details and place under {0}&#39;.format(directory),</span>
+    <span class="c1"># None, &#39;DvsGesture.tar.gz&#39;]]</span>
+
+    <span class="n">_resources_url</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">[</span>
+            <span class="s2">&quot;https://www.dropbox.com/s/cct5kyilhtsliup/DvsGesture.tar.gz?dl=1&quot;</span><span class="p">,</span>
+            <span class="kc">None</span><span class="p">,</span>
+            <span class="s2">&quot;DvsGesture.tar.gz&quot;</span><span class="p">,</span>
+        <span class="p">]</span>
+    <span class="p">]</span>
+    <span class="c1"># directory = &#39;data/dvsgesture/&#39;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">root</span><span class="p">,</span>
+        <span class="n">train</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">transform</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">target_transform</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">download_and_create</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">num_steps</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">dt</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+        <span class="n">ds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">return_meta</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">time_shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">download_and_create</span> <span class="o">=</span> <span class="n">download_and_create</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">root</span> <span class="o">=</span> <span class="n">root</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">train</span> <span class="o">=</span> <span class="n">train</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dt</span> <span class="o">=</span> <span class="n">dt</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">return_meta</span> <span class="o">=</span> <span class="n">return_meta</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time_shuffle</span> <span class="o">=</span> <span class="n">time_shuffle</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hdf5_name</span> <span class="o">=</span> <span class="s2">&quot;dvs_gesture.hdf5&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">directory</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hdf5_name</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">resources_local</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">directory</span> <span class="o">+</span> <span class="s2">&quot;/DvsGesture.tar.gz&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">resources_local_extracted</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">directory</span> <span class="o">+</span> <span class="s2">&quot;/DvsGesture/&quot;</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">ds</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ds</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="n">ds</span> <span class="o">=</span> <span class="p">[</span><span class="n">ds</span><span class="p">,</span> <span class="n">ds</span><span class="p">]</span>
+
+        <span class="n">size</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">128</span> <span class="o">//</span> <span class="n">ds</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">128</span> <span class="o">//</span> <span class="n">ds</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>  <span class="c1"># 128//ds[0], 128//ds[1]</span>
+
+        <span class="k">if</span> <span class="n">num_steps</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">train</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">num_steps</span> <span class="o">=</span> <span class="mi">500</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">num_steps</span> <span class="o">=</span> <span class="mi">1800</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">num_steps</span> <span class="o">=</span> <span class="n">num_steps</span>
+
+        <span class="k">if</span> <span class="n">transform</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">transform</span> <span class="o">=</span> <span class="n">Compose</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="n">Downsample</span><span class="p">(</span><span class="n">factor</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">dt</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">ds</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ds</span><span class="p">[</span><span class="mi">1</span><span class="p">]]),</span>
+                    <span class="n">ToCountFrame</span><span class="p">(</span><span class="n">T</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">num_steps</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">),</span>
+                    <span class="n">ToTensor</span><span class="p">(),</span>
+                    <span class="n">dvs_permute</span><span class="p">(),</span>
+                <span class="p">]</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">target_transform</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">target_transform</span> <span class="o">=</span> <span class="n">Compose</span><span class="p">([</span><span class="n">Repeat</span><span class="p">(</span><span class="n">num_steps</span><span class="p">),</span> <span class="n">toOneHot</span><span class="p">(</span><span class="mi">11</span><span class="p">)])</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">root</span><span class="o">=</span><span class="n">root</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">hdf5_name</span><span class="p">,</span>
+            <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">,</span>
+            <span class="n">target_transform_train</span><span class="o">=</span><span class="n">target_transform</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">swmr</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">libver</span><span class="o">=</span><span class="s2">&quot;latest&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">train</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="p">[</span><span class="s2">&quot;extra&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;Ntrain&quot;</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">keys</span> <span class="o">=</span> <span class="n">f</span><span class="p">[</span><span class="s2">&quot;extra&quot;</span><span class="p">][</span><span class="s2">&quot;train_keys&quot;</span><span class="p">][()]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="p">[</span><span class="s2">&quot;extra&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;Ntest&quot;</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">keys</span> <span class="o">=</span> <span class="n">f</span><span class="p">[</span><span class="s2">&quot;extra&quot;</span><span class="p">][</span><span class="s2">&quot;test_keys&quot;</span><span class="p">][()]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_download</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">_</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">DVSGesture</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_download</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">message</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">args</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_create_hdf5</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">create_events_hdf5</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">directory</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">resources_local_extracted</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">directory</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">hdf5_name</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="c1"># Important to open and close in getitem to enable num_workers&gt;0</span>
+        <span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">swmr</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">libver</span><span class="o">=</span><span class="s2">&quot;latest&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">train</span><span class="p">:</span>
+                <span class="n">key</span> <span class="o">=</span> <span class="n">key</span> <span class="o">+</span> <span class="n">f</span><span class="p">[</span><span class="s2">&quot;extra&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;Ntrain&quot;</span><span class="p">]</span>
+            <span class="k">assert</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span>
+            <span class="n">data</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">meta_info_light</span><span class="p">,</span> <span class="n">meta_info_user</span> <span class="o">=</span> <span class="n">sample</span><span class="p">(</span>
+                <span class="n">f</span><span class="p">,</span>
+                <span class="n">key</span><span class="p">,</span>
+                <span class="n">T</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">num_steps</span><span class="p">,</span>
+                <span class="n">shuffle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">time_shuffle</span><span class="p">,</span>
+                <span class="n">train</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">train</span><span class="p">,</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">target_transform</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">target</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">target_transform</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">return_meta</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">data</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">meta_info_light</span><span class="p">,</span> <span class="n">meta_info_user</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">data</span><span class="p">,</span> <span class="n">target</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">sample</span><span class="p">(</span><span class="n">hdf5_file</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">train</span><span class="p">:</span>
+        <span class="n">T_default</span> <span class="o">=</span> <span class="mi">500</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">T_default</span> <span class="o">=</span> <span class="mi">1800</span>
+    <span class="n">dset</span> <span class="o">=</span> <span class="n">hdf5_file</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">][</span><span class="nb">str</span><span class="p">(</span><span class="n">key</span><span class="p">)]</span>
+    <span class="n">label</span> <span class="o">=</span> <span class="n">dset</span><span class="p">[</span><span class="s2">&quot;labels&quot;</span><span class="p">][()]</span>
+    <span class="n">tbegin</span> <span class="o">=</span> <span class="n">dset</span><span class="p">[</span><span class="s2">&quot;times&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">tend</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">dset</span><span class="p">[</span><span class="s2">&quot;times&quot;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">T</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">)</span>
+    <span class="n">start_time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">tbegin</span><span class="p">,</span> <span class="n">tend</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">if</span> <span class="n">shuffle</span> <span class="k">else</span> <span class="mi">0</span>
+    <span class="c1"># print(start_time)</span>
+    <span class="c1"># tmad = get_tmad_slice(dset[&#39;times&#39;][()], dset[&#39;addrs&#39;][()],</span>
+    <span class="c1"># start_time, T*1000)</span>
+    <span class="n">tmad</span> <span class="o">=</span> <span class="n">get_tmad_slice</span><span class="p">(</span>
+        <span class="n">dset</span><span class="p">[</span><span class="s2">&quot;times&quot;</span><span class="p">][()],</span> <span class="n">dset</span><span class="p">[</span><span class="s2">&quot;addrs&quot;</span><span class="p">][()],</span> <span class="n">start_time</span><span class="p">,</span> <span class="n">T_default</span> <span class="o">*</span> <span class="mi">1000</span>
+    <span class="p">)</span>
+    <span class="n">tmad</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">-=</span> <span class="n">tmad</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">meta</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="n">dset</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;meta_info&quot;</span><span class="p">])</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="n">tmad</span><span class="p">[:,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]],</span>
+        <span class="n">label</span><span class="p">,</span>
+        <span class="n">meta</span><span class="p">[</span><span class="s2">&quot;light condition&quot;</span><span class="p">],</span>
+        <span class="n">meta</span><span class="p">[</span><span class="s2">&quot;subject&quot;</span><span class="p">],</span>
+    <span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">create_events_hdf5</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">extracted_directory</span><span class="p">,</span> <span class="n">hdf5_filename</span><span class="p">):</span>
+    <span class="n">fns_train</span> <span class="o">=</span> <span class="n">gather_aedat</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">extracted_directory</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">24</span><span class="p">)</span>
+    <span class="n">fns_test</span> <span class="o">=</span> <span class="n">gather_aedat</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">extracted_directory</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+    <span class="n">test_keys</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">train_keys</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">fns_train</span><span class="p">)</span> <span class="o">==</span> <span class="mi">98</span>
+
+    <span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">hdf5_filename</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+
+        <span class="n">key</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">metas</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">data_grp</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">create_group</span><span class="p">(</span><span class="s2">&quot;data&quot;</span><span class="p">)</span>
+        <span class="n">extra_grp</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">create_group</span><span class="p">(</span><span class="s2">&quot;extra&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Creating dvs_gesture.hdf5...&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">file_d</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">fns_train</span> <span class="o">+</span> <span class="n">fns_test</span><span class="p">):</span>
+            <span class="n">istrain</span> <span class="o">=</span> <span class="n">file_d</span> <span class="ow">in</span> <span class="n">fns_train</span>
+            <span class="n">data</span><span class="p">,</span> <span class="n">labels_starttime</span> <span class="o">=</span> <span class="n">aedat_to_events</span><span class="p">(</span><span class="n">file_d</span><span class="p">)</span>
+            <span class="c1"># tms = data[:, 0]</span>
+            <span class="c1"># ads = data[:, 1:]</span>
+            <span class="n">lbls</span> <span class="o">=</span> <span class="n">labels_starttime</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+            <span class="c1"># start_tms = labels_starttime[:, 1]</span>
+            <span class="c1"># end_tms = labels_starttime[:, 2]</span>
+            <span class="c1"># out = []</span>
+
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">lbls</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">istrain</span><span class="p">:</span>
+                    <span class="n">train_keys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">test_keys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+                <span class="c1"># s_ = get_slice(tms, ads, start_tms[i], end_tms[i])</span>
+                <span class="c1"># times = s_[0]</span>
+                <span class="c1"># addrs = s_[1]</span>
+                <span class="c1"># subj, light = file_d.replace(&#39;\\&#39;, &#39;/&#39;).split(&#39;/&#39;)[-1].</span>
+                <span class="c1"># split(&#39;.&#39;)[0].split(&#39;_&#39;)[:2]</span>
+                <span class="c1"># this line throws an error in get_slice,</span>
+                <span class="c1"># because idx_beg = idx_end --&gt; empty batch</span>
+                <span class="n">subj</span><span class="p">,</span> <span class="n">light</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">file_d</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[:</span><span class="mi">2</span><span class="p">]</span>
+                <span class="p">)</span>
+                <span class="n">metas</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="p">{</span>
+                        <span class="s2">&quot;key&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">key</span><span class="p">),</span>
+                        <span class="s2">&quot;subject&quot;</span><span class="p">:</span> <span class="n">subj</span><span class="p">,</span>
+                        <span class="s2">&quot;light condition&quot;</span><span class="p">:</span> <span class="n">light</span><span class="p">,</span>
+                        <span class="s2">&quot;training sample&quot;</span><span class="p">:</span> <span class="n">istrain</span><span class="p">,</span>
+                    <span class="p">}</span>
+                <span class="p">)</span>
+                <span class="n">subgrp</span> <span class="o">=</span> <span class="n">data_grp</span><span class="o">.</span><span class="n">create_group</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">key</span><span class="p">))</span>
+                <span class="c1"># tm_dset = subgrp.create_dataset(</span>
+                <span class="c1">#     &quot;times&quot;, data=times, dtype=np.uint32</span>
+                <span class="c1"># )</span>
+                <span class="c1"># ad_dset = subgrp.create_dataset(</span>
+                <span class="c1">#     &quot;addrs&quot;, data=addrs, dtype=np.uint8</span>
+                <span class="c1"># )</span>
+                <span class="c1"># lbl_dset = subgrp.create_dataset(</span>
+                <span class="c1">#     &quot;labels&quot;, data=lbls[i] - 1, dtype=np.uint8</span>
+                <span class="c1"># )</span>
+                <span class="n">subgrp</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;meta_info&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">metas</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+                <span class="k">assert</span> <span class="n">lbls</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span>
+                <span class="n">key</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">extra_grp</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s2">&quot;train_keys&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">train_keys</span><span class="p">)</span>
+        <span class="n">extra_grp</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s2">&quot;test_keys&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">test_keys</span><span class="p">)</span>
+        <span class="n">extra_grp</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;N&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">train_keys</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">test_keys</span><span class="p">)</span>
+        <span class="n">extra_grp</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;Ntrain&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">train_keys</span><span class="p">)</span>
+        <span class="n">extra_grp</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;Ntest&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">test_keys</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;dvs_gesture.hdf5 was created successfully.&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">gather_aedat</span><span class="p">(</span>
+    <span class="n">directory</span><span class="p">,</span> <span class="n">extracted_directory</span><span class="p">,</span> <span class="n">start_id</span><span class="p">,</span> <span class="n">end_id</span><span class="p">,</span> <span class="n">filename_prefix</span><span class="o">=</span><span class="s2">&quot;user&quot;</span>
+<span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">directory</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span>
+            <span class="s2">&quot;DVS Gestures Dataset not found, looked at: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">directory</span><span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="n">fns</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start_id</span><span class="p">,</span> <span class="n">end_id</span><span class="p">):</span>
+        <span class="n">search_mask</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">extracted_directory</span>
+            <span class="o">+</span> <span class="s2">&quot;/&quot;</span>
+            <span class="o">+</span> <span class="n">filename_prefix</span>
+            <span class="o">+</span> <span class="s2">&quot;</span><span class="si">{0:02d}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="o">+</span> <span class="s2">&quot;*.aedat&quot;</span>
+        <span class="p">)</span>
+        <span class="n">glob_out</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">search_mask</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">glob_out</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">fns</span> <span class="o">+=</span> <span class="n">glob_out</span>
+    <span class="k">return</span> <span class="n">fns</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Jason K. Eshraghian.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

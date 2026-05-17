@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html class="writer-html5" data-content_root="../" lang="ru">
+<head>
+<meta charset="utf-8"/>
+<meta content="1" name="readthedocs-addons-api-version"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Туториал 7 - Нейроморфные наборы данных с Tonic + snnTorch — snntorch 0.9.4 документация</title>
+<link href="../_static/pygments.css%3Fv=03e43079.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/css/theme.css%3Fv=9edc463e.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/css/default.css" rel="stylesheet" type="text/css"/>
+<script src="../_static/jquery.js%3Fv=5d32c60e"></script>
+<script src="../_static/_sphinx_javascript_frameworks_compat.js%3Fv=2cd50e6c"></script>
+<script src="../_static/documentation_options.js%3Fv=c5ca06ca"></script>
+<script src="../_static/doctools.js%3Fv=fd6eb6e6"></script>
+<script src="../_static/sphinx_highlight.js%3Fv=6ffebe34"></script>
+<script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+<script src="../_static/js/theme.js"></script>
+<script src="../_static/js/versions.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="tutorial_exoplanet_hunter.html" rel="next" title="Exoplanet Hunter: Finding Planets Using Light Intensity"/>
+<link href="tutorial_6.html" rel="prev" title="Tutorial 6 - Surrogate Gradient Descent in a Convolutional SNN"/>
+<script async="" src="../../../_/static/javascript/readthedocs-addons.js" type="text/javascript"></script><meta content="snntorch" name="readthedocs-project-slug"/><meta content="latest" name="readthedocs-version-slug"/><meta content="/tutorials/tutorial_7.html" name="readthedocs-resolver-filename"/><meta content="200" name="readthedocs-http-status"/></head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html">
+            snntorch
+              <img alt="Logo" class="logo" src="../_static/snntorch_alpha_full.png"/>
+</a>
+<div class="switch-menus">
+<div class="version-switch"></div>
+<div class="language-switch"></div>
+</div>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input aria-label="Search docs" name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../snntorch.html">snntorch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../snntorch.export_nir.html">snntorch.export_nir</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../snntorch.functional.html">snntorch.functional</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../snntorch.import_nir.html">snntorch.import_nir</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../snntorch.spikegen.html">snntorch.spikegen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../snntorch.spikeplot.html">snntorch.spikeplot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../snntorch.spikevision.html">snntorch.spikevision</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../snntorch.surrogate.html">snntorch.surrogate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../snntorch.utils.html">snntorch.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Tutorials</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="tutorial_1.html">Tutorial 1 - Spike Encoding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_2.html">Tutorial 2 - The Leaky Integrate-and-Fire Neuron</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_3.html">Tutorial 3 - A Feedforward Spiking Neural Network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_4.html">Tutorial 4 - 2nd Order Spiking Neuron Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_5.html">Tutorial 5 - Training Spiking Neural Networks with snntorch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_6.html">Tutorial 6 - Surrogate Gradient Descent in a Convolutional SNN</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="tutorial_7.html#">Tutorial 7 - Neuromorphic Datasets with Tonic + snnTorch</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorial_7.html#introduction">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorial_7.html#using-tonic-to-load-neuromorphic-datasets">1. Using Tonic to Load Neuromorphic Datasets</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_7.html#transformations">1.1 Transformations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_7.html#fast-dataloading">1.2 Fast DataLoading</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tutorial_7.html#training-our-network-using-frames-created-from-events">2. Training our network using frames created from events</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_7.html#defining-our-network">2.1 Defining our network</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_7.html#training">2.2 Training</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tutorial_7.html#results">3. Results</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_7.html#plot-test-accuracy">3.1 Plot Test Accuracy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorial_7.html#spike-counter">3.2 Spike Counter</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tutorial_7.html#conclusion">Conclusion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorial_7.html#additional-resources">Additional Resources</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_exoplanet_hunter.html">Exoplanet Hunter: Finding Planets Using Light Intensity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_forward_forward.html">The Forward-Forward Algorithm with a Spiking Neural Network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_ipu_1.html">Accelerating snnTorch on IPUs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_pop.html">Population Coding in Spiking Neural Nets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_regression_1.html">Regression with SNNs: Part I</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_regression_2.html">Regression with SNNs: Part II</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_stmnist.html">Training on ST-MNIST with Tonic + snnTorch Tutorial</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">History</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">snntorch</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a aria-label="Home" class="icon icon-home" href="../index.html"></a></li>
+<li class="breadcrumb-item"><a href="index.html">Tutorials</a></li>
+<li class="breadcrumb-item active">Tutorial 7 - Neuromorphic Datasets with Tonic + snnTorch</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/tutorials/tutorial_7.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<div class="admonition note" data-snn-translation="ru"><p><strong>Русский перевод.</strong> Неофициальный перевод актуальной документации snnTorch latest (0.9.4). Оригинал: https://snntorch.readthedocs.io/en/latest/. Документация распространяется по лицензии CC BY-SA 3.0.</p></div><section id="tutorial-7-neuromorphic-datasets-with-tonic-snntorch">
+<h1>Учебник 7 - Нейроморфные наборы данных с Tonic + snnTorch<a class="headerlink" href="tutorial_7.html#tutorial-7-neuromorphic-datasets-with-tonic-snntorch" title="Link to this heading"></a></h1>
+<p>Учебное пособие написано Грегором Ленцем (<a class="reference external" href="https://lenzgregor.com)">https://lenzgregor.com</a>) и Джейсоном К. Эшрагианом (<a class="reference external" href="https://www.ncg.ucsc.edu">www.ncg.ucsc.edu</a>)</p>
+<a class="reference external image-reference" href="https://colab.research.google.com/github/jeshraghian/snntorch/blob/master/examples/tutorial_7_neuromorphic_datasets.ipynb"><img alt="Open In Colab" src="../_static/external_images/e79852128a5f83c92496.svg"/>
+</a>
+<p>Серия учебных пособий snnTorch основана на следующей статье. Если вы считаете эти ресурсы или код полезными в своей работе, пожалуйста, укажите следующий источник:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://ieeexplore.ieee.org/abstract/document/10242251">Jason K. Eshraghian, Max Ward, Emre Neftci, Xinxin Wang, Gregor Lenz, Girish Dwivedi, Mohammed Bennamoun, Doo Seok Jeong, and Wei D. Lu. “Training Spiking Neural Networks Using Lessons From Deep Learning”. Proceedings of the IEEE, 111(9) September 2023.</a></p>
+</div></blockquote>
+<div class="admonition note">
+<p class="admonition-title">Примечание</p>
+<dl class="simple">
+<dt>Этот учебник является статической нередактируемой версией. Интерактивные редактируемые версии доступны по следующим ссылкам:</dt><dd><ul class="simple">
+<li><p><a class="reference external" href="https://colab.research.google.com/github/jeshraghian/snntorch/blob/master/examples/tutorial_7_neuromorphic_datasets.ipynb">Google Colab</a></p></li>
+<li><p><a class="reference external" href="https://github.com/jeshraghian/snntorch/tree/master/examples">Локальный блокнот (скачать через GitHub)</a></p></li>
+</ul>
+</dd>
+</dl>
+</div>
+<section id="introduction">
+<h2>Введение<a class="headerlink" href="tutorial_7.html#introduction" title="Link to this heading"></a></h2>
+<p>В этом руководстве вы:</p>
+<ul class="simple">
+<li><p>Узнайте, как загружать нейроморфные наборы данных с помощью <a class="reference external" href="https://github.com/neuromorphs/tonic">Tonic</a></p></li>
+<li><p>Используйте кэширование для ускорения загрузки данных</p></li>
+<li><p>Обучите CSNN с помощью <a class="reference external" href="https://tonic.readthedocs.io/en/latest/datasets.html#n-mnist">Neuromorphic-MNIST</a> Набор данных</p></li>
+</ul>
+<p>Установите последнюю версию дистрибутива snnTorch из PyPi:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">tonic</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="n">snntorch</span>
+</pre></div>
+</div>
+</section>
+<section id="using-tonic-to-load-neuromorphic-datasets">
+<h2>1. Использование Tonic для загрузки нейроморфных наборов данных<a class="headerlink" href="tutorial_7.html#using-tonic-to-load-neuromorphic-datasets" title="Link to this heading"></a></h2>
+<p>Загрузка наборов данных с нейроморфных сенсоров стала очень простой благодаря
+ <a class="reference external" href="https://github.com/neuromorphs/tonic">Tonic</a>, который работает так же
+как PyTorch vision.</p>
+<p>Давайте начнем с загрузки нейроморфной версии набора данных MNIST,
+называемой
+<a class="reference external" href="https://tonic.readthedocs.io/en/latest/reference/datasets.html#n-mnist">N-MNIST</a>.
+Мы можем взглянуть на некоторые сырые события, чтобы понять, с чем
+мы работаем.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">tonic</span>
+
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">tonic</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">NMNIST</span><span class="p">(</span><span class="n">save_to</span><span class="o">=</span><span class="s1">'./data'</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">events</span><span class="p">,</span> <span class="n">target</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">events</span><span class="p">)</span>
+<span class="go">[(10, 30, 937, 1) (33, 20, 1030, 1) (12, 27, 1052, 1) ...</span>
+<span class="go">( 7, 15, 302706, 1) (26, 11, 303852, 1) (11, 17, 305341, 1)]</span>
+</pre></div>
+</div>
+<p>Каждая строка соответствует одному событию, которое состоит из четырех
+параметров: (<em>x-координата, y-координата, временная метка, полярность</em>).</p>
+<ul class="simple">
+<li><p>x и y координаты соответствуют адресу в <span class="math notranslate nohighlight">\(34 \times 34\)</span>
+сетке.</p></li>
+<li><p>Временная метка события записывается в микросекундах.</p></li>
+<li><p>Полярность указывает, произошел ли on-спайк (+1) или off-спайк (-1)
+; т.е. увеличение яркости или уменьшение яркости.</p></li>
+</ul>
+<p>Если мы накопим эти события с течением времени и отобразим бины в виде
+изображений, это будет выглядеть так:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tonic</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">plot_event_grid</span><span class="p">(</span><span class="n">events</span><span class="p">)</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_static/external_images/d71f8407d5da0ddb740b.png"><img alt="https://github.com/jeshraghian/snntorch/blob/master/docs/_static/img/examples/tutorial7/tonic_event_grid.png?raw=true" class="align-center" src="../_static/external_images/d71f8407d5da0ddb740b.png" width="450"/>
+</a>
+<section id="transformations">
+<h3>1.1 Преобразования<a class="headerlink" href="tutorial_7.html#transformations" title="Link to this heading"></a></h3>
+<p>Однако нейронные сети не принимают списки событий на вход. Сырые данные
+должны быть преобразованы в подходящее представление, например, тензор. Мы
+можем выбрать набор преобразований для применения к данным перед подачей в
+нашу сеть. Нейроморфный камерный сенсор имеет временное разрешение в
+микросекундах, которое при преобразовании в плотное представление приводит
+к очень большому тензору. Вот почему мы группируем события в меньшее количество
+кадров с помощью <a class="reference external" href="https://tonic.readthedocs.io/en/latest/reference/transformations.html#frames">ToFrame
+преобразование</a>,
+которое снижает временную точность, но также позволяет работать с ним в
+плотном формате.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">time_window=1000</span></code> объединяет события в 1000<span class="math notranslate nohighlight">\(~\mu\)</span>s
+бины</p></li>
+<li><p>Denoise удаляет изолированные, единичные события. Если ни одно событие не происходит в пределах
+окрестности размером 1 пиксель через <code class="docutils literal notranslate"><span class="pre">filter_time</span></code> микросекунд,
+событие фильтруется. Меньшее <code class="docutils literal notranslate"><span class="pre">filter_time</span></code> будет фильтровать больше событий.</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">tonic.transforms</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">transforms</span>
+
+<span class="n">sensor_size</span> <span class="o">=</span> <span class="n">tonic</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">NMNIST</span><span class="o">.</span><span class="n">sensor_size</span>
+
+<span class="c1"># Denoise removes isolated, one-off events</span>
+<span class="c1"># time_window</span>
+<span class="n">frame_transform</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">Compose</span><span class="p">([</span><span class="n">transforms</span><span class="o">.</span><span class="n">Denoise</span><span class="p">(</span><span class="n">filter_time</span><span class="o">=</span><span class="mi">10000</span><span class="p">),</span>
+                                      <span class="n">transforms</span><span class="o">.</span><span class="n">ToFrame</span><span class="p">(</span><span class="n">sensor_size</span><span class="o">=</span><span class="n">sensor_size</span><span class="p">,</span>
+                                                         <span class="n">time_window</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+                                     <span class="p">])</span>
+
+<span class="n">trainset</span> <span class="o">=</span> <span class="n">tonic</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">NMNIST</span><span class="p">(</span><span class="n">save_to</span><span class="o">=</span><span class="s1">'./data'</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">frame_transform</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">testset</span> <span class="o">=</span> <span class="n">tonic</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">NMNIST</span><span class="p">(</span><span class="n">save_to</span><span class="o">=</span><span class="s1">'./data'</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">frame_transform</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="fast-dataloading">
+<h3>1.2 Быстрая загрузка данных<a class="headerlink" href="tutorial_7.html#fast-dataloading" title="Link to this heading"></a></h3>
+<p>Исходные данные хранятся в формате, который медленно читается. Чтобы ускорить
+загрузку данных, мы можем использовать дисковое кэширование и пакетную обработку. Это означает, что
+после загрузки файлов из исходного набора данных они записываются на диск.</p>
+<p>Поскольку записи событий имеют разную длину, мы предоставим функцию
+сведения (collation) <code class="docutils literal notranslate"><span class="pre">tonic.collation.PadTensors()</span></code> которая дополнит более короткие
+записи, чтобы все образцы в пакете имели одинаковые размеры.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">torch.utils.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataLoader</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tonic</span><span class="w"> </span><span class="kn">import</span> <span class="n">DiskCachedDataset</span>
+
+
+<span class="n">cached_trainset</span> <span class="o">=</span> <span class="n">DiskCachedDataset</span><span class="p">(</span><span class="n">trainset</span><span class="p">,</span> <span class="n">cache_path</span><span class="o">=</span><span class="s1">'./cache/nmnist/train'</span><span class="p">)</span>
+<span class="n">cached_dataloader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">cached_trainset</span><span class="p">)</span>
+
+<span class="n">batch_size</span> <span class="o">=</span> <span class="mi">128</span>
+<span class="n">trainloader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">cached_trainset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">collate_fn</span><span class="o">=</span><span class="n">tonic</span><span class="o">.</span><span class="n">collation</span><span class="o">.</span><span class="n">PadTensors</span><span class="p">())</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">load_sample_batched</span><span class="p">():</span>
+    <span class="n">events</span><span class="p">,</span> <span class="n">target</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">cached_dataloader</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="o">%</span><span class="n">timeit</span> <span class="o">-</span><span class="n">o</span> <span class="o">-</span><span class="n">r</span> <span class="mi">10</span> <span class="n">load_sample_batched</span><span class="p">()</span>
+<span class="go">4.2 ms ± 119 µs per loop (mean ± std. dev. of 10 runs, 100 loops each)</span>
+</pre></div>
+</div>
+<p>Используя дисковое кэширование и загрузчик данных PyTorch с многопоточностью и пакетной
+поддержкой, мы значительно сократили время загрузки.</p>
+<p>Если у вас большой объем оперативной памяти, вы можете ускорить загрузку данных еще больше
+путем кэширования в основную память вместо диска:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">tonic</span><span class="w"> </span><span class="kn">import</span> <span class="n">MemoryCachedDataset</span>
+
+<span class="n">cached_trainset</span> <span class="o">=</span> <span class="n">MemoryCachedDataset</span><span class="p">(</span><span class="n">trainset</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="training-our-network-using-frames-created-from-events">
+<h2>2. Обучение нашей сети с использованием кадров, созданных из событий<a class="headerlink" href="tutorial_7.html#training-our-network-using-frames-created-from-events" title="Link to this heading"></a></h2>
+<p>Теперь давайте фактически обучим сеть на задаче классификации N-MNIST.
+Мы начнем с определения наших оберток кэширования и загрузчиков данных. При этом
+мы также применим некоторые аугментации к обучающим данным.
+Образцы, которые мы получаем из кэшированного набора данных, являются кадрами, поэтому мы можем
+использовать PyTorch Vision для применения любых случайных преобразований, которые
+хотим.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torchvision</span>
+
+<span class="n">transform</span> <span class="o">=</span> <span class="n">tonic</span><span class="o">.</span><span class="n">transforms</span><span class="o">.</span><span class="n">Compose</span><span class="p">([</span><span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">,</span>
+                                      <span class="n">torchvision</span><span class="o">.</span><span class="n">transforms</span><span class="o">.</span><span class="n">RandomRotation</span><span class="p">([</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">])])</span>
+
+<span class="n">cached_trainset</span> <span class="o">=</span> <span class="n">DiskCachedDataset</span><span class="p">(</span><span class="n">trainset</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">,</span> <span class="n">cache_path</span><span class="o">=</span><span class="s1">'./cache/nmnist/train'</span><span class="p">)</span>
+
+<span class="c1"># no augmentations for the testset</span>
+<span class="n">cached_testset</span> <span class="o">=</span> <span class="n">DiskCachedDataset</span><span class="p">(</span><span class="n">testset</span><span class="p">,</span> <span class="n">cache_path</span><span class="o">=</span><span class="s1">'./cache/nmnist/test'</span><span class="p">)</span>
+
+<span class="n">batch_size</span> <span class="o">=</span> <span class="mi">128</span>
+<span class="n">trainloader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">cached_trainset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">collate_fn</span><span class="o">=</span><span class="n">tonic</span><span class="o">.</span><span class="n">collation</span><span class="o">.</span><span class="n">PadTensors</span><span class="p">(</span><span class="n">batch_first</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">testloader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">cached_testset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">collate_fn</span><span class="o">=</span><span class="n">tonic</span><span class="o">.</span><span class="n">collation</span><span class="o">.</span><span class="n">PadTensors</span><span class="p">(</span><span class="n">batch_first</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Мини-пакет теперь имеет размерности (временные шаги, размер пакета, каналы,
+высота, ширина). Количество временных шагов будет установлено равным самой длинной
+записи в мини-пакете, а все остальные образцы будут
+дополнены нулями для соответствия.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">event_tensor</span><span class="p">,</span> <span class="n">target</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">trainloader</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">event_tensor</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="go">torch.Size([311, 128, 2, 34, 34])</span>
+</pre></div>
+</div>
+<section id="defining-our-network">
+<h3>2.1 Определение нашей сети<a class="headerlink" href="tutorial_7.html#defining-our-network" title="Link to this heading"></a></h3>
+<p>Мы будем использовать snnTorch + PyTorch для построения CSNN, как и в предыдущем руководстве. Используемая архитектура сверточной сети:
+12C5-MP2-32C5-MP2-800FC10</p>
+<ul class="simple">
+<li><p>12C5 — это 5 <span class="math notranslate nohighlight">\(\times\)</span> сверточное ядро 5x5 с 12 фильтрами</p></li>
+<li><p>MP2 — это 2 <span class="math notranslate nohighlight">\(\times\)</span> функция макс-пулинга 2x2</p></li>
+<li><p>800FC10 — это полносвязный слой, который отображает 800 нейронов на 10 выходов.</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">snntorch</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">snn</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">snntorch</span><span class="w"> </span><span class="kn">import</span> <span class="n">surrogate</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">snntorch</span><span class="w"> </span><span class="kn">import</span> <span class="n">functional</span> <span class="k">as</span> <span class="n">SF</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">snntorch</span><span class="w"> </span><span class="kn">import</span> <span class="n">spikeplot</span> <span class="k">as</span> <span class="n">splt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">snntorch</span><span class="w"> </span><span class="kn">import</span> <span class="n">utils</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nn</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">"cuda"</span><span class="p">)</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">"mps"</span><span class="p">)</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">mps</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">"cpu"</span><span class="p">)</span>
+
+<span class="c1"># neuron and simulation parameters</span>
+<span class="n">spike_grad</span> <span class="o">=</span> <span class="n">surrogate</span><span class="o">.</span><span class="n">atan</span><span class="p">()</span>
+<span class="n">beta</span> <span class="o">=</span> <span class="mf">0.5</span>
+
+<span class="c1">#  Initialize Network</span>
+<span class="n">net</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
+                    <span class="n">nn</span><span class="o">.</span><span class="n">MaxPool2d</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span>
+                    <span class="n">snn</span><span class="o">.</span><span class="n">Leaky</span><span class="p">(</span><span class="n">beta</span><span class="o">=</span><span class="n">beta</span><span class="p">,</span> <span class="n">spike_grad</span><span class="o">=</span><span class="n">spike_grad</span><span class="p">,</span> <span class="n">init_hidden</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+                    <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
+                    <span class="n">nn</span><span class="o">.</span><span class="n">MaxPool2d</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span>
+                    <span class="n">snn</span><span class="o">.</span><span class="n">Leaky</span><span class="p">(</span><span class="n">beta</span><span class="o">=</span><span class="n">beta</span><span class="p">,</span> <span class="n">spike_grad</span><span class="o">=</span><span class="n">spike_grad</span><span class="p">,</span> <span class="n">init_hidden</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+                    <span class="n">nn</span><span class="o">.</span><span class="n">Flatten</span><span class="p">(),</span>
+                    <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">32</span><span class="o">*</span><span class="mi">5</span><span class="o">*</span><span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span>
+                    <span class="n">snn</span><span class="o">.</span><span class="n">Leaky</span><span class="p">(</span><span class="n">beta</span><span class="o">=</span><span class="n">beta</span><span class="p">,</span> <span class="n">spike_grad</span><span class="o">=</span><span class="n">spike_grad</span><span class="p">,</span> <span class="n">init_hidden</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># this time, we won't return membrane as we don't need it</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">forward_pass</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+  <span class="n">spk_rec</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="n">utils</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">net</span><span class="p">)</span>  <span class="c1"># resets hidden states for all LIF neurons in net</span>
+
+  <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)):</span>  <span class="c1"># data.size(0) = number of time steps</span>
+      <span class="n">spk_out</span><span class="p">,</span> <span class="n">mem_out</span> <span class="o">=</span> <span class="n">net</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">step</span><span class="p">])</span>
+      <span class="n">spk_rec</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">spk_out</span><span class="p">)</span>
+
+  <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">spk_rec</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="training">
+<h3>2.2 Обучение<a class="headerlink" href="tutorial_7.html#training" title="Link to this heading"></a></h3>
+<p>В предыдущем руководстве к общему количеству спайков применялась кросс-энтропийная потеря, чтобы максимизировать количество спайков от правильного класса.</p>
+<p>Другой вариант из <code class="docutils literal notranslate"><span class="pre">snn.functional</span></code> модуля — указать целевое количество спайков от правильных и неправильных классов. Нижеприведенный подход использует <em>Mean Square Error Spike Count Loss</em>которая направлена на то, чтобы вызывать спайки от правильного класса в 80% случаев и в 20% случаев от неправильных классов. Стимулирование неправильных нейронов к срабатыванию может быть мотивировано желанием избежать мертвых нейронов.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">net</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">2e-2</span><span class="p">,</span> <span class="n">betas</span><span class="o">=</span><span class="p">(</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.999</span><span class="p">))</span>
+<span class="n">loss_fn</span> <span class="o">=</span> <span class="n">SF</span><span class="o">.</span><span class="n">mse_count_loss</span><span class="p">(</span><span class="n">correct_rate</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">incorrect_rate</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Обучение на нейроморфных данных требует больших затрат, так как требует последовательного прохода по многим временным шагам (примерно 300 временных шагов в наборе данных N-MNIST). Следующая симуляция займет некоторое время, поэтому мы ограничимся обучением на 50 итерациях (что составляет примерно 1/10 полной эпохи). Не стесняйтесь изменить <code class="docutils literal notranslate"><span class="pre">num_iters</span></code> если у вас есть больше времени. Поскольку мы выводим результаты на каждой итерации, результаты будут довольно зашумленными, и потребуется некоторое время, прежде чем мы увидим какое-либо улучшение.</p>
+<p>В наших собственных экспериментах потребовалось около 20 итераций, прежде чем мы увидели какие-либо улучшения, и после 50 итераций удалось достичь точности около 60%.</p>
+<blockquote>
+<div><p>Предупреждение: следующая симуляция займет некоторое время. Сделайте себе кофе, или десять.</p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">num_epochs</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">num_iters</span> <span class="o">=</span> <span class="mi">50</span>
+
+<span class="n">loss_hist</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">acc_hist</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># training loop</span>
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_epochs</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">targets</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">trainloader</span><span class="p">)):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+        <span class="n">targets</span> <span class="o">=</span> <span class="n">targets</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+        <span class="n">net</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+        <span class="n">spk_rec</span> <span class="o">=</span> <span class="n">forward_pass</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+        <span class="n">loss_val</span> <span class="o">=</span> <span class="n">loss_fn</span><span class="p">(</span><span class="n">spk_rec</span><span class="p">,</span> <span class="n">targets</span><span class="p">)</span>
+
+        <span class="c1"># Gradient calculation + weight update</span>
+        <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+        <span class="n">loss_val</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+        <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+
+        <span class="c1"># Store loss history for future plotting</span>
+        <span class="n">loss_hist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loss_val</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Epoch </span><span class="si">{</span><span class="n">epoch</span><span class="si">}</span><span class="s2">, Iteration </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">Train Loss: </span><span class="si">{</span><span class="n">loss_val</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+        <span class="n">acc</span> <span class="o">=</span> <span class="n">SF</span><span class="o">.</span><span class="n">accuracy_rate</span><span class="p">(</span><span class="n">spk_rec</span><span class="p">,</span> <span class="n">targets</span><span class="p">)</span>
+        <span class="n">acc_hist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">acc</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Accuracy: </span><span class="si">{</span><span class="n">acc</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+
+        <span class="c1"># training loop breaks after 50 iterations</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="n">num_iters</span><span class="p">:</span>
+          <span class="k">break</span>
+</pre></div>
+</div>
+<p>Вывод должен выглядеть примерно так:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Epoch</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Iteration</span> <span class="mi">0</span>
+<span class="n">Train</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">31.00</span>
+<span class="n">Accuracy</span><span class="p">:</span> <span class="mf">10.16</span><span class="o">%</span>
+
+<span class="n">Epoch</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Iteration</span> <span class="mi">1</span>
+<span class="n">Train</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">30.58</span>
+<span class="n">Accuracy</span><span class="p">:</span> <span class="mf">13.28</span><span class="o">%</span>
+</pre></div>
+</div>
+<p>И еще через некоторое время:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Epoch</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Iteration</span> <span class="mi">49</span>
+<span class="n">Train</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">8.78</span>
+<span class="n">Accuracy</span><span class="p">:</span> <span class="mf">47.66</span><span class="o">%</span>
+
+<span class="n">Epoch</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Iteration</span> <span class="mi">50</span>
+<span class="n">Train</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">8.43</span>
+<span class="n">Accuracy</span><span class="p">:</span> <span class="mf">56.25</span><span class="o">%</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="results">
+<h2>3. Результаты<a class="headerlink" href="tutorial_7.html#results" title="Link to this heading"></a></h2>
+<section id="plot-test-accuracy">
+<h3>3.1 График точности на тесте<a class="headerlink" href="tutorial_7.html#plot-test-accuracy" title="Link to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="c1"># Plot Loss</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s2">"w"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">acc_hist</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Train Set Accuracy"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"Iteration"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">"Accuracy"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_static/external_images/2f27676b1a897b629e69.png"><img alt="https://github.com/jeshraghian/snntorch/blob/master/docs/_static/img/examples/tutorial7/train_acc.png?raw=true" class="align-center" src="../_static/external_images/2f27676b1a897b629e69.png" width="450"/>
+</a>
+</section>
+<section id="spike-counter">
+<h3>3.2 Счетчик спайков<a class="headerlink" href="tutorial_7.html#spike-counter" title="Link to this heading"></a></h3>
+<p>Выполните прямой проход на пакете данных, чтобы получить записи спайков.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">spk_rec</span> <span class="o">=</span> <span class="n">forward_pass</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Изменение <code class="docutils literal notranslate"><span class="pre">idx</span></code> позволяет вам индексировать различные образцы из
+симулированного мини-батча. Используйте <code class="docutils literal notranslate"><span class="pre">splt.spike_count</span></code> для изучения спайкового поведения нескольких различных образцов. Генерация следующей анимации займет некоторое время.</p>
+<blockquote>
+<div><p>Примечание: если вы запускаете блокнот локально на своём компьютере, пожалуйста,
+раскомментируйте строку ниже и измените путь к вашему ffmpeg.exe</p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">HTML</span>
+
+<span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s1">'w'</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+<span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s1">'0'</span><span class="p">,</span> <span class="s1">'1'</span><span class="p">,</span> <span class="s1">'2'</span><span class="p">,</span> <span class="s1">'3'</span><span class="p">,</span> <span class="s1">'4'</span><span class="p">,</span> <span class="s1">'5'</span><span class="p">,</span> <span class="s1">'6'</span><span class="p">,</span> <span class="s1">'7'</span><span class="p">,</span> <span class="s1">'8'</span><span class="p">,</span><span class="s1">'9'</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"The target label is: </span><span class="si">{</span><span class="n">targets</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="c1"># plt.rcParams['animation.ffmpeg_path'] = 'C:\\path\\to\\your\\ffmpeg.exe'</span>
+
+<span class="c1">#  Plot spike count histogram</span>
+<span class="n">anim</span> <span class="o">=</span> <span class="n">splt</span><span class="o">.</span><span class="n">spike_count</span><span class="p">(</span><span class="n">spk_rec</span><span class="p">[:,</span> <span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">cpu</span><span class="p">(),</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span>
+                        <span class="n">animate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">interpolate</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">HTML</span><span class="p">(</span><span class="n">anim</span><span class="o">.</span><span class="n">to_html5_video</span><span class="p">())</span>
+<span class="c1"># anim.save("spike_bar.mp4")</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">The</span> <span class="n">target</span> <span class="n">label</span> <span class="ow">is</span><span class="p">:</span> <span class="mi">3</span>
+</pre></div>
+</div>
+<center>
+<video controls="" src="https://github.com/jeshraghian/snntorch/blob/master/docs/_static/img/examples/tutorial7/spike_counter.mp4?raw=true"></video>
+</center></section>
+</section>
+<section id="conclusion">
+<h2>Заключение<a class="headerlink" href="tutorial_7.html#conclusion" title="Link to this heading"></a></h2>
+<p>Если вы дошли до этого места, то поздравляю — у вас терпение монаха. Теперь вы также должны понимать, как загружать нейроморфные наборы данных с помощью Tonic, а затем обучать сеть с помощью snnTorch.</p>
+<p>На этом завершается серия углубленных руководств.
+Ознакомьтесь с <a class="reference external" href="index.html">продвинутыми руководствами</a>
+чтобы узнать о более продвинутых методах, таких как внесение долгосрочных временных динамик в наши SNN, популяционное кодирование или ускорение на Intelligence Processing Units.</p>
+<p>Если вам нравится этот проект, пожалуйста, рассмотрите возможность поставить звезду ⭐ репозиторию на GitHub, так как это самый простой и лучший способ поддержать его.</p>
+</section>
+<section id="additional-resources">
+<h2>Дополнительные ресурсы<a class="headerlink" href="tutorial_7.html#additional-resources" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/jeshraghian/snntorch">Посетите проект snnTorch на GitHub
+здесь.</a></p></li>
+<li><p><a class="reference external" href="https://github.com/neuromorphs/tonic">Проект Tonic на GitHub можно найти
+здесь.</a></p></li>
+<li><p>Набор данных N-MNIST был первоначально опубликован в следующей статье:
+<a class="reference external" href="https://www.frontiersin.org/articles/10.3389/fnins.2015.00437/full">Orchard, G.; Cohen, G.; Jayawant, A.; and Thakor, N. “Converting
+Static Image Datasets to Spiking Neuromorphic Datasets Using
+Saccades”, Frontiers in Neuroscience, vol.9, no.437,
+Oct. 2015.</a></p></li>
+<li><p>Для получения дополнительной информации о том, как был создан N-MNIST, обратитесь к <a class="reference external" href="https://www.garrickorchard.com/datasets/n-mnist">веб-сайту Garrick Orchard
+здесь.</a></p></li>
+</ul>
+</section>
+</section>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="tutorial_6.html" rel="prev" title="Tutorial 6 - Surrogate Gradient Descent in a Convolutional SNN"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="tutorial_exoplanet_hunter.html" rel="next" title="Exoplanet Hunter: Finding Planets Using Light Intensity">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright 2021, Jason K. Eshraghian.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

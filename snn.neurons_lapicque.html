@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html class="writer-html5" data-content_root="./" lang="ru">
+<head>
+<meta charset="utf-8"/>
+<meta content="1" name="readthedocs-addons-api-version"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>snn.Lapicque — документация snntorch 0.9.4</title>
+<link href="_static/pygments.css%3Fv=03e43079.css" rel="stylesheet" type="text/css"/>
+<link href="_static/css/theme.css%3Fv=9edc463e.css" rel="stylesheet" type="text/css"/>
+<link href="_static/css/default.css" rel="stylesheet" type="text/css"/>
+<script src="_static/jquery.js%3Fv=5d32c60e"></script>
+<script src="_static/_sphinx_javascript_frameworks_compat.js%3Fv=2cd50e6c"></script>
+<script src="_static/documentation_options.js%3Fv=c5ca06ca"></script>
+<script src="_static/doctools.js%3Fv=fd6eb6e6"></script>
+<script src="_static/sphinx_highlight.js%3Fv=6ffebe34"></script>
+<script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+<script src="_static/js/theme.js"></script>
+<script src="_static/js/versions.js"></script>
+<link href="genindex.html" rel="index" title="Index"/>
+<link href="search.html" rel="search" title="Search"/>
+<link href="snn.neurons_leaky.html" rel="next" title="snn.Leaky"/>
+<link href="snn.neurons_alpha.html" rel="prev" title="snn.Alpha"/>
+<script async="" src="../../_/static/javascript/readthedocs-addons.js" type="text/javascript"></script><meta content="snntorch" name="readthedocs-project-slug"/><meta content="latest" name="readthedocs-version-slug"/><meta content="/snn.neurons_lapicque.html" name="readthedocs-resolver-filename"/><meta content="200" name="readthedocs-http-status"/></head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="index.html">
+            snntorch
+              <img alt="Logo" class="logo" src="_static/snntorch_alpha_full.png"/>
+</a>
+<div class="switch-menus">
+<div class="version-switch"></div>
+<div class="language-switch"></div>
+</div>
+<div role="search">
+<form action="search.html" class="wy-form" id="rtd-search-form" method="get">
+<input aria-label="Search docs" name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="snntorch.html">snntorch</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="snntorch.html#snntorch-neurons">snnTorch Neurons</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="snntorch.html#neuron-list">Neuron List</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="snn.neurons_alpha.html">snn.Alpha</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="snn.neurons_lapicque.html#">snn.Lapicque</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="snn.neurons_lapicque.html#snntorch._neurons.lapicque.Lapicque"><code class="docutils literal notranslate"><span class="pre">Lapicque</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="snn.neurons_leaky.html">snn.Leaky</a></li>
+<li class="toctree-l3"><a class="reference internal" href="snn.neurons_leakyparallel.html">snn.LeakyParallel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="snn.neurons_rleaky.html">snn.RLeaky</a></li>
+<li class="toctree-l3"><a class="reference internal" href="snn.neurons_rsynaptic.html">snn.RSynaptic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="snn.neurons_sconvlstm.html">snn.SConv2dLSTM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="snn.neurons_slstm.html">snn.SLSTM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="snn.neurons_synaptic.html">snn.Synaptic</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="snntorch.html#module-snntorch._layers.bntt">snnTorch Layers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="snntorch.html#module-snntorch._neurons.neurons">Neuron Parent Classes</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="snntorch.export_nir.html">snntorch.export_nir</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snntorch.functional.html">snntorch.functional</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snntorch.import_nir.html">snntorch.import_nir</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snntorch.spikegen.html">snntorch.spikegen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snntorch.spikeplot.html">snntorch.spikeplot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snntorch.spikevision.html">snntorch.spikevision</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snntorch.surrogate.html">snntorch.surrogate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snntorch.utils.html">snntorch.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">History</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="index.html">snntorch</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a aria-label="Home" class="icon icon-home" href="index.html"></a></li>
+<li class="breadcrumb-item"><a href="snntorch.html">snntorch</a></li>
+<li class="breadcrumb-item active">snn.Lapicque</li>
+<li class="wy-breadcrumbs-aside">
+<a href="_sources/snn.neurons_lapicque.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<div class="admonition note" data-snn-translation="ru"><p><strong>Русский перевод.</strong> Неофициальный перевод актуальной документации snnTorch latest (0.9.4). Оригинал: https://snntorch.readthedocs.io/en/latest/. Документация распространяется по лицензии CC BY-SA 3.0.</p></div><section id="module-snntorch._neurons.lapicque">
+<span id="snn-lapicque"></span><h1>snn.Lapicque<a class="headerlink" href="snn.neurons_lapicque.html#module-snntorch._neurons.lapicque" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="snntorch._neurons.lapicque.Lapicque">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">snntorch._neurons.lapicque.</span></span><span class="sig-name descname"><span class="pre">Lapicque</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">C</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_step</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spike_grad</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">surrogate_disable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_hidden</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inhibition</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">learn_beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">learn_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reset_mechanism</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'subtract'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state_quant</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/_neurons/lapicque.html#Lapicque"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snn.neurons_lapicque.html#snntorch._neurons.lapicque.Lapicque" title="Link to this definition"></a></dt>
+<dd><p>Базовые классы: <a class="reference internal" href="snntorch.html#snntorch._neurons.neurons.LIF" title="snntorch._neurons.neurons.LIF"><code class="xref py py-class docutils literal notranslate"><span class="pre">LIF</span></code></a></p>
+<p>Расширение экспериментального сравнения Лапика между внеклеточными нервными волокнами и RC-цепью.
+Качественно эквивалентно <code class="code docutils literal notranslate"><span class="pre">Leaky</span></code> но определено с использованием параметров RC-цепи.
+Входной стимул интегрируется мембранным потенциалом, который экспоненциально затухает со скоростью бета.
+Для <span class="math notranslate nohighlight">\(U[T] &gt; U_{\rm thr} ⇒ S[T+1] = 1\)</span>.</p>
+<p>Если <cite>reset_mechanism = “subtract”</cite>, то <span class="math notranslate nohighlight">\(U[t+1]\)</span> будет иметь
+<cite>порог</cite> вычитаемый из него всякий раз, когда нейрон генерирует спайк:</p>
+<div class="math notranslate nohighlight">
+\[U[t+1] = I_{\rm in}[t+1] (\frac{T}{C}) +
+(1- \frac{T}{\tau})U[t] - RU_{\rm thr}\]</div>
+<p>Если <cite>reset_mechanism = “zero”</cite>, то <span class="math notranslate nohighlight">\(U[t+1]\)</span> будет установлено в <cite>0</cite>
+всякий раз, когда нейрон генерирует спайк:</p>
+<div class="math notranslate nohighlight">
+\[U[t+1] = I_{\rm in}[t+1] (\frac{T}{\tau}) +
+(1- \frac{T}{\tau})U[t] - R(I_{\rm in}[t+1] (\frac{T}{C})
++ (1- \frac{T}{\tau})U[t])\]</div>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(I_{\rm in}\)</span> - Входной ток</p></li>
+<li><p><span class="math notranslate nohighlight">\(U\)</span> - Мембранный потенциал</p></li>
+<li><p><span class="math notranslate nohighlight">\(U_{\rm thr}\)</span> - Мембранный порог</p></li>
+<li><p><span class="math notranslate nohighlight">\(T\)</span>- длительность каждого временного шага</p></li>
+<li><p><span class="math notranslate nohighlight">\(R\)</span> - Механизм сброса: если активен, <span class="math notranslate nohighlight">\(R = 1\)</span>, в противном случае         <span class="math notranslate nohighlight">\(R = 0\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(β\)</span> - Скорость затухания мембранного потенциала.     В качестве альтернативы, скорость затухания мембранного потенциала β может быть     указана вместо:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[β = e^{-1/RC}\]</div>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(R\)</span> - Параллельное сопротивление пассивной мембраны         (примечание: отличается от сброса <span class="math notranslate nohighlight">\(R\)</span>)</p></li>
+<li><p><span class="math notranslate nohighlight">\(C\)</span> - Параллельная емкость пассивной мембраны</p></li>
+</ul>
+<p>Примечания:</p>
+<ul class="simple">
+<li><p>Если определено только β, то R по умолчанию будет равно 1, а C будет выведено.</p></li>
+<li><p>Если определено RC, β будет автоматически вычислено.</p></li>
+<li><p>Если определены (β и R) или (β и C), недостающая переменная будет         автоматически вычислена.</p></li>
+<li><p>Обратите внимание, что β, R и C рассматриваются как «жестко заданные» физически правдоподобные параметры,         и поэтому не являются обучаемыми. Для         односостоянийного нейрона с обучаемой скоростью затухания β         используйте <code class="code docutils literal notranslate"><span class="pre">snn.Leaky</span></code> вместо этого.</p></li>
+</ul>
+<p>Пример:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nn</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">snntorch</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">snn</span>
+
+<span class="n">beta</span> <span class="o">=</span> <span class="mf">0.5</span>
+
+<span class="n">R</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">C</span> <span class="o">=</span> <span class="mf">1.44</span>
+
+<span class="c1"># Define Network</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Net</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+        <span class="c1"># initialize layers</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">num_inputs</span><span class="p">,</span> <span class="n">num_hidden</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lif1</span> <span class="o">=</span> <span class="n">snn</span><span class="o">.</span><span class="n">Lapicque</span><span class="p">(</span><span class="n">beta</span><span class="o">=</span><span class="n">beta</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">num_hidden</span><span class="p">,</span> <span class="n">num_outputs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lif2</span> <span class="o">=</span> <span class="n">snn</span><span class="o">.</span><span class="n">Lapicque</span><span class="p">(</span><span class="n">R</span><span class="o">=</span><span class="n">R</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="n">C</span><span class="p">)</span>  <span class="c1"># lif1 and lif2 are</span>
+        <span class="n">approximately</span> <span class="n">equivalent</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">mem1</span><span class="p">,</span> <span class="n">spk1</span><span class="p">,</span> <span class="n">mem2</span><span class="p">):</span>
+        <span class="n">cur1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">spk1</span><span class="p">,</span> <span class="n">mem1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lif1</span><span class="p">(</span><span class="n">cur1</span><span class="p">,</span> <span class="n">mem1</span><span class="p">)</span>
+        <span class="n">cur2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span><span class="p">(</span><span class="n">spk1</span><span class="p">)</span>
+        <span class="n">spk2</span><span class="p">,</span> <span class="n">mem2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lif2</span><span class="p">(</span><span class="n">cur2</span><span class="p">,</span> <span class="n">mem2</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">mem1</span><span class="p">,</span> <span class="n">spk1</span><span class="p">,</span> <span class="n">mem2</span><span class="p">,</span> <span class="n">spk2</span>
+</pre></div>
+</div>
+<p>Для дальнейшего чтения см.:</p>
+<p><em>L. Lapicque (1907) Recherches quantitatives sur l’excitation
+électrique des nerfs traitée comme une polarisation. J. Physiol. Pathol.
+Gen. 9, pp. 620-635. (French)</em></p>
+<p><em>N. Brunel and M. C. Van Rossum (2007) Lapicque’s 1907 paper: From frogs
+to integrate-and-fire. Biol. Cybern. 97, pp. 337-339. (English)</em></p>
+<p>Хотя Лапик не вводил формально эту модель как
+модель интегрирующего и генерирующего нейрона (integrate-and-fire), мы отдаем должное его открытию
+RC-цепи, имитирующей динамику синаптического тока.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>beta</strong> (<em>float</em><em> или </em><em>torch.tensor</em><em>, </em><em>Optional</em>) – Коэффициент спада потенциала RC. Ограничивается между 0 и 1 во время
+прямого прохода. Может быть тензором с одним значением (т.е. одинаковый коэффициент спада для
+всех нейронов в слое) или многозначным (один вес на нейрон).</p></li>
+<li><p><strong>R</strong> (<em>int</em><em> или </em><em>torch.tensor</em><em>, </em><em>Optional</em>) – Сопротивление RC-цепи</p></li>
+<li><p><strong>C</strong> (<em>int</em><em> или </em><em>torch.tensor</em><em>, </em><em>Optional</em>) – Ёмкость RC-цепи</p></li>
+<li><p><strong>time_step</strong> (<em>float</em><em>, </em><em>Optional</em>) – Точность временного шага. По умолчанию 1</p></li>
+<li><p><strong>порог</strong> (<em>float</em><em>, </em><em>необязательный</em>) – Порог для <span class="math notranslate nohighlight">\(mem\)</span> достижения для
+генерации спайка <cite>S=1</cite>. По умолчанию 1</p></li>
+<li><p><strong>spike_grad</strong> (<em>функция суррогатного градиента из snntorch.surrogate</em><em>,
+</em><em>необязательный</em>) – Суррогатный градиент для члена dS/dU. По умолчанию
+None (соответствует суррогатному градиенту ATan. См.
+<cite>snntorch.surrogate</cite> для дополнительных вариантов)</p></li>
+<li><p><strong>surrogate_disable</strong> (<em>bool</em><em>, </em><em>Optional</em>) – Отключает суррогатные градиенты независимо от
+<cite>spike_grad</cite> аргумента. Полезно для совместимости с ONNX. По умолчанию
+False</p></li>
+<li><p><strong>init_hidden</strong> (<em>bool</em><em>, </em><em>необязательный</em>) – Создает переменные состояния как переменные экземпляра.
+По умолчанию False</p></li>
+<li><p><strong>inhibition</strong> (<em>bool</em><em>, </em><em>необязательный</em>) – Если <cite>True</cite>, подавляет все спайки, кроме
+нейрона с наивысшим состоянием. По умолчанию False</p></li>
+<li><p><strong>learn_beta</strong> (<em>bool</em><em>, </em><em>необязательный</em>) – Опция для включения обучаемого beta. По умолчанию False</p></li>
+<li><p><strong>learn_threshold</strong> (<em>bool</em><em>, </em><em>необязательный</em>) – Опция для включения обучаемого порога. По умолчанию
+False</p></li>
+<li><p><strong>reset_mechanism</strong> (<em>str</em><em>, </em><em>необязательный</em>) – Определяет механизм сброса, применяемый к     <span class="math notranslate nohighlight">\(mem\)</span> каждый раз, когда порог достигнут. Сброс вычитанием:         “subtract”, сброс до нуля: “zero”, нет: “none”. По умолчанию “none”</p></li>
+<li><p><strong>state_quant</strong> (<em>функция квантования из snntorch.quant</em><em>, </em><em>необязательный</em>) – Если указано, скрытое состояние <span class="math notranslate nohighlight">\(mem\)</span> квантуется
+до допустимого состояния для прямого прохода. По умолчанию False</p></li>
+<li><p><strong>выход</strong> (<em>bool</em><em>, </em><em>необязательный</em>) – Если <cite>True</cite> а также <cite>init_hidden=True</cite>, состояния возвращаются
+при вызове нейрона. По умолчанию False</p></li>
+</ul>
+</dd>
+</dl>
+<dl>
+<dt>Входы: input_, mem_0</dt><dd><ul class="simple">
+<li><p><strong>input_</strong> формы <cite>(batch, input_size)</cite>: тензор, содержащий</p></li>
+</ul>
+<p>входные признаки
+- <strong>mem_0</strong> формы <cite>(batch, input_size)</cite>: тензор, содержащий
+начальный мембранный потенциал для каждого элемента в батче.</p>
+</dd>
+<dt>Выходы: spk, mem_1</dt><dd><ul class="simple">
+<li><p><strong>spk</strong> формы <cite>(batch, input_size)</cite>: тензор, содержащий</p></li>
+</ul>
+<p>выходные спайки.
+- <strong>mem_1</strong> формы <cite>(batch, input_size)</cite>: тензор, содержащий
+следующий мембранный потенциал для каждого элемента в батче</p>
+</dd>
+<dt>Обучаемые параметры:</dt><dd><ul class="simple">
+<li><p><strong>Lapcique.beta</strong> (torch.Tensor) - опциональные обучаемые веса должны</p></li>
+</ul>
+<p>быть переданы вручную, размерности <cite>1</cite> или (input_size).
+- <strong>Lapcique.threshold</strong> (torch.Tensor) - опциональные обучаемые
+пороги должны быть переданы вручную, размерности <cite>1</cite> или `` (input_size).</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="snntorch._neurons.lapicque.Lapicque.detach_hidden">
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">detach_hidden</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/_neurons/lapicque.html#Lapicque.detach_hidden"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snn.neurons_lapicque.html#snntorch._neurons.lapicque.Lapicque.detach_hidden" title="Link to this definition"></a></dt>
+<dd><p>Возвращает скрытые состояния, отделённые от текущего графа.
+Предназначено для использования в усечённом обратном распространении во времени, где
+скрытые состояния являются переменными экземпляра.</p>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="snntorch._neurons.lapicque.Lapicque.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mem</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/_neurons/lapicque.html#Lapicque.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snn.neurons_lapicque.html#snntorch._neurons.lapicque.Lapicque.forward" title="Link to this definition"></a></dt>
+<dd><p>Определяет вычисления, выполняемые при каждом вызове.</p>
+<p>Должен быть переопределен всеми подклассами.</p>
+<div class="admonition note">
+<p class="admonition-title">Примечание</p>
+<p>Хотя рецепт прямого прохода должен быть определен внутри
+этой функции, следует вызывать <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> экземпляр после этого
+вместо этой, так как первая заботится о запуске
+зарегистрированных хуков, в то время как последняя молча их игнорирует.</p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="snntorch._neurons.lapicque.Lapicque.init_lapicque">
+<span class="sig-name descname"><span class="pre">init_lapicque</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/_neurons/lapicque.html#Lapicque.init_lapicque"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snn.neurons_lapicque.html#snntorch._neurons.lapicque.Lapicque.init_lapicque" title="Link to this definition"></a></dt>
+<dd><p>Устарело, используйте <a class="reference internal" href="snn.neurons_lapicque.html#snntorch._neurons.lapicque.Lapicque.reset_mem" title="snntorch._neurons.lapicque.Lapicque.reset_mem"><code class="xref py py-class docutils literal notranslate"><span class="pre">Lapicque.reset_mem</span></code></a> вместо</p>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="snntorch._neurons.lapicque.Lapicque.reset_hidden">
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">reset_hidden</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/_neurons/lapicque.html#Lapicque.reset_hidden"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snn.neurons_lapicque.html#snntorch._neurons.lapicque.Lapicque.reset_hidden" title="Link to this definition"></a></dt>
+<dd><p>Используется для обнуления скрытых переменных состояния.
+Предназначен для использования, где скрытые переменные состояния являются переменными
+экземпляра.</p>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="snntorch._neurons.lapicque.Lapicque.reset_mem">
+<span class="sig-name descname"><span class="pre">reset_mem</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/_neurons/lapicque.html#Lapicque.reset_mem"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snn.neurons_lapicque.html#snntorch._neurons.lapicque.Lapicque.reset_mem" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+</dd></dl>
+</section>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="snn.neurons_alpha.html" rel="prev" title="snn.Alpha"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="snn.neurons_leaky.html" rel="next" title="snn.Leaky">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright 2021, Jason K. Eshraghian.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

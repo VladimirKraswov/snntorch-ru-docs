@@ -1,0 +1,472 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="readthedocs-addons-api-version" content="1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>snntorch._neurons.leakyparallel &mdash; snntorch 0.9.4 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css%3Fv=03e43079.css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css%3Fv=9edc463e.css" />
+      <link rel="stylesheet" href="../../../_static/css/default.css" type="text/css" />
+
+  
+      <script src="../../../_static/jquery.js%3Fv=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js%3Fv=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js%3Fv=c5ca06ca"></script>
+      <script src="../../../_static/doctools.js%3Fv=fd6eb6e6"></script>
+      <script src="../../../_static/sphinx_highlight.js%3Fv=6ffebe34"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <script src="../../../_static/js/versions.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+<script async type="text/javascript" src="../../../../../_/static/javascript/readthedocs-addons.js"></script><meta name="readthedocs-project-slug" content="snntorch" /><meta name="readthedocs-version-slug" content="latest" /><meta name="readthedocs-resolver-filename" content="/_modules/snntorch/_neurons/leakyparallel.html" /><meta name="readthedocs-http-status" content="200" /></head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            snntorch
+              <img src="../../../_static/snntorch_alpha_full.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="switch-menus">
+                <div class="version-switch"></div>
+                <div class="language-switch"></div>
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../snntorch.html">snntorch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../snntorch.export_nir.html">snntorch.export_nir</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../snntorch.functional.html">snntorch.functional</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../snntorch.import_nir.html">snntorch.import_nir</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../snntorch.spikegen.html">snntorch.spikegen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../snntorch.spikeplot.html">snntorch.spikeplot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../snntorch.spikevision.html">snntorch.spikevision</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../snntorch.surrogate.html">snntorch.surrogate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../snntorch.utils.html">snntorch.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../history.html">History</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">snntorch</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">snntorch._neurons.leakyparallel</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for snntorch._neurons.leakyparallel</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nn</span>
+
+
+<div class="viewcode-block" id="LeakyParallel">
+<a class="viewcode-back" href="../../../snn.neurons_leakyparallel.html#snntorch._neurons.leakyparallel.LeakyParallel">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">LeakyParallel</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A parallel implementation of the Leaky neuron with a fused input linear layer.</span>
+<span class="sd">    All time steps are passed to the input at once. </span>
+<span class="sd">    This implementation uses `torch.nn.RNN` to accelerate the implementation.</span>
+
+<span class="sd">    First-order leaky integrate-and-fire neuron model.</span>
+<span class="sd">    Input is assumed to be a current injection.</span>
+<span class="sd">    Membrane potential decays exponentially with rate beta.</span>
+<span class="sd">    For :math:`U[T] &gt; U_{\\rm thr} ⇒ S[T+1] = 1`.</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">            U[t+1] = βU[t] + I_{\\rm in}[t+1]</span>
+
+
+<span class="sd">    * :math:`I_{\\rm in}` - Input current</span>
+<span class="sd">    * :math:`U` - Membrane potential</span>
+<span class="sd">    * :math:`U_{\\rm thr}` - Membrane threshold</span>
+<span class="sd">    * :math:`β` - Membrane potential decay rate</span>
+
+<span class="sd">    Several differences between `LeakyParallel` and `Leaky` include:</span>
+<span class="sd">    </span>
+<span class="sd">    * Negative hidden states are clipped due to the </span>
+<span class="sd">        forced ReLU operation in RNN.</span>
+<span class="sd">    * Linear weights are included in addition to </span>
+<span class="sd">        recurrent weights.</span>
+<span class="sd">    * `beta` is clipped between [0,1] and cloned to </span>
+<span class="sd">        `weight_hh_l` only upon layer initialization. It is unused otherwise.</span>
+<span class="sd">    * There is no explicit reset mechanism.</span>
+<span class="sd">    * Several functions such as `init_hidden`, `output`, </span>
+<span class="sd">        `inhibition`, and `state_quant` are unavailable in `LeakyParallel`.</span>
+<span class="sd">    * Only the output spike is returned. Membrane potential is not accessible by default.</span>
+<span class="sd">    * RNN uses a hidden matrix of size (num_hidden, num_hidden) </span>
+<span class="sd">    to transform the hidden state vector. This would &#39;leak&#39; the membrane potential between LIF neurons, and so the hidden matrix is forced to a diagonal matrix by default.  This can be disabled by setting `weight_hh_enable=True`.</span>
+
+<span class="sd">    Example::</span>
+
+<span class="sd">        import torch</span>
+<span class="sd">        import torch.nn as nn</span>
+<span class="sd">        import snntorch as snn</span>
+
+<span class="sd">        beta = 0.5</span>
+<span class="sd">        num_inputs = 784</span>
+<span class="sd">        num_hidden = 128</span>
+<span class="sd">        num_outputs = 10</span>
+<span class="sd">        batch_size = 128</span>
+<span class="sd">        x = torch.rand((num_steps, batch_size, num_inputs))</span>
+
+<span class="sd">        # Define Network</span>
+<span class="sd">        class Net(nn.Module):</span>
+<span class="sd">            def __init__(self):</span>
+<span class="sd">                super().__init__()</span>
+
+<span class="sd">                # initialize layers</span>
+<span class="sd">                self.lif1 = snn.LeakyParallel(input_size=num_inputs, hidden_size=num_hidden) # randomly initialize recurrent weights</span>
+<span class="sd">                self.lif2 = snn.LeakyParallel(input_size=num_hidden, hidden_size=num_outputs, beta=beta, learn_beta=True) # learnable recurrent weights initialized at beta</span>
+
+<span class="sd">            def forward(self, x):</span>
+<span class="sd">                spk1 = self.lif1(x)</span>
+<span class="sd">                spk2 = self.lif2(spk1)</span>
+<span class="sd">                return spk2     </span>
+
+<span class="sd">        </span>
+<span class="sd">    :param input_size: The number of expected features in the input `x`</span>
+<span class="sd">    :type input_size: int</span>
+
+<span class="sd">    :param hidden_size: The number of features in the hidden state `h`</span>
+<span class="sd">    :type hidden_size: int</span>
+
+<span class="sd">    :param beta: membrane potential decay rate. Clipped between 0 and 1 </span>
+<span class="sd">    during the forward-pass. May be a single-valued tensor (i.e., equal decay rate for all neurons in a layer), or multi-valued (one weight per neuron). If left unspecified, then the decay rates will be randomly initialized based on PyTorch&#39;s initialization for RNN. Defaults to None</span>
+<span class="sd">    :type beta: float or torch.tensor, optional</span>
+
+<span class="sd">    :param bias: If `False`, then the layer does not use bias weights `b_ih` and `b_hh`. Defaults to True</span>
+<span class="sd">    :type bias: Bool, optional</span>
+
+<span class="sd">    :param threshold: Threshold for :math:`mem` to reach in order to</span>
+<span class="sd">        generate a spike `S=1`. Defaults to 1</span>
+<span class="sd">    :type threshold: float, optional</span>
+
+<span class="sd">    :param dropout: If non-zero, introduces a Dropout layer on the RNN output with dropout probability equal to dropout. Defaults to 0</span>
+<span class="sd">    :type dropout: float, optional</span>
+
+<span class="sd">    :param spike_grad: Surrogate gradient for the term dS/dU. Defaults to</span>
+<span class="sd">        None (corresponds to ATan surrogate gradient. See</span>
+<span class="sd">        `snntorch.surrogate` for more options)</span>
+<span class="sd">    :type spike_grad: surrogate gradient function from snntorch.surrogate,</span>
+<span class="sd">        optional</span>
+
+<span class="sd">    :param surrogate_disable: Disables surrogate gradients regardless of</span>
+<span class="sd">        `spike_grad` argument. Useful for ONNX compatibility. Defaults</span>
+<span class="sd">        to False</span>
+<span class="sd">    :type surrogate_disable: bool, Optional</span>
+
+<span class="sd">    :param learn_beta: Option to enable learnable beta. Defaults to False</span>
+<span class="sd">    :type learn_beta: bool, optional</span>
+
+<span class="sd">    :param learn_threshold: Option to enable learnable threshold. Defaults</span>
+<span class="sd">        to False</span>
+<span class="sd">    :type learn_threshold: bool, optional</span>
+
+<span class="sd">    :param weight_hh_enable: Option to set the hidden matrix to be dense or </span>
+<span class="sd">    diagonal. Diagonal (i.e., False) adheres to how a LIF neuron works. Dense (True) would allow the membrane potential of one LIF neuron to influence all others, and follow the RNN default implementation. Defaults to False</span>
+<span class="sd">    :type weight_hh_enable: bool, optional</span>
+
+
+<span class="sd">    Inputs: \\input_</span>
+<span class="sd">        - **input_** of shape of  shape `(L, H_{in})` for unbatched input, </span>
+<span class="sd">            or `(L, N, H_{in})` containing the features of the input sequence. </span>
+
+<span class="sd">    Outputs: spk</span>
+<span class="sd">        - **spk** of shape `(L, batch, input_size)`: tensor containing the</span>
+<span class="sd">            output spikes.</span>
+<span class="sd">        </span>
+<span class="sd">    where:</span>
+
+<span class="sd">   * **`L** = sequence length`</span>
+<span class="sd">    </span>
+<span class="sd">   * **`N** = batch size`</span>
+
+<span class="sd">   * **`H_{in}** = input_size`</span>
+
+<span class="sd">   * **`H_{out}** = hidden_size`</span>
+
+<span class="sd">    Learnable Parameters:</span>
+<span class="sd">        - **rnn.weight_ih_l** (torch.Tensor) - the learnable input-hidden </span>
+<span class="sd">            weights of shape (hidden_size, input_size).</span>
+<span class="sd">        - **rnn.weight_hh_l** (torch.Tensor) - the learnable hidden-hidden</span>
+<span class="sd">            weights of the k-th layer which are sampled from `beta` of shape </span>
+<span class="sd">            (hidden_size, hidden_size).</span>
+<span class="sd">        - **bias_ih_l** - the learnable input-hidden bias of the k-th layer, </span>
+<span class="sd">            of shape (hidden_size).</span>
+<span class="sd">        - **bias_hh_l** - the learnable hidden-hidden bias of the k-th layer, </span>
+<span class="sd">            of shape (hidden_size).</span>
+<span class="sd">        - **threshold** (torch.Tensor) - optional learnable thresholds must be </span>
+<span class="sd">            manually passed in, of shape `1` or`` (input_size).</span>
+<span class="sd">        - **graded_spikes_factor** (torch.Tensor) - optional learnable graded </span>
+<span class="sd">            spike factor.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">input_size</span><span class="p">,</span>
+        <span class="n">hidden_size</span><span class="p">,</span>
+        <span class="n">beta</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">bias</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">threshold</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">dropout</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">spike_grad</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">surrogate_disable</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">learn_beta</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">learn_threshold</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">graded_spikes_factor</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">learn_graded_spikes_factor</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">weight_hh_enable</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">device</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">rnn</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">RNN</span><span class="p">(</span>
+            <span class="n">input_size</span><span class="p">,</span>
+            <span class="n">hidden_size</span><span class="p">,</span>
+            <span class="n">num_layers</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+            <span class="n">nonlinearity</span><span class="o">=</span><span class="s2">&quot;relu&quot;</span><span class="p">,</span>
+            <span class="n">bias</span><span class="o">=</span><span class="n">bias</span><span class="p">,</span>
+            <span class="n">batch_first</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">dropout</span><span class="o">=</span><span class="n">dropout</span><span class="p">,</span>
+            <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">,</span>
+            <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_beta_buffer</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span> <span class="n">learn_beta</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hidden_size</span> <span class="o">=</span> <span class="n">hidden_size</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">beta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">spike_grad</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">spike_grad</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ATan</span><span class="o">.</span><span class="n">apply</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">spike_grad</span> <span class="o">=</span> <span class="n">spike_grad</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_beta_to_weight_hh</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">weight_hh_enable</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="c1"># Initial gradient and weights of w_hh are made diagonal</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">weight_hh_enable</span><span class="p">()</span>
+            <span class="c1"># Register a gradient hook to clamp out non-diagonal matrices in backward pass</span>
+            <span class="k">if</span> <span class="n">learn_beta</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">rnn</span><span class="o">.</span><span class="n">weight_hh_l0</span><span class="o">.</span><span class="n">register_hook</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grad_hook</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">learn_beta</span><span class="p">:</span>
+            <span class="c1"># Make the weights non-learnable</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rnn</span><span class="o">.</span><span class="n">weight_hh_l0</span><span class="o">.</span><span class="n">requires_grad_</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_threshold_buffer</span><span class="p">(</span><span class="n">threshold</span><span class="p">,</span> <span class="n">learn_threshold</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_graded_spikes_buffer</span><span class="p">(</span>
+            <span class="n">graded_spikes_factor</span><span class="p">,</span> <span class="n">learn_graded_spikes_factor</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">surrogate_disable</span> <span class="o">=</span> <span class="n">surrogate_disable</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">surrogate_disable</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">spike_grad</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_surrogate_bypass</span>
+
+<div class="viewcode-block" id="LeakyParallel.forward">
+<a class="viewcode-back" href="../../../snn.neurons_leakyparallel.html#snntorch._neurons.leakyparallel.LeakyParallel.forward">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_</span><span class="p">):</span>
+        <span class="n">mem</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rnn</span><span class="p">(</span><span class="n">input_</span><span class="p">)</span>
+        <span class="c1"># mem[0] contains relu&#39;d outputs, mem[1] contains final hidden state</span>
+        <span class="n">mem_shift</span> <span class="o">=</span> <span class="n">mem</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">threshold</span>  <span class="c1"># self.rnn.weight_hh_l0</span>
+        <span class="n">spk</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spike_grad</span><span class="p">(</span><span class="n">mem_shift</span><span class="p">)</span>
+        <span class="n">spk</span> <span class="o">=</span> <span class="n">spk</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">graded_spikes_factor</span>
+        <span class="k">return</span> <span class="n">spk</span></div>
+
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_surrogate_bypass</span><span class="p">(</span><span class="n">input_</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">input_</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">()</span>
+
+<div class="viewcode-block" id="LeakyParallel.ATan">
+<a class="viewcode-back" href="../../../snn.neurons_leakyparallel.html#snntorch._neurons.leakyparallel.LeakyParallel.ATan">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">class</span><span class="w"> </span><span class="nc">ATan</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">autograd</span><span class="o">.</span><span class="n">Function</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Surrogate gradient of the Heaviside step function.</span>
+
+<span class="sd">        **Forward pass:** Heaviside step function shifted.</span>
+
+<span class="sd">            .. math::</span>
+
+<span class="sd">                S=\\begin{cases} 1 &amp; \\text{if U ≥ U$_{\\rm thr}$} \\\\</span>
+<span class="sd">                0 &amp; \\text{if U &lt; U$_{\\rm thr}$}</span>
+<span class="sd">                \\end{cases}</span>
+
+<span class="sd">        **Backward pass:** Gradient of shifted arc-tan function.</span>
+
+<span class="sd">            .. math::</span>
+
+<span class="sd">                    S&amp;≈\\frac{1}{π}\\text{arctan}(πU \\frac{α}{2}) \\\\</span>
+<span class="sd">                    \\frac{∂S}{∂U}&amp;=\\frac{1}{π}\</span>
+<span class="sd">                    \\frac{1}{(1+(πU\\frac{α}{2})^2)}</span>
+
+
+<span class="sd">        :math:`alpha` defaults to 2, and can be modified by calling</span>
+<span class="sd">        ``surrogate.atan(alpha=2)``.</span>
+
+<span class="sd">        Adapted from:</span>
+
+<span class="sd">        *W. Fang, Z. Yu, Y. Chen, T. Masquelier, T. Huang, Y. Tian (2021)</span>
+<span class="sd">        Incorporating Learnable Membrane Time Constants to Enhance Learning</span>
+<span class="sd">        of Spiking Neural Networks. Proc. IEEE/CVF Int. Conf. Computer</span>
+<span class="sd">        Vision (ICCV), pp. 2661-2671.*&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="LeakyParallel.ATan.forward">
+<a class="viewcode-back" href="../../../snn.neurons_leakyparallel.html#snntorch._neurons.leakyparallel.LeakyParallel.ATan.forward">[docs]</a>
+        <span class="nd">@staticmethod</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">input_</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">2.0</span><span class="p">):</span>
+            <span class="n">ctx</span><span class="o">.</span><span class="n">save_for_backward</span><span class="p">(</span><span class="n">input_</span><span class="p">)</span>
+            <span class="n">ctx</span><span class="o">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="p">(</span><span class="n">input_</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">out</span></div>
+
+
+<div class="viewcode-block" id="LeakyParallel.ATan.backward">
+<a class="viewcode-back" href="../../../snn.neurons_leakyparallel.html#snntorch._neurons.leakyparallel.LeakyParallel.ATan.backward">[docs]</a>
+        <span class="nd">@staticmethod</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">backward</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">grad_output</span><span class="p">):</span>
+            <span class="p">(</span><span class="n">input_</span><span class="p">,)</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">saved_tensors</span>
+            <span class="n">grad_input</span> <span class="o">=</span> <span class="n">grad_output</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+            <span class="n">grad</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">ctx</span><span class="o">.</span><span class="n">alpha</span>
+                <span class="o">/</span> <span class="mi">2</span>
+                <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">ctx</span><span class="o">.</span><span class="n">alpha</span> <span class="o">*</span> <span class="n">input_</span><span class="p">)</span><span class="o">.</span><span class="n">pow_</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+                <span class="o">*</span> <span class="n">grad_input</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="n">grad</span><span class="p">,</span> <span class="kc">None</span></div>
+</div>
+
+
+<div class="viewcode-block" id="LeakyParallel.weight_hh_enable">
+<a class="viewcode-back" href="../../../snn.neurons_leakyparallel.html#snntorch._neurons.leakyparallel.LeakyParallel.weight_hh_enable">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">weight_hh_enable</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hidden_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">hidden_size</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rnn</span><span class="o">.</span><span class="n">weight_hh_l0</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rnn</span><span class="o">.</span><span class="n">weight_hh_l0</span><span class="o">.</span><span class="n">data</span> <span class="o">*</span> <span class="n">mask</span></div>
+
+
+<div class="viewcode-block" id="LeakyParallel.grad_hook">
+<a class="viewcode-back" href="../../../snn.neurons_leakyparallel.html#snntorch._neurons.leakyparallel.LeakyParallel.grad_hook">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">grad_hook</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">grad</span><span class="p">):</span>
+        <span class="n">device</span> <span class="o">=</span> <span class="n">grad</span><span class="o">.</span><span class="n">device</span>
+        <span class="c1"># Create a mask that is 1 on the diagonal and 0 elsewhere</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hidden_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">hidden_size</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+        <span class="c1"># Use the mask to zero out non-diagonal elements of the gradient</span>
+        <span class="k">return</span> <span class="n">grad</span> <span class="o">*</span> <span class="n">mask</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_beta_to_weight_hh</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="c1"># Set all weights to the scalar value of self.beta</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">beta</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">beta</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">rnn</span><span class="o">.</span><span class="n">weight_hh_l0</span><span class="o">.</span><span class="n">fill_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">beta</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">beta</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">beta</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">FloatTensor</span>
+                <span class="p">):</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">beta</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">rnn</span><span class="o">.</span><span class="n">weight_hh_l0</span><span class="o">.</span><span class="n">fill_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">beta</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">beta</span><span class="p">)</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">hidden_size</span><span class="p">:</span>
+                    <span class="c1"># Replace each value with the corresponding value in self.beta</span>
+                    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hidden_size</span><span class="p">):</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">rnn</span><span class="o">.</span><span class="n">weight_hh_l0</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">fill_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">beta</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                        <span class="s2">&quot;Beta must be either a single value or of length &#39;hidden_size&#39;.&quot;</span>
+                    <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_beta_buffer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">learn_beta</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">beta</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">beta</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">as_tensor</span><span class="p">([</span><span class="n">beta</span><span class="p">])</span>  <span class="c1"># TODO: or .tensor() if no copy</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">register_buffer</span><span class="p">(</span><span class="s2">&quot;beta&quot;</span><span class="p">,</span> <span class="n">beta</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_graded_spikes_buffer</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">graded_spikes_factor</span><span class="p">,</span> <span class="n">learn_graded_spikes_factor</span>
+    <span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">graded_spikes_factor</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+            <span class="n">graded_spikes_factor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">as_tensor</span><span class="p">(</span><span class="n">graded_spikes_factor</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">learn_graded_spikes_factor</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">graded_spikes_factor</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">graded_spikes_factor</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">register_buffer</span><span class="p">(</span><span class="s2">&quot;graded_spikes_factor&quot;</span><span class="p">,</span> <span class="n">graded_spikes_factor</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_threshold_buffer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">learn_threshold</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">threshold</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+            <span class="n">threshold</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">as_tensor</span><span class="p">(</span><span class="n">threshold</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">learn_threshold</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">threshold</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">threshold</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">register_buffer</span><span class="p">(</span><span class="s2">&quot;threshold&quot;</span><span class="p">,</span> <span class="n">threshold</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Jason K. Eshraghian.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html class="writer-html5" data-content_root="./" lang="ru">
+<head>
+<meta charset="utf-8"/>
+<meta content="1" name="readthedocs-addons-api-version"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>snn.SConv2dLSTM — документация snntorch 0.9.4</title>
+<link href="_static/pygments.css%3Fv=03e43079.css" rel="stylesheet" type="text/css"/>
+<link href="_static/css/theme.css%3Fv=9edc463e.css" rel="stylesheet" type="text/css"/>
+<link href="_static/css/default.css" rel="stylesheet" type="text/css"/>
+<script src="_static/jquery.js%3Fv=5d32c60e"></script>
+<script src="_static/_sphinx_javascript_frameworks_compat.js%3Fv=2cd50e6c"></script>
+<script src="_static/documentation_options.js%3Fv=c5ca06ca"></script>
+<script src="_static/doctools.js%3Fv=fd6eb6e6"></script>
+<script src="_static/sphinx_highlight.js%3Fv=6ffebe34"></script>
+<script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+<script src="_static/js/theme.js"></script>
+<script src="_static/js/versions.js"></script>
+<link href="genindex.html" rel="index" title="Index"/>
+<link href="search.html" rel="search" title="Search"/>
+<link href="snn.neurons_slstm.html" rel="next" title="snn.SLSTM"/>
+<link href="snn.neurons_rsynaptic.html" rel="prev" title="snn.RSynaptic"/>
+<script async="" src="../../_/static/javascript/readthedocs-addons.js" type="text/javascript"></script><meta content="snntorch" name="readthedocs-project-slug"/><meta content="latest" name="readthedocs-version-slug"/><meta content="/snn.neurons_sconvlstm.html" name="readthedocs-resolver-filename"/><meta content="200" name="readthedocs-http-status"/></head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="index.html">
+            snntorch
+              <img alt="Logo" class="logo" src="_static/snntorch_alpha_full.png"/>
+</a>
+<div class="switch-menus">
+<div class="version-switch"></div>
+<div class="language-switch"></div>
+</div>
+<div role="search">
+<form action="search.html" class="wy-form" id="rtd-search-form" method="get">
+<input aria-label="Search docs" name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="snntorch.html">snntorch</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="snntorch.html#snntorch-neurons">snnTorch Neurons</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="snntorch.html#neuron-list">Neuron List</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="snn.neurons_alpha.html">snn.Alpha</a></li>
+<li class="toctree-l3"><a class="reference internal" href="snn.neurons_lapicque.html">snn.Lapicque</a></li>
+<li class="toctree-l3"><a class="reference internal" href="snn.neurons_leaky.html">snn.Leaky</a></li>
+<li class="toctree-l3"><a class="reference internal" href="snn.neurons_leakyparallel.html">snn.LeakyParallel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="snn.neurons_rleaky.html">snn.RLeaky</a></li>
+<li class="toctree-l3"><a class="reference internal" href="snn.neurons_rsynaptic.html">snn.RSynaptic</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="snn.neurons_sconvlstm.html#">snn.SConv2dLSTM</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="snn.neurons_sconvlstm.html#snntorch._neurons.sconv2dlstm.SConv2dLSTM"><code class="docutils literal notranslate"><span class="pre">SConv2dLSTM</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="snn.neurons_slstm.html">snn.SLSTM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="snn.neurons_synaptic.html">snn.Synaptic</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="snntorch.html#module-snntorch._layers.bntt">snnTorch Layers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="snntorch.html#module-snntorch._neurons.neurons">Neuron Parent Classes</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="snntorch.export_nir.html">snntorch.export_nir</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snntorch.functional.html">snntorch.functional</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snntorch.import_nir.html">snntorch.import_nir</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snntorch.spikegen.html">snntorch.spikegen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snntorch.spikeplot.html">snntorch.spikeplot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snntorch.spikevision.html">snntorch.spikevision</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snntorch.surrogate.html">snntorch.surrogate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snntorch.utils.html">snntorch.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">History</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="index.html">snntorch</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a aria-label="Home" class="icon icon-home" href="index.html"></a></li>
+<li class="breadcrumb-item"><a href="snntorch.html">snntorch</a></li>
+<li class="breadcrumb-item active">snn.SConv2dLSTM</li>
+<li class="wy-breadcrumbs-aside">
+<a href="_sources/snn.neurons_sconvlstm.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<div class="admonition note" data-snn-translation="ru"><p><strong>Русский перевод.</strong> Неофициальный перевод актуальной документации snnTorch latest (0.9.4). Оригинал: https://snntorch.readthedocs.io/en/latest/. Документация распространяется по лицензии CC BY-SA 3.0.</p></div><section id="module-snntorch._neurons.sconv2dlstm">
+<span id="snn-sconv2dlstm"></span><h1>snn.SConv2dLSTM<a class="headerlink" href="snn.neurons_sconvlstm.html#module-snntorch._neurons.sconv2dlstm" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="snntorch._neurons.sconv2dlstm.SConv2dLSTM">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">snntorch._neurons.sconv2dlstm.</span></span><span class="sig-name descname"><span class="pre">SConv2dLSTM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">in_channels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_channels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bias</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_pool</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">avg_pool</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spike_grad</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">surrogate_disable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_hidden</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inhibition</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">learn_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reset_mechanism</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'none'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state_quant</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/_neurons/sconv2dlstm.html#SConv2dLSTM"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snn.neurons_sconvlstm.html#snntorch._neurons.sconv2dlstm.SConv2dLSTM" title="Link to this definition"></a></dt>
+<dd><p>Базовые классы: <a class="reference internal" href="snntorch.html#snntorch._neurons.neurons.SpikingNeuron" title="snntorch._neurons.neurons.SpikingNeuron"><code class="xref py py-class docutils literal notranslate"><span class="pre">SpikingNeuron</span></code></a></p>
+<p>Спайковая двумерная сверточная LSTM-ячейка.\nСкрытые состояния — это мембранный потенциал и синаптический ток.
+<span class="math notranslate nohighlight">\(mem, syn\)</span>, которые соответствуют скрытому состоянию и состоянию ячейки
+<span class="math notranslate nohighlight">\(h, c\)</span> в исходной формулировке LSTM.</p>
+<p>Ожидается, что входные данные имеют размер <span class="math notranslate nohighlight">\((N, C_{in}, H_{in}, W_{in})\)</span>
+где <span class="math notranslate nohighlight">\(N\)</span> — это размер батча.</p>
+<p>В отличие от модуля LSTM в PyTorch, моделируется только один временной шаг каждый\nраз при вызове ячейки.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{array}{ll} \\
+    i_t = \sigma(W_{ii} ⋆ x_t + b_{ii} + W_{hi} ⋆ mem_{t-1} + b_{hi})
+    \\
+    f_t = \sigma(W_{if} ⋆ x_t + b_{if} + W_{hf} mem_{t-1} + b_{hf})
+    \\
+    g_t = \tanh(W_{ig} ⋆ x_t + b_{ig} + W_{hg} ⋆ mem_{t-1} + b_{hg})
+    \\
+    o_t = \sigma(W_{io} ⋆ x_t + b_{io} + W_{ho} ⋆ mem_{t-1} + b_{ho})
+    \\
+    syn_t = f_t ∗  c_{t-1} + i_t ∗  g_t \\
+    mem_t = o_t ∗  \tanh(syn_t) \\
+\end{array}\end{split}\]</div>
+<p>где <span class="math notranslate nohighlight">\(\sigma\)</span> — это сигмоидная функция, ⋆ — это двумерный\nоператор взаимной корреляции, а ∗ — это произведение Адамара.\nВыходное состояние <span class="math notranslate nohighlight">\(mem_{t+1}\)</span> подвергается пороговой обработке, чтобы определить,\nгенерируется ли выходной спайк.\nДля соответствия стандартному поведению LSTM-состояний, механизм сброса по умолчанию\nустановлен на <cite>reset=”none”</cite>, т.е. сброс не применяется. Если это изменено,\nсброс применяется только к <span class="math notranslate nohighlight">\(mem_t\)</span>.</p>
+<p>Также доступны опции применения максимального объединения или среднего объединения к состоянию
+<span class="math notranslate nohighlight">\(mem_t\)</span> Также доступны. Обратите внимание, что предпочтительнее применять\nобъединение к состоянию, а не к спайку, так как не имеет смысла\nприменять объединение к активациям из 1 и 0, что может привести к случайному\nразрыву связей (tie-breaking).</p>
+<p>Дополнение применяется автоматически для обеспечения согласованных размеров\nскрытых состояний от одного временного шага к следующему.</p>
+<p>На данный момент stride != 1 не поддерживается.</p>
+<p>Пример:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nn</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">snntorch</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">snn</span>
+
+
+<span class="c1"># Define Network</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Net</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+        <span class="n">in_channels</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">out_channels</span> <span class="o">=</span> <span class="mi">8</span>
+        <span class="n">kernel_size</span> <span class="o">=</span> <span class="mi">3</span>
+        <span class="n">max_pool</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="n">avg_pool</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="n">flattened_input</span> <span class="o">=</span> <span class="mi">49</span> <span class="o">*</span> <span class="mi">16</span>
+        <span class="n">num_outputs</span> <span class="o">=</span> <span class="mi">10</span>
+        <span class="n">beta</span> <span class="o">=</span> <span class="mf">0.5</span>
+
+        <span class="n">spike_grad_lstm</span> <span class="o">=</span> <span class="n">snn</span><span class="o">.</span><span class="n">surrogate</span><span class="o">.</span><span class="n">straight_through_estimator</span><span class="p">()</span>
+        <span class="n">spike_grad_fc</span> <span class="o">=</span> <span class="n">snn</span><span class="o">.</span><span class="n">surrogate</span><span class="o">.</span><span class="n">fast_sigmoid</span><span class="p">(</span><span class="n">slope</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+
+        <span class="c1"># initialize layers</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sclstm1</span> <span class="o">=</span> <span class="n">snn</span><span class="o">.</span><span class="n">SConv2dLSTM</span><span class="p">(</span>
+            <span class="n">in_channels</span><span class="p">,</span>
+            <span class="n">out_channels</span><span class="p">,</span>
+            <span class="n">kernel_size</span><span class="p">,</span>
+            <span class="n">max_pool</span><span class="o">=</span><span class="n">max_pool</span><span class="p">,</span>
+            <span class="n">spike_grad</span><span class="o">=</span><span class="n">spike_grad_lstm</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sclstm2</span> <span class="o">=</span> <span class="n">snn</span><span class="o">.</span><span class="n">SConv2dLSTM</span><span class="p">(</span>
+            <span class="n">out_channels</span><span class="p">,</span>
+            <span class="n">out_channels</span><span class="p">,</span>
+            <span class="n">kernel_size</span><span class="p">,</span>
+            <span class="n">avg_pool</span><span class="o">=</span><span class="n">avg_pool</span><span class="p">,</span>
+            <span class="n">spike_grad</span><span class="o">=</span><span class="n">spike_grad_lstm</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">flattened_input</span><span class="p">,</span> <span class="n">num_outputs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lif1</span> <span class="o">=</span> <span class="n">snn</span><span class="o">.</span><span class="n">Leaky</span><span class="p">(</span><span class="n">beta</span><span class="o">=</span><span class="n">beta</span><span class="p">,</span> <span class="n">spike_grad</span><span class="o">=</span><span class="n">spike_grad_fc</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="c1"># Initialize hidden states and outputs at t=0</span>
+        <span class="n">syn1</span><span class="p">,</span> <span class="n">mem1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lif1</span><span class="o">.</span><span class="n">init_sconv2dlstm</span><span class="p">()</span>
+        <span class="n">syn2</span><span class="p">,</span> <span class="n">mem2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lif1</span><span class="o">.</span><span class="n">init_sconv2dlstm</span><span class="p">()</span>
+        <span class="n">mem3</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lif3</span><span class="o">.</span><span class="n">init_leaky</span><span class="p">()</span>
+
+        <span class="c1"># Record the final layer</span>
+        <span class="n">spk3_rec</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">mem3_rec</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># Number of steps assuming x is [N, T, C, H, W] with</span>
+        <span class="c1"># N = Batches, T = Time steps, C = Channels,</span>
+        <span class="c1"># H = Height, W = Width</span>
+        <span class="n">num_steps</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_steps</span><span class="p">):</span>
+            <span class="n">x_step</span> <span class="o">=</span> <span class="n">x</span><span class="p">[:,</span> <span class="n">step</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="p">:]</span>
+            <span class="n">spk1</span><span class="p">,</span> <span class="n">syn1</span><span class="p">,</span> <span class="n">mem1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sclstm1</span><span class="p">(</span><span class="n">x_step</span><span class="p">,</span> <span class="n">syn1</span><span class="p">,</span> <span class="n">mem1</span><span class="p">)</span>
+            <span class="n">spk2</span><span class="p">,</span> <span class="n">syn2</span><span class="p">,</span> <span class="n">mem2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sclstm2</span><span class="p">(</span><span class="n">spk1</span><span class="p">,</span> <span class="n">syn2</span><span class="p">,</span> <span class="n">mem2</span><span class="p">)</span>
+            <span class="n">cur</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc1</span><span class="p">(</span><span class="n">spk2</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+            <span class="n">spk3</span><span class="p">,</span> <span class="n">mem3</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lif1</span><span class="p">(</span><span class="n">cur</span><span class="p">,</span> <span class="n">mem3</span><span class="p">)</span>
+
+            <span class="n">spk3_rec</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">spk3</span><span class="p">)</span>
+            <span class="n">mem3_rec</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mem3</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">spk3_rec</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">mem3_rec</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>in_channels</strong> (<em>int</em>) – количество входных каналов</p></li>
+<li><p><strong>kernel_size</strong> (<em>int</em><em>, </em><em>tuple</em><em>, или </em><em>list</em>) – Размер сверточного ядра</p></li>
+<li><p><strong>bias</strong> (<em>bool</em><em>, </em><em>необязательный</em>) – Если <cite>True</cite>, добавляет обучаемое смещение к выходу. По умолчанию
+<cite>True</cite></p></li>
+<li><p><strong>max_pool</strong> (<em>int</em><em>, </em><em>tuple</em><em>, или </em><em>list</em><em>, </em><em>необязательный</em>) – Применяет максимальное объединение к скрытому состоянию <span class="math notranslate nohighlight">\(mem\)</span>
+до пороговой обработки, если указано. По умолчанию 0</p></li>
+<li><p><strong>avg_pool</strong> (<em>int</em><em>, </em><em>tuple</em><em>, или </em><em>list</em><em>, </em><em>необязательный</em>) – Применяет среднее объединение к скрытому состоянию <span class="math notranslate nohighlight">\(mem\)</span>
+до пороговой обработки, если указано. По умолчанию 0</p></li>
+<li><p><strong>порог</strong> (<em>float</em><em>, </em><em>необязательный</em>) – Порог для <span class="math notranslate nohighlight">\(mem\)</span> достижения для
+генерации спайка <cite>S=1</cite>. По умолчанию 1</p></li>
+<li><p><strong>spike_grad</strong> (<em>функция суррогатного градиента из snntorch.surrogate</em><em>,
+</em><em>необязательный</em>) – Суррогатный градиент для члена dS/dU. По умолчанию\nсуррогатный градиент ATan</p></li>
+<li><p><strong>surrogate_disable</strong> (<em>bool</em><em>, </em><em>Optional</em>) – Отключает суррогатные градиенты независимо от
+<cite>spike_grad</cite> аргумента. Полезно для совместимости с ONNX. По умолчанию
+False</p></li>
+<li><p><strong>learn_threshold</strong> (<em>bool</em><em>, </em><em>необязательный</em>) – Опция для включения обучаемого порога. По умолчанию
+False</p></li>
+<li><p><strong>init_hidden</strong> (<em>bool</em><em>, </em><em>необязательный</em>) – Создает переменные состояния как переменные экземпляра.
+По умолчанию False</p></li>
+<li><p><strong>inhibition</strong> (<em>bool</em><em>, </em><em>необязательный</em>) – Если <cite>True</cite>, подавляет все спайки, кроме
+нейрона с наивысшим состоянием. По умолчанию False</p></li>
+<li><p><strong>reset_mechanism</strong> (<em>str</em><em>, </em><em>необязательный</em>) – Определяет механизм сброса, применяемый к     <span class="math notranslate nohighlight">\(mem\)</span> каждый раз при достижении порога. Сброс вычитанием:         “subtract”, сброс до нуля: “zero, none: “none”. По умолчанию “none”</p></li>
+<li><p><strong>state_quant</strong> (<em>функция квантования из snntorch.quant</em><em>, </em><em>необязательный</em>) – Если указано, скрытые состояния <span class="math notranslate nohighlight">\(mem\)</span> и     <span class="math notranslate nohighlight">\(syn\)</span> квантуются в допустимое состояние для прямого прохода.         По умолчанию False</p></li>
+<li><p><strong>выход</strong> (<em>bool</em><em>, </em><em>необязательный</em>) – Если <cite>True</cite> а также <cite>init_hidden=True</cite>, состояния возвращаются
+при вызове нейрона. По умолчанию False</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Inputs: input_, syn_0, mem_0</dt><dd><ul class="simple">
+<li><p><strong>input_</strong> формы <cite>(batch, in_channels, H, W)</cite>: tensor         содержащий входные признаки</p></li>
+<li><p><strong>syn_0</strong> формы <cite>(batch, out_channels, H, W)</cite>: tensor         содержащий начальный синаптический ток (или состояние ячейки) для каждого         элемента в батче.</p></li>
+<li><p><strong>mem_0</strong> формы <cite>(batch, out_channels, H, W)</cite>: tensor         содержащий начальный мембранный потенциал (или скрытое состояние) для каждого         элемента в батче.</p></li>
+</ul>
+</dd>
+<dt>Outputs: spk, syn_1, mem_1</dt><dd><ul class="simple">
+<li><p><strong>spk</strong> формы <cite>(batch, out_channels, H/pool, W/pool)</cite>: tensor         содержащий выходной спайк (avg_pool и max_pool масштабируют, если значение больше         0.)</p></li>
+<li><p><strong>syn_1</strong> формы <cite>(batch, out_channels, H, W)</cite>: tensor         содержащий следующий синаптический ток (или состояние ячейки) для каждого элемента         в батче</p></li>
+<li><p><strong>mem_1</strong> формы <cite>(batch, out_channels, H, W)</cite>: tensor         содержащий следующий мембранный потенциал (или скрытое состояние) для каждого элемента         в батче</p></li>
+</ul>
+</dd>
+<dt>Обучаемые параметры:</dt><dd><ul class="simple">
+<li><p><strong>SConv2dLSTM.conv.weight</strong> (torch.Tensor) - обучаемые веса, формы ((in_channels + out_channels), 4*out_channels,         kernel_size).</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="snntorch._neurons.sconv2dlstm.SConv2dLSTM.detach_hidden">
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">detach_hidden</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/_neurons/sconv2dlstm.html#SConv2dLSTM.detach_hidden"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snn.neurons_sconvlstm.html#snntorch._neurons.sconv2dlstm.SConv2dLSTM.detach_hidden" title="Link to this definition"></a></dt>
+<dd><p>Возвращает скрытые состояния, отделённые от текущего графа.
+Предназначено для использования в усечённом обратном распространении во времени, где
+скрытые состояния являются переменными экземпляра.</p>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="snntorch._neurons.sconv2dlstm.SConv2dLSTM.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">syn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mem</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/_neurons/sconv2dlstm.html#SConv2dLSTM.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snn.neurons_sconvlstm.html#snntorch._neurons.sconv2dlstm.SConv2dLSTM.forward" title="Link to this definition"></a></dt>
+<dd><p>Определяет вычисления, выполняемые при каждом вызове.</p>
+<p>Должен быть переопределен всеми подклассами.</p>
+<div class="admonition note">
+<p class="admonition-title">Примечание</p>
+<p>Хотя рецепт прямого прохода должен быть определен внутри
+этой функции, следует вызывать <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> экземпляр после этого
+вместо этой, так как первая заботится о запуске
+зарегистрированных хуков, в то время как последняя молча их игнорирует.</p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="snntorch._neurons.sconv2dlstm.SConv2dLSTM.init_sconv2dlstm">
+<span class="sig-name descname"><span class="pre">init_sconv2dlstm</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/_neurons/sconv2dlstm.html#SConv2dLSTM.init_sconv2dlstm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snn.neurons_sconvlstm.html#snntorch._neurons.sconv2dlstm.SConv2dLSTM.init_sconv2dlstm" title="Link to this definition"></a></dt>
+<dd><p>Устарело, используйте <a class="reference internal" href="snn.neurons_sconvlstm.html#snntorch._neurons.sconv2dlstm.SConv2dLSTM.reset_mem" title="snntorch._neurons.sconv2dlstm.SConv2dLSTM.reset_mem"><code class="xref py py-class docutils literal notranslate"><span class="pre">SConv2dLSTM.reset_mem</span></code></a> вместо</p>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="snntorch._neurons.sconv2dlstm.SConv2dLSTM.reset_hidden">
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">reset_hidden</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/_neurons/sconv2dlstm.html#SConv2dLSTM.reset_hidden"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snn.neurons_sconvlstm.html#snntorch._neurons.sconv2dlstm.SConv2dLSTM.reset_hidden" title="Link to this definition"></a></dt>
+<dd><p>Используется для обнуления переменных скрытого состояния.\nПредназначен для использования, когда переменные скрытого состояния являются\nпеременными экземпляра.</p>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="snntorch._neurons.sconv2dlstm.SConv2dLSTM.reset_mem">
+<span class="sig-name descname"><span class="pre">reset_mem</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/snntorch/_neurons/sconv2dlstm.html#SConv2dLSTM.reset_mem"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snn.neurons_sconvlstm.html#snntorch._neurons.sconv2dlstm.SConv2dLSTM.reset_mem" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+</dd></dl>
+</section>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="snn.neurons_rsynaptic.html" rel="prev" title="snn.RSynaptic"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="snn.neurons_slstm.html" rel="next" title="snn.SLSTM">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright 2021, Jason K. Eshraghian.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html class="writer-html5" data-content_root="./" lang="ru">
+<head>
+<meta charset="utf-8"/>
+<meta content="1" name="readthedocs-addons-api-version"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>snntorch.export_nir — snntorch 0.9.4 документация</title>
+<link href="_static/pygments.css%3Fv=03e43079.css" rel="stylesheet" type="text/css"/>
+<link href="_static/css/theme.css%3Fv=9edc463e.css" rel="stylesheet" type="text/css"/>
+<link href="_static/css/default.css" rel="stylesheet" type="text/css"/>
+<script src="_static/jquery.js%3Fv=5d32c60e"></script>
+<script src="_static/_sphinx_javascript_frameworks_compat.js%3Fv=2cd50e6c"></script>
+<script src="_static/documentation_options.js%3Fv=c5ca06ca"></script>
+<script src="_static/doctools.js%3Fv=fd6eb6e6"></script>
+<script src="_static/sphinx_highlight.js%3Fv=6ffebe34"></script>
+<script src="_static/js/theme.js"></script>
+<script src="_static/js/versions.js"></script>
+<link href="genindex.html" rel="index" title="Index"/>
+<link href="search.html" rel="search" title="Search"/>
+<link href="snntorch.functional.html" rel="next" title="snntorch.functional"/>
+<link href="snn.neurons_synaptic.html" rel="prev" title="snn.Synaptic"/>
+<script async="" src="../../_/static/javascript/readthedocs-addons.js" type="text/javascript"></script><meta content="snntorch" name="readthedocs-project-slug"/><meta content="latest" name="readthedocs-version-slug"/><meta content="/snntorch.export_nir.html" name="readthedocs-resolver-filename"/><meta content="200" name="readthedocs-http-status"/></head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="index.html">
+            snntorch
+              <img alt="Logo" class="logo" src="_static/snntorch_alpha_full.png"/>
+</a>
+<div class="switch-menus">
+<div class="version-switch"></div>
+<div class="language-switch"></div>
+</div>
+<div role="search">
+<form action="search.html" class="wy-form" id="rtd-search-form" method="get">
+<input aria-label="Search docs" name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snntorch.html">snntorch</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="snntorch.export_nir.html#">snntorch.export_nir</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="snntorch.export_nir.html#snntorch.export_nir.export_to_nir"><code class="docutils literal notranslate"><span class="pre">export_to_nir()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="snntorch.functional.html">snntorch.functional</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snntorch.import_nir.html">snntorch.import_nir</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snntorch.spikegen.html">snntorch.spikegen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snntorch.spikeplot.html">snntorch.spikeplot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snntorch.spikevision.html">snntorch.spikevision</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snntorch.surrogate.html">snntorch.surrogate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snntorch.utils.html">snntorch.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">History</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="index.html">snntorch</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a aria-label="Home" class="icon icon-home" href="index.html"></a></li>
+<li class="breadcrumb-item active">snntorch.export_nir</li>
+<li class="wy-breadcrumbs-aside">
+<a href="_sources/snntorch.export_nir.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<div class="admonition note" data-snn-translation="ru"><p><strong>Русский перевод.</strong> Неофициальный перевод актуальной документации snnTorch latest (0.9.4). Оригинал: https://snntorch.readthedocs.io/en/latest/. Документация распространяется по лицензии CC BY-SA 3.0.</p></div><section id="snntorch-export-nir">
+<h1>snntorch.export_nir<a class="headerlink" href="snntorch.export_nir.html#snntorch-export-nir" title="Link to this heading"></a></h1>
+<p><a class="reference internal" href="snntorch.export_nir.html#module-snntorch.export_nir" title="snntorch.export_nir"><code class="xref py py-mod docutils literal notranslate"><span class="pre">snntorch.export_nir</span></code></a> модуль, который обеспечивает кросс-совместимость с другими библиотеками SNN путем преобразования моделей snnTorch в <a class="reference external" href="https://neuroir.org/docs/">нейроморфное промежуточное представление (NIR)</a>
+и теперь поддерживает экспорт рекуррентных слоев, таких как <code class="xref py py-class docutils literal notranslate"><span class="pre">snntorch.RLeaky</span></code> и <code class="xref py py-class docutils literal notranslate"><span class="pre">snntorch.RSynaptic</span></code>.</p>
+<dl class="py function" id="module-snntorch.export_nir">
+<dt class="sig sig-object py" id="snntorch.export_nir.export_to_nir">
+<span class="sig-prename descclassname"><span class="pre">snntorch.export_nir.</span></span><span class="sig-name descname"><span class="pre">export_to_nir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'snntorch'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_fwd_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore_dims</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">NIRNode</span></span></span><a class="reference internal" href="_modules/snntorch/export_nir.html#export_to_nir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="snntorch.export_nir.html#snntorch.export_nir.export_to_nir" title="Link to this definition"></a></dt>
+<dd><p>Преобразование модуля snnTorch в нейроморфное промежуточное представление (NIR).
+Эта функция использует nirtorch для извлечения вычислительного графа модуля torch,
+а метод _extract_snntorch_module используется для преобразования каждого модуля в графе
+в соответствующий модуль NIR.</p>
+<p>NIR — это графовое представление импульсной нейронной сети, которое можно использовать для
+переноса сети на различные нейроморфные аппаратные и программные платформы.</p>
+<p>Пример:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">snntorch</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">snn</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">snntorch.export_nir</span><span class="w"> </span><span class="kn">import</span> <span class="n">export_to_nir</span>
+
+<span class="n">lif1</span> <span class="o">=</span> <span class="n">snn</span><span class="o">.</span><span class="n">Leaky</span><span class="p">(</span><span class="n">beta</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">init_hidden</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">lif2</span> <span class="o">=</span> <span class="n">snn</span><span class="o">.</span><span class="n">Leaky</span><span class="p">(</span><span class="n">beta</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">init_hidden</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">net</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Flatten</span><span class="p">(),</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">784</span><span class="p">,</span> <span class="mi">500</span><span class="p">),</span>
+    <span class="n">lif1</span><span class="p">,</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span>
+    <span class="n">lif2</span>
+<span class="p">)</span>
+
+<span class="n">sample_data</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">784</span><span class="p">)</span>
+<span class="n">nir_graph</span> <span class="o">=</span> <span class="n">export_to_nir</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">sample_data</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>модуль</strong> (<em>torch.nn.Module</em>) – Модель сети (обернутая в контейнер Sequential или в виде класса)</p></li>
+<li><p><strong>sample_data</strong> (<em>torch.Tensor</em>) – Пример входных данных для сети</p></li>
+<li><p><strong>model_name</strong> (<em>str</em><em>, </em><em>необязательный</em>) – Имя модели</p></li>
+<li><p><strong>model_fwd_args</strong> (<em>list</em><em>, </em><em>необязательный</em>) – Аргументы, передаваемые функции forward модели</p></li>
+<li><p><strong>ignore_dims</strong> (<em>list</em><em>, </em><em>необязательный</em>) – Список размерностей, игнорируемых при извлечении NIR</p></li>
+</ul>
+</dd>
+<dt class="field-even">Возвращает<span class="colon">:</span></dt>
+<dd class="field-even"><p>возвращает граф NIR</p>
+</dd>
+<dt class="field-odd">Тип возврата<span class="colon">:</span></dt>
+<dd class="field-odd"><p>nir.NIRNode</p>
+</dd>
+</dl>
+</dd></dl>
+</section>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="snn.neurons_synaptic.html" rel="prev" title="snn.Synaptic"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="snntorch.functional.html" rel="next" title="snntorch.functional">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright 2021, Jason K. Eshraghian.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

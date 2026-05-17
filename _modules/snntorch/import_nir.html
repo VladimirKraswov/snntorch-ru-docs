@@ -1,0 +1,647 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="readthedocs-addons-api-version" content="1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>snntorch.import_nir &mdash; snntorch 0.9.4 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css%3Fv=03e43079.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css%3Fv=9edc463e.css" />
+      <link rel="stylesheet" href="../../_static/css/default.css" type="text/css" />
+
+  
+      <script src="../../_static/jquery.js%3Fv=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js%3Fv=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js%3Fv=c5ca06ca"></script>
+      <script src="../../_static/doctools.js%3Fv=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js%3Fv=6ffebe34"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <script src="../../_static/js/versions.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+<script async type="text/javascript" src="../../../../_/static/javascript/readthedocs-addons.js"></script><meta name="readthedocs-project-slug" content="snntorch" /><meta name="readthedocs-version-slug" content="latest" /><meta name="readthedocs-resolver-filename" content="/_modules/snntorch/import_nir.html" /><meta name="readthedocs-http-status" content="200" /></head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            snntorch
+              <img src="../../_static/snntorch_alpha_full.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="switch-menus">
+                <div class="version-switch"></div>
+                <div class="language-switch"></div>
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../snntorch.html">snntorch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../snntorch.export_nir.html">snntorch.export_nir</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../snntorch.functional.html">snntorch.functional</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../snntorch.import_nir.html">snntorch.import_nir</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../snntorch.spikegen.html">snntorch.spikegen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../snntorch.spikeplot.html">snntorch.spikeplot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../snntorch.spikevision.html">snntorch.spikevision</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../snntorch.surrogate.html">snntorch.surrogate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../snntorch.utils.html">snntorch.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../history.html">History</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">snntorch</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">snntorch.import_nir</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for snntorch.import_nir</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">nir</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">nirtorch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">snntorch</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">snn</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_create_rnn_subgraph</span><span class="p">(</span>
+    <span class="n">graph</span><span class="p">:</span> <span class="n">nir</span><span class="o">.</span><span class="n">NIRGraph</span><span class="p">,</span> <span class="n">lif_nk</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">w_nk</span><span class="p">:</span> <span class="nb">str</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">nir</span><span class="o">.</span><span class="n">NIRGraph</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Take a NIRGraph plus the node keys for a LIF and a W_rec, and return a new NIRGraph</span>
+<span class="sd">    which has the RNN subgraph replaced with a subgraph (i.e., a single NIRGraph node).</span>
+
+<span class="sd">    The subgraph will have the following structure:</span>
+<span class="sd">    ```</span>
+<span class="sd">    LIF -&gt; W_rec -&gt; LIF</span>
+<span class="sd">    ^             |</span>
+<span class="sd">    |             v</span>
+<span class="sd">    Input         Output</span>
+<span class="sd">    ```</span>
+
+<span class="sd">    :param graph: NIRGraph</span>
+<span class="sd">    :type graph: nir.NIRGraph</span>
+
+<span class="sd">    :param lif_nk: key for the LIF node</span>
+<span class="sd">    :type lif_nk: str</span>
+
+<span class="sd">    :param w_nk: key for the W_rec node</span>
+<span class="sd">    :type w_nk: str</span>
+
+<span class="sd">    :return: NIRGraph with the RNN subgraph replaced with a single NIRGraph node</span>
+<span class="sd">    :rtype: nir.NIRGraph</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># NOTE: assuming that the LIF and W_rec have keys of form xyz.abc</span>
+    <span class="n">sg_key</span> <span class="o">=</span> <span class="n">lif_nk</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># TODO: make this more general?</span>
+
+    <span class="c1"># create subgraph for RNN</span>
+    <span class="n">sg_edges</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="n">lif_nk</span><span class="p">,</span> <span class="n">w_nk</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">w_nk</span><span class="p">,</span> <span class="n">lif_nk</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">lif_nk</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">sg_key</span><span class="si">}</span><span class="s2">.output&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">sg_key</span><span class="si">}</span><span class="s2">.input&quot;</span><span class="p">,</span> <span class="n">w_nk</span><span class="p">),</span>
+    <span class="p">]</span>
+    <span class="n">sg_nodes</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">lif_nk</span><span class="p">:</span> <span class="n">graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">lif_nk</span><span class="p">],</span>
+        <span class="n">w_nk</span><span class="p">:</span> <span class="n">graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">w_nk</span><span class="p">],</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">sg_key</span><span class="si">}</span><span class="s2">.input&quot;</span><span class="p">:</span> <span class="n">nir</span><span class="o">.</span><span class="n">Input</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">lif_nk</span><span class="p">]</span><span class="o">.</span><span class="n">input_type</span><span class="p">),</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">sg_key</span><span class="si">}</span><span class="s2">.output&quot;</span><span class="p">:</span> <span class="n">nir</span><span class="o">.</span><span class="n">Output</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">lif_nk</span><span class="p">]</span><span class="o">.</span><span class="n">output_type</span><span class="p">),</span>
+    <span class="p">}</span>
+    <span class="n">sg</span> <span class="o">=</span> <span class="n">nir</span><span class="o">.</span><span class="n">NIRGraph</span><span class="p">(</span><span class="n">nodes</span><span class="o">=</span><span class="n">sg_nodes</span><span class="p">,</span> <span class="n">edges</span><span class="o">=</span><span class="n">sg_edges</span><span class="p">)</span>
+
+    <span class="c1"># remove subgraph edges from graph</span>
+    <span class="n">graph</span><span class="o">.</span><span class="n">edges</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">e</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">graph</span><span class="o">.</span><span class="n">edges</span> <span class="k">if</span> <span class="n">e</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[(</span><span class="n">lif_nk</span><span class="p">,</span> <span class="n">w_nk</span><span class="p">),</span> <span class="p">(</span><span class="n">w_nk</span><span class="p">,</span> <span class="n">lif_nk</span><span class="p">)]</span>
+    <span class="p">]</span>
+    <span class="c1"># remove subgraph nodes from graph</span>
+    <span class="n">graph</span><span class="o">.</span><span class="n">nodes</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">graph</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="n">lif_nk</span><span class="p">,</span> <span class="n">w_nk</span><span class="p">]</span>
+    <span class="p">}</span>
+
+    <span class="c1"># change edges of type (x, lif_nk) to (x, sg_key)</span>
+    <span class="n">graph</span><span class="o">.</span><span class="n">edges</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="n">e</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">sg_key</span><span class="p">)</span> <span class="k">if</span> <span class="n">e</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">lif_nk</span> <span class="k">else</span> <span class="n">e</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">graph</span><span class="o">.</span><span class="n">edges</span>
+    <span class="p">]</span>
+    <span class="c1"># change edges of type (lif_nk, x) to (sg_key, x)</span>
+    <span class="n">graph</span><span class="o">.</span><span class="n">edges</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="n">sg_key</span><span class="p">,</span> <span class="n">e</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">if</span> <span class="n">e</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">lif_nk</span> <span class="k">else</span> <span class="n">e</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">graph</span><span class="o">.</span><span class="n">edges</span>
+    <span class="p">]</span>
+
+    <span class="c1"># insert subgraph into graph and return</span>
+    <span class="n">graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">sg_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">sg</span>
+    <span class="k">return</span> <span class="n">graph</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_replace_rnn_subgraph_with_nirgraph</span><span class="p">(</span><span class="n">graph</span><span class="p">:</span> <span class="n">nir</span><span class="o">.</span><span class="n">NIRGraph</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">nir</span><span class="o">.</span><span class="n">NIRGraph</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Take a NIRGraph and replace any RNN subgraphs with a single NIRGraph node.</span>
+<span class="sd">    Goes through the NIRGraph to find any RNN subgraphs, and replaces them with a single NIRGraph node,</span>
+<span class="sd">    using the _create_rnn_subgraph function.</span>
+
+<span class="sd">    :param graph: NIRGraph</span>
+<span class="sd">    :type graph: nir.NIRGraph</span>
+
+<span class="sd">    :return: NIRGraph with RNN subgraphs replaced with a single NIRGraph node</span>
+<span class="sd">    :rtype: nir.NIRGraph</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;replace rnn subgraph with nirgraph&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">edges</span><span class="p">))</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">edges</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[WARNING] duplicate edges found, removing&quot;</span><span class="p">)</span>
+        <span class="n">graph</span><span class="o">.</span><span class="n">edges</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">edges</span><span class="p">))</span>
+
+    <span class="c1"># find cycle of LIF &lt;&gt; Dense nodes</span>
+    <span class="k">for</span> <span class="n">edge1</span> <span class="ow">in</span> <span class="n">graph</span><span class="o">.</span><span class="n">edges</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">edge2</span> <span class="ow">in</span> <span class="n">graph</span><span class="o">.</span><span class="n">edges</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">edge1</span> <span class="o">==</span> <span class="n">edge2</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">edge1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">edge2</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">and</span> <span class="n">edge1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">edge2</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+                    <span class="n">lif_nk</span> <span class="o">=</span> <span class="n">edge1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="n">lif_n</span> <span class="o">=</span> <span class="n">graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">lif_nk</span><span class="p">]</span>
+                    <span class="n">w_nk</span> <span class="o">=</span> <span class="n">edge1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                    <span class="n">w_n</span> <span class="o">=</span> <span class="n">graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">w_nk</span><span class="p">]</span>
+                    <span class="n">is_lif</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lif_n</span><span class="p">,</span> <span class="p">(</span><span class="n">nir</span><span class="o">.</span><span class="n">LIF</span><span class="p">,</span> <span class="n">nir</span><span class="o">.</span><span class="n">CubaLIF</span><span class="p">))</span>
+                    <span class="n">is_dense</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">w_n</span><span class="p">,</span> <span class="p">(</span><span class="n">nir</span><span class="o">.</span><span class="n">Affine</span><span class="p">,</span> <span class="n">nir</span><span class="o">.</span><span class="n">Linear</span><span class="p">))</span>
+                    <span class="c1"># check if the dense only connects to the LIF</span>
+                    <span class="n">w_out_nk</span> <span class="o">=</span> <span class="p">[</span><span class="n">e</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">graph</span><span class="o">.</span><span class="n">edges</span> <span class="k">if</span> <span class="n">e</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">w_nk</span><span class="p">]</span>
+                    <span class="n">w_in_nk</span> <span class="o">=</span> <span class="p">[</span><span class="n">e</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">graph</span><span class="o">.</span><span class="n">edges</span> <span class="k">if</span> <span class="n">e</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">w_nk</span><span class="p">]</span>
+                    <span class="n">is_rnn</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">w_out_nk</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">w_in_nk</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+                    <span class="c1"># check if we found an RNN - if so, then parse it</span>
+                    <span class="k">if</span> <span class="n">is_rnn</span> <span class="ow">and</span> <span class="n">is_lif</span> <span class="ow">and</span> <span class="n">is_dense</span><span class="p">:</span>
+                        <span class="n">graph</span> <span class="o">=</span> <span class="n">_create_rnn_subgraph</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">edge1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">edge1</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">graph</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_parse_rnn_subgraph</span><span class="p">(</span><span class="n">graph</span><span class="p">:</span> <span class="n">nir</span><span class="o">.</span><span class="n">NIRGraph</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">nir</span><span class="o">.</span><span class="n">NIRNode</span><span class="p">,</span> <span class="n">nir</span><span class="o">.</span><span class="n">NIRNode</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>  <span class="c1"># type: ignore</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Try parsing the presented graph as a RNN subgraph. Assumes the graph is a valid RNN subgraph</span>
+<span class="sd">    with four nodes in the following structure:</span>
+
+<span class="sd">    ```</span>
+<span class="sd">    Input -&gt; LIF | CubaLIF -&gt; Output</span>
+<span class="sd">                ^</span>
+<span class="sd">                |</span>
+<span class="sd">                v</span>
+<span class="sd">             Affine | Linear</span>
+<span class="sd">    ```</span>
+
+<span class="sd">    :param graph: NIRGraph</span>
+<span class="sd">    :type graph: nir.NIRGraph</span>
+
+<span class="sd">    :return: LIF | CubaLIF node</span>
+<span class="sd">    :rtype: nir.NIRNode</span>
+
+<span class="sd">    :return: Affine | Linear node</span>
+<span class="sd">    :rtype: nir.NIRNode</span>
+
+<span class="sd">    :return: int, number of neurons in the RNN</span>
+<span class="sd">    :rtype: int</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sub_nodes</span> <span class="o">=</span> <span class="n">graph</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">sub_nodes</span><span class="p">)</span> <span class="o">==</span> <span class="mi">4</span><span class="p">,</span> <span class="s2">&quot;only 4-node RNN allowed in subgraph&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">input_node</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">sub_nodes</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">nir</span><span class="o">.</span><span class="n">Input</span><span class="p">)][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">output_node</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">sub_nodes</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">nir</span><span class="o">.</span><span class="n">Output</span><span class="p">)][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">lif_node</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">n</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">sub_nodes</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="p">(</span><span class="n">nir</span><span class="o">.</span><span class="n">LIF</span><span class="p">,</span> <span class="n">nir</span><span class="o">.</span><span class="n">CubaLIF</span><span class="p">))</span>
+        <span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">wrec_node</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">n</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">sub_nodes</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="p">(</span><span class="n">nir</span><span class="o">.</span><span class="n">Affine</span><span class="p">,</span> <span class="n">nir</span><span class="o">.</span><span class="n">Linear</span><span class="p">))</span>
+        <span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;invalid RNN subgraph - could not find all required nodes&quot;</span>
+        <span class="p">)</span>
+    <span class="n">lif_size</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">input_node</span><span class="o">.</span><span class="n">input_type</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">assert</span> <span class="p">(</span>
+        <span class="n">lif_size</span> <span class="o">==</span> <span class="nb">list</span><span class="p">(</span><span class="n">output_node</span><span class="o">.</span><span class="n">output_type</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="p">),</span> <span class="s2">&quot;output size mismatch&quot;</span>
+    <span class="k">assert</span> <span class="p">(</span>
+        <span class="n">lif_size</span> <span class="o">==</span> <span class="n">lif_node</span><span class="o">.</span><span class="n">v_threshold</span><span class="o">.</span><span class="n">size</span>
+    <span class="p">),</span> <span class="s2">&quot;lif size mismatch (v_threshold)&quot;</span>
+    <span class="k">assert</span> <span class="n">lif_size</span> <span class="o">==</span> <span class="n">wrec_node</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;w_rec shape mismatch&quot;</span>
+    <span class="k">assert</span> <span class="n">lif_size</span> <span class="o">==</span> <span class="n">wrec_node</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;w_rec shape mismatch&quot;</span>
+
+    <span class="k">return</span> <span class="n">lif_node</span><span class="p">,</span> <span class="n">wrec_node</span><span class="p">,</span> <span class="n">lif_size</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_nir_to_snntorch_module</span><span class="p">(</span>
+    <span class="n">node</span><span class="p">:</span> <span class="n">nir</span><span class="o">.</span><span class="n">NIRNode</span><span class="p">,</span> <span class="n">hack_w_scale</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">init_hidden</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert a NIR node to a snnTorch module. This function is used by the import_from_nir function.</span>
+
+<span class="sd">    :param node: NIR node</span>
+<span class="sd">    :type node: nir.NIRNode</span>
+
+<span class="sd">    :param hack_w_scale: if True, then the function will attempt to scale the weights to avoid scaling the inputs</span>
+<span class="sd">    :type hack_w_scale: bool</span>
+
+<span class="sd">    :param init_hidden: the init_hidden flag of the snnTorch neuron.</span>
+<span class="sd">    :type init_hidden: bool</span>
+
+<span class="sd">    :return: snnTorch module</span>
+<span class="sd">    :rtype: torch.nn.Module</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">nir</span><span class="o">.</span><span class="n">Input</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">nir</span><span class="o">.</span><span class="n">Output</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">nir</span><span class="o">.</span><span class="n">Affine</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="n">node</span><span class="o">.</span><span class="n">bias</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;bias must be specified for Affine layer&quot;</span>
+
+        <span class="n">mod</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">node</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">mod</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">weight</span><span class="p">)</span>
+        <span class="n">mod</span><span class="o">.</span><span class="n">bias</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">bias</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">mod</span>
+
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">nir</span><span class="o">.</span><span class="n">Linear</span><span class="p">):</span>
+        <span class="n">mod</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span>
+            <span class="n">node</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">node</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span>
+        <span class="p">)</span>
+        <span class="n">mod</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">weight</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">mod</span>
+
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">nir</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">):</span>
+        <span class="n">mod</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span>
+            <span class="n">node</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+            <span class="n">node</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="n">kernel_size</span><span class="o">=</span><span class="p">[</span><span class="o">*</span><span class="n">node</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">:]],</span>
+            <span class="n">stride</span><span class="o">=</span><span class="n">node</span><span class="o">.</span><span class="n">stride</span><span class="p">,</span>
+            <span class="n">padding</span><span class="o">=</span><span class="n">node</span><span class="o">.</span><span class="n">padding</span><span class="p">,</span>
+            <span class="n">dilation</span><span class="o">=</span><span class="n">node</span><span class="o">.</span><span class="n">dilation</span><span class="p">,</span>
+            <span class="n">groups</span><span class="o">=</span><span class="n">node</span><span class="o">.</span><span class="n">groups</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">mod</span><span class="o">.</span><span class="n">bias</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">bias</span><span class="p">)</span>
+        <span class="n">mod</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">weight</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">mod</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">nir</span><span class="o">.</span><span class="n">Flatten</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Flatten</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">start_dim</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">end_dim</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">nir</span><span class="o">.</span><span class="n">AvgPool2d</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">AvgPool2d</span><span class="p">(</span>
+            <span class="n">kernel_size</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">kernel_size</span><span class="p">),</span>
+            <span class="n">stride</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">stride</span><span class="p">),</span>
+            <span class="n">padding</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">padding</span><span class="p">),</span>
+           <span class="c1"># divisor_override=1,</span>
+        <span class="p">)</span>
+
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">nir</span><span class="o">.</span><span class="n">IF</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">v_threshold</span><span class="p">)</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">1</span>
+        <span class="p">),</span> <span class="s2">&quot;v_threshold must be same for all neurons&quot;</span>
+        <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">r</span><span class="p">)</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;r must be same for all neurons&quot;</span>
+        <span class="n">vthr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">v_threshold</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">r</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">assert</span> <span class="n">r</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;r != 1 not supported&quot;</span>
+        <span class="n">mod</span> <span class="o">=</span> <span class="n">snn</span><span class="o">.</span><span class="n">Leaky</span><span class="p">(</span>
+            <span class="n">beta</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span>
+            <span class="n">threshold</span><span class="o">=</span><span class="n">vthr</span> <span class="o">*</span> <span class="n">r</span><span class="p">,</span>
+            <span class="n">init_hidden</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">reset_delay</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">mod</span>
+
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">nir</span><span class="o">.</span><span class="n">LIF</span><span class="p">):</span>
+        <span class="n">dt</span> <span class="o">=</span> <span class="mf">1e-4</span>
+
+        <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">v_leak</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="s2">&quot;v_leak not supported&quot;</span>
+        <span class="k">assert</span> <span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">v_threshold</span><span class="p">)</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">1</span>
+        <span class="p">),</span> <span class="s2">&quot;v_threshold must be same for all neurons&quot;</span>
+
+        <span class="n">beta</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="n">dt</span> <span class="o">/</span> <span class="n">node</span><span class="o">.</span><span class="n">tau</span><span class="p">)</span>
+        <span class="n">vthr</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">v_threshold</span>
+        <span class="n">w_scale</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">r</span> <span class="o">*</span> <span class="n">dt</span> <span class="o">/</span> <span class="n">node</span><span class="o">.</span><span class="n">tau</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">w_scale</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">hack_w_scale</span><span class="p">:</span>
+                <span class="n">vthr</span> <span class="o">=</span> <span class="n">vthr</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">w_scale</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[warning] scaling weights to avoid scaling inputs&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;w_scale: </span><span class="si">{</span><span class="n">w_scale</span><span class="si">}</span><span class="s2">, r: </span><span class="si">{</span><span class="n">node</span><span class="o">.</span><span class="n">r</span><span class="si">}</span><span class="s2">, dt: </span><span class="si">{</span><span class="n">dt</span><span class="si">}</span><span class="s2">, tau: </span><span class="si">{</span><span class="n">node</span><span class="o">.</span><span class="n">tau</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+                    <span class="s2">&quot;w_scale must be 1, or the same for all neurons&quot;</span>
+                <span class="p">)</span>
+
+        <span class="k">assert</span> <span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">vthr</span><span class="p">)</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">1</span>
+        <span class="p">),</span> <span class="s2">&quot;LIF v_thr must be same for all neurons&quot;</span>
+
+        <span class="k">return</span> <span class="n">snn</span><span class="o">.</span><span class="n">Leaky</span><span class="p">(</span>
+            <span class="n">beta</span><span class="o">=</span><span class="n">beta</span><span class="p">,</span>
+            <span class="n">threshold</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">vthr</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="n">reset_mechanism</span><span class="o">=</span><span class="s2">&quot;zero&quot;</span><span class="p">,</span>
+            <span class="n">init_hidden</span><span class="o">=</span><span class="n">init_hidden</span><span class="p">,</span>
+            <span class="n">reset_delay</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">nir</span><span class="o">.</span><span class="n">CubaLIF</span><span class="p">):</span>
+        <span class="n">dt</span> <span class="o">=</span> <span class="mf">1e-4</span>
+
+        <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">v_leak</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="s2">&quot;v_leak not supported&quot;</span>
+        <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span>
+            <span class="n">node</span><span class="o">.</span><span class="n">r</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">tau_mem</span> <span class="o">/</span> <span class="n">dt</span>
+        <span class="p">),</span> <span class="s2">&quot;r not supported in CubaLIF&quot;</span>
+
+        <span class="n">alpha</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="n">dt</span> <span class="o">/</span> <span class="n">node</span><span class="o">.</span><span class="n">tau_syn</span><span class="p">)</span>
+        <span class="n">beta</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="n">dt</span> <span class="o">/</span> <span class="n">node</span><span class="o">.</span><span class="n">tau_mem</span><span class="p">)</span>
+        <span class="n">vthr</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">v_threshold</span>
+        <span class="n">w_scale</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">w_in</span> <span class="o">*</span> <span class="p">(</span><span class="n">dt</span> <span class="o">/</span> <span class="n">node</span><span class="o">.</span><span class="n">tau_syn</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">w_scale</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">hack_w_scale</span><span class="p">:</span>
+                <span class="n">vthr</span> <span class="o">=</span> <span class="n">vthr</span> <span class="o">/</span> <span class="n">w_scale</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[warning] scaling weights to avoid scaling inputs&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;w_scale: </span><span class="si">{</span><span class="n">w_scale</span><span class="si">}</span><span class="s2">, w_in: </span><span class="si">{</span><span class="n">node</span><span class="o">.</span><span class="n">w_in</span><span class="si">}</span><span class="s2">, dt: </span><span class="si">{</span><span class="n">dt</span><span class="si">}</span><span class="s2">, tau_syn: </span><span class="si">{</span><span class="n">node</span><span class="o">.</span><span class="n">tau_syn</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+                    <span class="s2">&quot;w_scale must be 1, or the same for all neurons&quot;</span>
+                <span class="p">)</span>
+
+        <span class="k">assert</span> <span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">vthr</span><span class="p">)</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">1</span>
+        <span class="p">),</span> <span class="s2">&quot;CubaLIF v_thr must be same for all neurons&quot;</span>
+
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">alpha</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">alpha</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">beta</span><span class="p">)</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">beta</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">beta</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+
+        <span class="k">return</span> <span class="n">snn</span><span class="o">.</span><span class="n">Synaptic</span><span class="p">(</span>
+            <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span>
+            <span class="n">beta</span><span class="o">=</span><span class="n">beta</span><span class="p">,</span>
+            <span class="n">threshold</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">vthr</span><span class="p">)[</span><span class="mi">0</span><span class="p">]),</span>
+            <span class="n">reset_mechanism</span><span class="o">=</span><span class="s2">&quot;zero&quot;</span><span class="p">,</span>
+            <span class="n">init_hidden</span><span class="o">=</span><span class="n">init_hidden</span><span class="p">,</span>
+            <span class="n">reset_delay</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">nir</span><span class="o">.</span><span class="n">NIRGraph</span><span class="p">):</span>
+        <span class="n">lif_node</span><span class="p">,</span> <span class="n">wrec_node</span><span class="p">,</span> <span class="n">lif_size</span> <span class="o">=</span> <span class="n">_parse_rnn_subgraph</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lif_node</span><span class="p">,</span> <span class="n">nir</span><span class="o">.</span><span class="n">LIF</span><span class="p">):</span>
+            <span class="n">dt</span> <span class="o">=</span> <span class="mf">1e-4</span>
+
+            <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">lif_node</span><span class="o">.</span><span class="n">v_leak</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="s2">&quot;v_leak not supported&quot;</span>
+            <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">lif_node</span><span class="o">.</span><span class="n">r</span><span class="p">,</span> <span class="n">lif_node</span><span class="o">.</span><span class="n">tau</span> <span class="o">/</span> <span class="n">dt</span><span class="p">),</span> <span class="s2">&quot;r not supported in LIF&quot;</span>
+
+            <span class="n">beta</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="n">dt</span> <span class="o">/</span> <span class="n">lif_node</span><span class="o">.</span><span class="n">tau</span><span class="p">)</span>
+            <span class="n">vthr</span> <span class="o">=</span> <span class="n">lif_node</span><span class="o">.</span><span class="n">v_threshold</span>
+            <span class="n">w_scale</span> <span class="o">=</span> <span class="n">lif_node</span><span class="o">.</span><span class="n">r</span> <span class="o">*</span> <span class="n">dt</span> <span class="o">/</span> <span class="n">lif_node</span><span class="o">.</span><span class="n">tau</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">w_scale</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">hack_w_scale</span><span class="p">:</span>
+                    <span class="n">vthr</span> <span class="o">=</span> <span class="n">vthr</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">w_scale</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="nb">print</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;[warning] scaling weights to avoid scaling inputs. w_scale: </span><span class="si">{</span><span class="n">w_scale</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+                        <span class="s2">&quot;w_scale must be 1, or the same for all neurons&quot;</span>
+                    <span class="p">)</span>
+
+            <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">vthr</span><span class="p">)</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;LIF v_thr must be same for all neurons&quot;</span>
+
+            <span class="n">diagonal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span>
+                <span class="n">wrec_node</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">wrec_node</span><span class="o">.</span><span class="n">weight</span><span class="p">))</span>
+            <span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">beta</span><span class="p">)</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">beta</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">beta</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+
+            <span class="k">if</span> <span class="n">diagonal</span><span class="p">:</span>
+                <span class="n">V</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">wrec_node</span><span class="o">.</span><span class="n">weight</span><span class="p">))</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">V</span> <span class="o">=</span> <span class="kc">None</span>
+
+            <span class="n">rleaky</span> <span class="o">=</span> <span class="n">snn</span><span class="o">.</span><span class="n">RLeaky</span><span class="p">(</span>
+                <span class="n">beta</span><span class="o">=</span><span class="n">beta</span><span class="p">,</span>
+                <span class="n">threshold</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">vthr</span><span class="p">)[</span><span class="mi">0</span><span class="p">]),</span>
+                <span class="n">reset_mechanism</span><span class="o">=</span><span class="s2">&quot;zero&quot;</span><span class="p">,</span>
+                <span class="n">init_hidden</span><span class="o">=</span><span class="n">init_hidden</span><span class="p">,</span>
+                <span class="n">all_to_all</span><span class="o">=</span><span class="ow">not</span> <span class="n">diagonal</span><span class="p">,</span>
+                <span class="n">linear_features</span><span class="o">=</span><span class="n">lif_size</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">diagonal</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="n">V</span><span class="o">=</span><span class="n">V</span> <span class="k">if</span> <span class="n">diagonal</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="n">reset_delay</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">rleaky</span><span class="o">.</span><span class="n">recurrent</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">):</span>
+                <span class="n">rleaky</span><span class="o">.</span><span class="n">recurrent</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">wrec_node</span><span class="o">.</span><span class="n">weight</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">wrec_node</span><span class="p">,</span> <span class="n">nir</span><span class="o">.</span><span class="n">Affine</span><span class="p">):</span>
+                    <span class="n">rleaky</span><span class="o">.</span><span class="n">recurrent</span><span class="o">.</span><span class="n">bias</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">wrec_node</span><span class="o">.</span><span class="n">bias</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">rleaky</span><span class="o">.</span><span class="n">recurrent</span><span class="o">.</span><span class="n">bias</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span>
+                        <span class="n">rleaky</span><span class="o">.</span><span class="n">recurrent</span><span class="o">.</span><span class="n">bias</span>
+                    <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">rleaky</span><span class="o">.</span><span class="n">recurrent</span><span class="o">.</span><span class="n">V</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">diagonal</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">wrec_node</span><span class="o">.</span><span class="n">weight</span><span class="p">))</span>
+
+            <span class="k">return</span> <span class="n">rleaky</span>
+
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lif_node</span><span class="p">,</span> <span class="n">nir</span><span class="o">.</span><span class="n">CubaLIF</span><span class="p">):</span>
+            <span class="n">dt</span> <span class="o">=</span> <span class="mf">1e-4</span>
+
+            <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">lif_node</span><span class="o">.</span><span class="n">v_leak</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="s2">&quot;v_leak not supported&quot;</span>
+            <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span>
+                <span class="n">lif_node</span><span class="o">.</span><span class="n">r</span><span class="p">,</span> <span class="n">lif_node</span><span class="o">.</span><span class="n">tau_mem</span> <span class="o">/</span> <span class="n">dt</span>
+            <span class="p">),</span> <span class="s2">&quot;r not supported in CubaLIF&quot;</span>
+
+            <span class="n">alpha</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="n">dt</span> <span class="o">/</span> <span class="n">lif_node</span><span class="o">.</span><span class="n">tau_syn</span><span class="p">)</span>
+            <span class="n">beta</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="n">dt</span> <span class="o">/</span> <span class="n">lif_node</span><span class="o">.</span><span class="n">tau_mem</span><span class="p">)</span>
+            <span class="n">vthr</span> <span class="o">=</span> <span class="n">lif_node</span><span class="o">.</span><span class="n">v_threshold</span>
+            <span class="n">w_scale</span> <span class="o">=</span> <span class="n">lif_node</span><span class="o">.</span><span class="n">w_in</span> <span class="o">*</span> <span class="p">(</span><span class="n">dt</span> <span class="o">/</span> <span class="n">lif_node</span><span class="o">.</span><span class="n">tau_syn</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">w_scale</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">hack_w_scale</span><span class="p">:</span>
+                    <span class="n">vthr</span> <span class="o">=</span> <span class="n">vthr</span> <span class="o">/</span> <span class="n">w_scale</span>
+                    <span class="nb">print</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;[warning] scaling weights to avoid scaling inputs. w_scale: </span><span class="si">{</span><span class="n">w_scale</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;w_in: </span><span class="si">{</span><span class="n">lif_node</span><span class="o">.</span><span class="n">w_in</span><span class="si">}</span><span class="s2">, dt: </span><span class="si">{</span><span class="n">dt</span><span class="si">}</span><span class="s2">, tau_syn: </span><span class="si">{</span><span class="n">lif_node</span><span class="o">.</span><span class="n">tau_syn</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+                        <span class="s2">&quot;w_scale must be 1, or the same for all neurons&quot;</span>
+                    <span class="p">)</span>
+
+            <span class="k">assert</span> <span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">vthr</span><span class="p">)</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">1</span>
+            <span class="p">),</span> <span class="s2">&quot;CubaLIF v_thr must be same for all neurons&quot;</span>
+
+            <span class="n">diagonal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span>
+                <span class="n">wrec_node</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">wrec_node</span><span class="o">.</span><span class="n">weight</span><span class="p">))</span>
+            <span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">alpha</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">alpha</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">beta</span><span class="p">)</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">beta</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">beta</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+
+            <span class="k">if</span> <span class="n">diagonal</span><span class="p">:</span>
+                <span class="n">V</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">wrec_node</span><span class="o">.</span><span class="n">weight</span><span class="p">))</span><span class="o">.</span><span class="n">to</span><span class="p">(</span>
+                    <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">V</span> <span class="o">=</span> <span class="kc">None</span>
+
+            <span class="n">rsynaptic</span> <span class="o">=</span> <span class="n">snn</span><span class="o">.</span><span class="n">RSynaptic</span><span class="p">(</span>
+                <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span>
+                <span class="n">beta</span><span class="o">=</span><span class="n">beta</span><span class="p">,</span>
+                <span class="n">threshold</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">vthr</span><span class="p">)[</span><span class="mi">0</span><span class="p">]),</span>
+                <span class="n">reset_mechanism</span><span class="o">=</span><span class="s2">&quot;zero&quot;</span><span class="p">,</span>
+                <span class="n">init_hidden</span><span class="o">=</span><span class="n">init_hidden</span><span class="p">,</span>
+                <span class="n">all_to_all</span><span class="o">=</span><span class="ow">not</span> <span class="n">diagonal</span><span class="p">,</span>
+                <span class="n">linear_features</span><span class="o">=</span><span class="n">lif_size</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">diagonal</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="n">V</span><span class="o">=</span><span class="n">V</span> <span class="k">if</span> <span class="n">diagonal</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="n">reset_delay</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">rsynaptic</span><span class="o">.</span><span class="n">recurrent</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">):</span>
+                <span class="n">rsynaptic</span><span class="o">.</span><span class="n">recurrent</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span>
+                    <span class="n">wrec_node</span><span class="o">.</span><span class="n">weight</span>
+                <span class="p">)</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">wrec_node</span><span class="p">,</span> <span class="n">nir</span><span class="o">.</span><span class="n">Affine</span><span class="p">):</span>
+                    <span class="n">rsynaptic</span><span class="o">.</span><span class="n">recurrent</span><span class="o">.</span><span class="n">bias</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span>
+                        <span class="n">wrec_node</span><span class="o">.</span><span class="n">bias</span>
+                    <span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">rsynaptic</span><span class="o">.</span><span class="n">recurrent</span><span class="o">.</span><span class="n">bias</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span>
+                        <span class="n">rsynaptic</span><span class="o">.</span><span class="n">recurrent</span><span class="o">.</span><span class="n">bias</span>
+                    <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">rsynaptic</span><span class="o">.</span><span class="n">recurrent</span><span class="o">.</span><span class="n">V</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">diagonal</span><span class="p">(</span>
+                    <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">wrec_node</span><span class="o">.</span><span class="n">weight</span><span class="p">)</span>
+                <span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">rsynaptic</span>
+
+    <span class="k">elif</span> <span class="n">node</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Identity</span><span class="p">()</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="s2">&quot;[WARNING] could not parse node of type:&quot;</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+
+<div class="viewcode-block" id="import_from_nir">
+<a class="viewcode-back" href="../../snntorch.import_nir.html#snntorch.import_nir.import_from_nir">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">import_from_nir</span><span class="p">(</span><span class="n">graph</span><span class="p">:</span> <span class="n">nir</span><span class="o">.</span><span class="n">NIRGraph</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert a NIRGraph to a snnTorch module. This function is the inverse of export_to_nir.</span>
+<span class="sd">    It proceeds by wrapping any recurrent connections into NIR sub-graphs, then converts each</span>
+<span class="sd">    NIR module into the equivalent snnTorch module, and wraps them into a torch.nn.Module</span>
+<span class="sd">    using the generic GraphExecutor from NIRTorch to execute all modules in the right order.</span>
+
+<span class="sd">    Example::</span>
+
+<span class="sd">        import snntorch as snn</span>
+<span class="sd">        import torch</span>
+<span class="sd">        from snntorch.export_nir import export_to_nir</span>
+<span class="sd">        from snntorch.import_nir import import_from_nir</span>
+
+<span class="sd">        lif1 = snn.Leaky(beta=0.9, init_hidden=True)</span>
+<span class="sd">        lif2 = snn.Leaky(beta=0.9, init_hidden=True, output=True)</span>
+
+<span class="sd">        net = torch.nn.Sequential(</span>
+<span class="sd">            torch.nn.Flatten(),</span>
+<span class="sd">            torch.nn.Linear(784, 500),</span>
+<span class="sd">            lif1,</span>
+<span class="sd">            torch.nn.Linear(500, 10),</span>
+<span class="sd">            lif2</span>
+<span class="sd">        )</span>
+
+<span class="sd">        sample_data = torch.randn(1, 784)</span>
+<span class="sd">        nir_graph = export_to_nir(net, sample_data, model_name=&quot;snntorch&quot;)</span>
+
+<span class="sd">        net2 = import_from_nir(nir_graph)</span>
+
+<span class="sd">    :param graph: NIR graph</span>
+<span class="sd">    :type graph: NIR.NIRGraph</span>
+
+<span class="sd">    :return: snnTorch network</span>
+<span class="sd">    :rtype: torch.nn.Module</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># find valid RNN subgraphs, and replace them with a single NIRGraph node</span>
+    <span class="n">graph</span> <span class="o">=</span> <span class="n">_replace_rnn_subgraph_with_nirgraph</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
+    <span class="c1"># convert the NIR graph into a torch.fx.GraphModule using the newer</span>
+    <span class="c1"># nirtorch.nir_to_torch API to avoid issues with strict type checking</span>
+    <span class="n">node_map</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">nir</span><span class="o">.</span><span class="n">Affine</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="n">_nir_to_snntorch_module</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">init_hidden</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+        <span class="n">nir</span><span class="o">.</span><span class="n">Linear</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="n">_nir_to_snntorch_module</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">init_hidden</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+        <span class="n">nir</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="n">_nir_to_snntorch_module</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">init_hidden</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+        <span class="n">nir</span><span class="o">.</span><span class="n">Flatten</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="n">_nir_to_snntorch_module</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">init_hidden</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+        <span class="n">nir</span><span class="o">.</span><span class="n">AvgPool2d</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="n">_nir_to_snntorch_module</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">init_hidden</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+        <span class="n">nir</span><span class="o">.</span><span class="n">IF</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="n">_nir_to_snntorch_module</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">init_hidden</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+        <span class="n">nir</span><span class="o">.</span><span class="n">LIF</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="n">_nir_to_snntorch_module</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">init_hidden</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+        <span class="n">nir</span><span class="o">.</span><span class="n">CubaLIF</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="n">_nir_to_snntorch_module</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">init_hidden</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">nirtorch</span><span class="o">.</span><span class="n">nir_to_torch</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">node_map</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Jason K. Eshraghian.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
