@@ -204,6 +204,102 @@ html[data-theme="dark"] .rst-content .toctree-wrapper p.caption {
   color: #f2f6fb;
 }
 
+html.writer-html5 .rst-content dl.py > dt.sig.sig-object.py,
+.rst-content dl:not(.docutils) dt.sig.sig-object.py {
+  max-width: 100% !important;
+  white-space: normal !important;
+  overflow-wrap: anywhere;
+}
+
+html.writer-html5 .rst-content dl.py > dt.sig.sig-object.py .pre,
+.rst-content dl:not(.docutils) dt.sig.sig-object.py .pre {
+  white-space: normal !important;
+}
+
+html.writer-html5 .rst-content dl.py > dt.sig.sig-object.py.snn-signature--wrapped,
+.rst-content dl:not(.docutils) dt.sig.sig-object.py.snn-signature--wrapped {
+  line-height: 1.5 !important;
+}
+
+html.writer-html5 .rst-content dl.py > dt.sig.sig-object.py.snn-signature--expanded,
+.rst-content dl:not(.docutils) dt.sig.sig-object.py.snn-signature--expanded {
+  display: block !important;
+  padding: 12px 14px 11px !important;
+  border: 1px solid #b7d8ef !important;
+  border-top: 4px solid #56a6dc !important;
+  border-radius: 6px;
+  color: #1e3448 !important;
+  background: #eaf5fd !important;
+  line-height: 1.5 !important;
+  box-shadow: 0 1px 2px rgba(36, 73, 102, 0.08);
+}
+
+.rst-content dt.snn-signature--expanded .property,
+.rst-content dt.snn-signature--expanded .sig-prename,
+.rst-content dt.snn-signature--expanded .sig-name,
+.rst-content dt.snn-signature--expanded .sig-paren {
+  white-space: normal;
+}
+
+.rst-content dt.snn-signature--expanded .sig-prename {
+  color: #4f6a80 !important;
+}
+
+.rst-content dt.snn-signature--expanded .sig-name {
+  color: #07568c !important;
+  font-weight: 800 !important;
+}
+
+.rst-content dt.snn-signature--expanded .snn-signature-paren-open {
+  color: #667d90 !important;
+  font-weight: 700 !important;
+}
+
+.rst-content dt.snn-signature--expanded .snn-signature-params {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 6px;
+  margin: 9px 0 9px 18px;
+}
+
+.rst-content dt.snn-signature--expanded .sig-param {
+  display: block !important;
+  min-width: 0;
+  margin: 0;
+  padding: 5px 8px;
+  border: 1px solid #c8e1f3 !important;
+  border-radius: 6px;
+  color: #27394c !important;
+  background: #ffffff !important;
+  font-style: normal !important;
+  overflow-wrap: anywhere;
+}
+
+.rst-content dt.snn-signature--expanded .sig-param .n .pre {
+  color: #0969a8 !important;
+  font-weight: 800 !important;
+}
+
+.rst-content dt.snn-signature--expanded .sig-param .default_value .pre {
+  color: #8a4b00 !important;
+}
+
+.rst-content dt.snn-signature--expanded .snn-signature-param-comma {
+  color: #7d93a8;
+}
+
+.rst-content dt.snn-signature--expanded .snn-signature-paren-close {
+  display: inline-block;
+  color: #667d90 !important;
+  font-weight: 700 !important;
+}
+
+.rst-content dt.snn-signature--expanded .viewcode-link,
+.rst-content dt.snn-signature--expanded .headerlink {
+  margin-left: 8px;
+  white-space: nowrap;
+}
+
 html[data-theme="dark"] .rst-content code,
 html[data-theme="dark"] .rst-content tt,
 html[data-theme="dark"] code,
@@ -286,6 +382,46 @@ html[data-theme="dark"] .wy-table-striped tr:nth-child(2n) th {
 html[data-theme="dark"] table.docutils a,
 html[data-theme="dark"] table.docutils a:visited {
   color: #72b7ff !important;
+}
+
+html.writer-html5[data-theme="dark"] .rst-content dl.py > dt.sig.sig-object.py.snn-signature--expanded,
+html[data-theme="dark"] .rst-content dl:not(.docutils) dt.sig.sig-object.py.snn-signature--expanded {
+  color: #d7dde8 !important;
+  border-color: #2a5674 !important;
+  border-top-color: #72b7ff !important;
+  background: #102033 !important;
+  box-shadow: none;
+}
+
+html[data-theme="dark"] .rst-content dt.snn-signature--expanded .sig-prename {
+  color: #9eb3c7 !important;
+}
+
+html[data-theme="dark"] .rst-content dt.snn-signature--expanded .sig-name {
+  color: #9fd0ff !important;
+}
+
+html[data-theme="dark"] .rst-content dt.snn-signature--expanded .snn-signature-paren-open,
+html[data-theme="dark"] .rst-content dt.snn-signature--expanded .snn-signature-paren-close {
+  color: #9eb3c7 !important;
+}
+
+html[data-theme="dark"] .rst-content dt.snn-signature--expanded .sig-param {
+  color: #d7dde8 !important;
+  border-color: #2a3f55 !important;
+  background: #0f141b !important;
+}
+
+html[data-theme="dark"] .rst-content dt.snn-signature--expanded .sig-param .n .pre {
+  color: #72b7ff !important;
+}
+
+html[data-theme="dark"] .rst-content dt.snn-signature--expanded .sig-param .default_value .pre {
+  color: #ffca7a !important;
+}
+
+html[data-theme="dark"] .rst-content dt.snn-signature--expanded .snn-signature-param-comma {
+  color: #7f94aa;
 }
 
 html[data-theme="dark"] .admonition,
